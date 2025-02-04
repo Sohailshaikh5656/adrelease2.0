@@ -1,0 +1,128 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Order</title>
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+<style >
+  .img1
+  {
+    background-image: url("{% static 'customer/assets/img/a2.jpg'  %}");
+  }
+
+  body
+{
+  background-color: #fff;
+}
+
+section
+{
+
+  background-color: #fff;
+}
+.img2
+{
+  float: left;
+  
+}
+.holediv
+{
+ 
+  padding-top: 0px;
+  padding-left: 10px;
+  padding-bottom: 20px;
+}
+.dob
+{
+  padding: 10px;
+}
+
+</style>
+
+  
+
+ <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Order</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Order</a></li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Contact Section ======= -->
+       <section id="contact" class="contact">
+        
+        <br>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+       
+
+        <div class="row gy-4 mt-1 m-auto holediv">
+          <div class="col-lg-6 img2">
+            <img src="{% static 'customer/assets/img/order.png'  %}" height="500" width="700">
+            
+          </div>
+
+
+            <div class="col-lg-6 contact">
+            <form action="/customer/order_store" method="post" role="form" class="php-email-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row gy-4">
+                <div class="col-12 form-group">
+                  <h3 class="text-warning ">Order</h3>
+                  <br>
+                    <label>Order Datata</label>
+                    <input type="date" name="orderdate" class="form-control" id="orderdate" required>
+                </div>
+                
+                 <div class="col-12 form-group">
+                  <input type="text" name="shortdescription" class="form-control" id="shortdescription" placeholder="Description" required>
+                </div>
+
+                 <div class="col-12 form-group">
+                   <label> Select Poste/ Picture</label>
+                  <input type="file" name="poster" class="form-control" id="poster" required>
+                </div>
+
+                 
+               
+                
+              <div class="my-3">
+                <!-- <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div> -->
+              <div class="text-center"><button type="submit">Order</button>
+
+              <br>
+             
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var today = new Date();
+      var tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1); // Set to tomorrow to restrict today
+      
+      var formattedDate = tomorrow.toISOString().split('T')[0]; // Format YYYY-MM-DD
+  
+      document.getElementById("orderdate").setAttribute("min", formattedDate);
+    });
+  </script>
+  
+  {% endblock %}

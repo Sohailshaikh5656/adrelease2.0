@@ -1,0 +1,70 @@
+ {% extends 'myadmin/common/layout.html'%}
+{% block content %}
+{% load static %}
+<style type="text/css">
+    #a1
+    {
+        color: blue;
+    }
+    #a2
+    {
+        color: #ffffff;
+    }
+</style>
+ 
+ 
+            <!-- Navbar Start -->
+
+            <!-- Navbar End -->
+
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                  
+                    <div class="col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Agency Table</h6>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+        <th>Id</th>
+        <th>Agency Name</th>
+        <th>Email</th>
+        <th>City</th>
+        <th>State</th>
+        <th>View More</th>
+       
+    </tr>
+    </thead>
+    {% for row in result %}
+    <tr>
+        <td>{{row.id}}</td>
+        <td>{{row.agencyname}}</td>
+        <td>{{row.email}}</td>
+        <td>{{row.city}}</td>
+        <td>{{row.state}}</td>
+        <td><a href="/myadmin/agency_viewmore/{{row.id}}">view more</a></td>
+    </tr>
+    {% endfor %}
+          
+                            </table>
+                        </div>
+                    </div>
+
+                   
+                    </div>
+                </div>
+            <!-- Table End -->
+
+
+            <!-- Footer Start -->
+            
+            <!-- Footer End -->
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+
+        
+        
+
+{% endblock %}

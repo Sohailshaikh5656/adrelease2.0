@@ -1,0 +1,72 @@
+{% extends 'myadmin/common/layout.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Order</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Order Date</th>
+                                            <th scope="col">Size</th>
+                                            <th scope="col">Page No</th>
+                                            <th scope="col">Post Date</th>
+                                            <th scope="col">Subject</th>
+                                           
+                                           
+                                            <th scope="col">Price</th>                                            
+                                            <th scope="col">User ID</th>
+                                            <th scope="col">Agency ID</th>
+                                            <th scope="col">View More</th>
+
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in result %}
+                                        <tr>
+                                            <th scope="row">{{row.id}}</th>
+                                           
+                                            <td>{{row.date}}</td>
+                                            <td>{{row.size}}</td>
+                                            <td>{{row.pageno}}</td>
+                                            <td>{{row.order_date}}</td>
+                                            <td>{{row.subject}}</td>
+                                            
+                                            
+                                            <td>{{row.price}}</td>
+                                            <td>{{row.user_id}}</td>
+                                            <td>{{row.agency_id}}</td>
+                                            <td><a href="/myadmin/order_viewmore/{{row.id}}">View More</a></td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+        
+        
+                    {% endblock %}

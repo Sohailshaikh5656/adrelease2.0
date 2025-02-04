@@ -1,0 +1,124 @@
+{% extends 'agency/common/layout.html'%}
+{% block content %}
+{% load static %}
+<style type="text/css">
+    th
+    {
+        color: #fff;
+    }
+    img:hover
+    {
+        box-shadow: 0px 0px 30px red;
+        border-radius: 30px;
+        
+
+    }
+</style>
+
+<div class="container-fluid pt-4 px-4">
+	<br><br>
+                <div class="row g-4">
+
+                    <div class="col-10 m-auto">
+                        <h4 class="mb-4">Order</h4>
+                          <center>
+                        <h5 class="mb-4">Poster </h5>
+                      
+                        <img src="/media/order/{{result.poster}}" height="300" width="450">
+
+                        <br><br>
+                        <h5>Word File</h5>
+                        <div class="col-lg-6 ">
+                            <center>
+                               <a href="/media/order/{{result.word}}">{{result.word}}</a></center>
+            <iframe src="/media/order/{{result.word}}"
+              frameborder="0" style="border:0;" allowfullscreen></iframe>
+
+          </div>
+                        </center>
+                        <br><br>
+
+                     
+
+                        <div class="bg-secondary rounded h-100 p-4">
+                            
+                            <div class="table-responsive">
+                                <table class="table">
+                                <tbody>
+
+                                </tr> 
+                                    <tr>
+                                            <th scope="col">FIELDS</th>
+                                            <th>INFORMATION</th>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <td>{{result.id}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Order Date</th>
+                                            <td>{{result.date}}</td>
+                                            
+                                        </tr>
+                                         <tr>
+                                            <th scope="col">Size</th>
+                                            <td>{{result.size}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Page No</th>
+                                            <td>{{result.pageno}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Mode</th>
+                                            <td>{{result.mode}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Date</th>
+                                            <td>{{result.order_date}}</td>
+                                            
+                                        </tr>
+
+                                    	<tr>
+                                            <th scope="col">Subject</th>
+                                            <td>{{result.subject}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Description</th>
+                                            <td>{{result.description}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Price</th>
+                                            <td>{{result.price}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">User Id</th>
+                                            <td>{{result.user_id}}</td>
+                                            
+                                        </tr>
+                                         <tr>
+                                            <th scope="col">Agency Id</th>
+                                            <td>{{result.agency_id}}</td>
+                                            
+                                        </tr>
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+             
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'agency/common/layout.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Search Order</h6>
+
+                            <div class="col-12">
+                                <form method="post" action="/agency/order">
+                                    {% csrf_token %}
+                                    <div class="col-9 mx-auto">
+                                        <div class="col-4 mt-4">
+                                            <label class="form-label" style="color: #fff; font-size: 18px;">Select Your Advertisement : </label>
+                                           
+                                        </div>
+                                        
+                                        <div class="mt-2 mb-3">
+                                            <select class="form-control" name="adTypeData">
+                                                <option>---Select Here---</option>
+                                                {% for i in result %}
+                                                <option value="{{i.id}}">{{forloop.counter}}. {{i.title}}&nbsp;&nbsp;, {{i.size}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="text-right mb-5">
+                                            <input type="submit" class="btn btn-danger" value="Submit" />
+                                        </div>
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+        
+        
+                    {% endblock %}

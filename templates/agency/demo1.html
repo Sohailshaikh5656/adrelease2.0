@@ -1,0 +1,6 @@
+
+<button onclick="if (showConfirmPopup()) { document.getElementById('delete-form').submit(); }">Delete</button>
+
+<form id="delete-form" method="POST" action="{% url 'All_Adtype_delete' object.pk %}">
+    {% csrf_token %}
+</form>

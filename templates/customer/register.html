@@ -1,0 +1,138 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Register</title>
+
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+<style >
+  .img1
+  {
+    background-image: url("{% static 'customer/assets/img/a2.jpg'  %}");
+  }
+
+  body
+{
+  background-color: #fff;
+}
+
+section
+{
+
+  background-color: #fff;
+}
+.img2
+{
+  float: left;
+  
+}
+.dob
+{
+  padding: 10px;
+}
+
+</style>
+
+  
+
+ <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Register</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Register</a></li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Contact Section ======= -->
+       <section id="contact" class="contact">
+        <h3 class="text-warning text-center">Register To Became Our User !!!</h3>
+        <br>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+       
+
+        <div class="row gy-4 mt-1 m-auto holediv">
+          <div class="col-lg-6 img2">
+            <img src="{% static 'customer/assets/img/img2.jpg'  %}" height="720" width="600">
+            
+          </div>
+
+
+            <div class="col-lg-6 contact">
+            <form action="/customer/" method="post" role="form" class="php-email-form">
+              {% csrf_token %}
+              <div class="row gy-4">
+                
+
+
+                <div class="col-lg-12 form-group">
+
+                  <input type="text" name="agencyname" class="form-control" id="agencyname" placeholder="Agency Name" required>
+                </div>
+                <div class="col-lg-12 form-group">
+                  <input type="email" name="email" class="form-control" id="lname" placeholder="Email" required>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <input type="text" name="contactno" class="form-control" id="contactno" placeholder="Contact No" required>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <select class="form-control" id="gender" name="gender">
+                 <option value="">--Select Gender--</option>
+                 <option value="male">Male</option>
+                 <option value="female">Female</option>
+               </select>
+                </div>
+
+
+                <div class="col-lg-2 form-group">
+                  <label class="dob">DOB:</label>
+                </div>
+
+                 <div class="col-lg-4 form-group">
+                  <input type="date" name="dob" class="form-control" id="dob" required>
+                </div>
+                
+                <div class="form-group">
+                <textarea class="form-control" name="address" id="address" rows="5" placeholder="Address" required></textarea>
+              </div>
+              
+              <div class="col-lg-6 form-group">
+                <input type="password" class="form-control" name="pass" id="pass" placeholder="Password" required>
+              </div>
+              <div class="col-lg-6 form-group">
+                <input type="password" class="form-control" name="cpass" id="cpass" placeholder="Confirm Password" required>
+              </div>
+               {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</ul>
+{% endif %}
+              <div class="my-3">
+                <!-- <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div> -->
+              <div class="text-center"><button type="submit">Register</button></div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+  {% endblock %}

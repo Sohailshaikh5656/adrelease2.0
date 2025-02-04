@@ -1,0 +1,76 @@
+ {% extends 'myadmin/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Agency</title>
+<style type="text/css">
+    #edit
+    {
+        color: blue;
+    }
+    #del
+    {
+        color: whitesmoke;
+    }
+</style>
+ 
+ 
+            <!-- Navbar Start -->
+
+            <!-- Navbar End -->
+
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                  
+                    <div class="col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Agency Table</h6>
+                            <table class="table table-hover">
+                                <thead>
+        <th>#</th>
+        <th>Agency Name</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>City</th>
+        <th>State</th>
+        <th>View More</th>
+        <th>Block</th>
+        
+        
+    </thead>
+    {% for row in result %}
+    <tr>
+        <td>{{row.id}}</td>
+        <td>{{row.agencyname}}</td>
+        <td>{{row.email}}</td>
+        <td>{{row.username}}</td>
+        <td>{{row.city}}</td>
+        <td>{{row.state}}</td>
+        <td><a href="/myadmin/agency_viewmore/{{row.agency_id}}">view more</a></td>
+        <td><a href="/myadmin/agency_block_process/{{row.agency_id}}" class="btn btn-success">Block</td>
+        
+        
+    </tr>
+    {% endfor %}
+          
+                            </table>
+                        </div>
+                    </div>
+
+                   
+                    </div>
+                </div>
+            <!-- Table End -->
+
+
+            <!-- Footer Start -->
+            
+            <!-- Footer End -->
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+
+        
+        
+
+{% endblock %}

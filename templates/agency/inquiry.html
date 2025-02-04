@@ -1,0 +1,56 @@
+{% extends 'agency/common/layout.html'%}
+{% block content %}
+{% load static %}
+<br>
+<br>
+
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-8 m-auto">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Inquiry</h6>
+                            <form action="/agency/agency_inquiry_store" method="post">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Agency Name</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp" name="name" id="name" required>
+                                    
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="exampleInputPassword1" name="email" id="email" required>
+                                </div>
+                                
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                    
+                                    </div>
+                                     <div class="mb-6">
+                                    <label for="exampleInputPassword1" class="form-label">Contact</label>
+                                    <input type="text" class="form-control" id="exampleInputPassword1" name="contact" id="contact">
+
+                                    <div class="mb-6">
+                                    <label for="exampleInputPassword1" class="form-label">Message</label>
+                                    <textarea class="form-control" name="message" id="message"></textarea>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <label for="exampleInputPassword1" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="exampleInputPassword1" name="date" id="name">
+                                </div>
+
+                                
+                                <br>
+
+
+                                
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+            
+{% endblock %}

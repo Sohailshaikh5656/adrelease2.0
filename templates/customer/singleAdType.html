@@ -1,0 +1,150 @@
+{% extends 'customer/common/layout.html' %}
+{% block content %}
+{% load static %}
+<title>Ad Release | Register</title>
+
+<script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const wiseQuotes = [
+    "The best way to predict the future is to create it.",
+    "Success is not the key to happiness. Happiness is the key to success.",
+    "Do what you can, with what you have, where you are.",
+    "Believe you can and you're halfway there.",
+    "You miss 100% of the shots you don't take.",
+    "Life is 10% what happens to us and 90% how we react to it."
+  ];
+  document.getElementById("wiseQuote").innerText = wiseQuotes[Math.floor(Math.random() * wiseQuotes.length)];
+});
+</script>
+
+<style>
+  .img1 {
+    background-image: url("{% static 'customer/assets/img/a2.jpg' %}");
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+  }
+  .contact {
+    background-color: #fffefe;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  .contact:hover {
+    transform: translateY(-5px);
+    background-color: #e0e0e0;
+  }
+  .advertisement-details {
+    font-size: 1.1em;
+    color: #333;
+  }
+  .advertisement-details label {
+    font-weight: bold;
+    color: #555;
+  }
+
+  /* Title Styles */
+  .advertisement-details h4 {
+    font-size: 2em;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  /* Lighter text for description */
+  .advertisement-details p {
+    color: #777;
+    line-height: 1.6;
+  }
+
+  /* Hover effect for the next advertisement div */
+  .related-advertisement {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .related-advertisement:hover {
+    transform: translateY(-5px);
+    background-color: #e3e3e3;
+  }
+
+  #wiseQuote {
+    text-align: center;
+    font-size: 1.3em;
+    font-style: italic;
+    color: #ff9800;
+    margin-top: 20px;
+  }
+</style>
+
+<main id="main">
+  <div class="breadcrumbs d-flex align-items-center img1">
+    <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+      <h2>Register</h2>
+      <ol>
+        <li><a href="/customer/home">Home</a></li>
+        <li>Register</li>
+      </ol>
+    </div>
+  </div>
+
+  <section id="contact" class="contact">
+    <h3 class="text-warning text-center">Advertisement Details</h3>
+    <br>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4 mt-1 m-auto">
+          <div class="col-lg-6">
+            <img src="/media/upload/{{result.image}}" class="img-fluid rounded" alt="Ad Image" style="height: 100%; width: auto; object-fit: cover;">
+          </div>
+          <div class="col-lg-6">
+            <div class="contact advertisement-details" style="height: 100%;">
+              <h4>{{result.title}}</h4>
+              <p><label>Description:</label> {{result.description}}.</p>
+              <p><label>Size:</label> {{result.size}}</p>
+              <p><label>Price:</label> ₹{{result.price}}</p>
+              <p><label>Page No:</label> {{result.pageno}}</p>
+              <p><label>Ad Type:</label> {{result.adtype}} 💻</p>
+              <p><label>Company Name:</label> {{result2.agencyname}}</p>
+              <a class="btn btn-warning border border-1 text-white"href="/customer/customer_order/{{result.id}}">Order Ad</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+
+    <!-- New related advertisement div -->
+    
+    <div class="container mt-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+            {% for i in result3 %}
+          <div class="col-lg-4">
+            <div class="related-advertisement">
+              <h4>Other AdType from {{result2.agencyname}}</h4>
+              <img src="/media/upload/{{i.image}}" class="img-fluid rounded" alt="Related Ad" style="max-height: 150px; width: 100%; object-fit: cover; margin-bottom: 15px;">
+              <p style="font-weight: 500;"><label style="font-weight: 900;">Title:</label> {{i.title}}</p>
+              <p><label>Description: </label>{{i.description}}</p>
+              <p><label>Price: </label> ₹{{i.price}}</p>
+              <p><label>Ad Type: </label> {{i.adtype}} 📰</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    
+    
+      
+
+    <!-- <div id="wiseQuote"></div> -->
+  </section>
+</main>
+
+{% endblock %}

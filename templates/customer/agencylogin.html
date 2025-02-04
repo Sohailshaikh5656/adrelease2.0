@@ -1,0 +1,100 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Agencylogin</title>
+
+<style >
+  .img1
+  {
+    background-image: url("{% static 'customer/assets/img/a4.jpg'  %}");
+  }
+  
+  p 
+  {
+    color: red;
+  }
+
+</style>
+<main>
+   <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Agency</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Agency</a></li>
+        </ol>
+
+      </div>
+    </div>
+    <br>
+    <br>
+
+    <h3 align="center" class="text-warning">Welcome Agency !!!</h3>
+    <h4 align="center" class="text-warning"><u>Login To access</u></h4>
+
+
+    <section id="contact" class="contact">
+        
+        <br>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+       
+
+        <div class="row gy-4 mt-1 m-auto holediv">
+          <div class="col-lg-6 img2">
+            <img src="{% static 'customer/assets/img/agency.jpg'  %}" height="500" width="600">
+            
+          </div>
+
+
+            <div class="col-lg-6 contact">
+            <form action="/customer/agency_login_check" method="post" role="form" class="php-email-form">
+              {% csrf_token %}
+              <div class="row gy-4">
+                <div class="col-12 form-group">
+                  <h3 class="text-warning ">Agency Login !!</h3>
+                  <br>
+                  <input type="text" name="username" class="form-control" id="username" placeholder="Enter Username" required>
+                </div>
+                <div class="col-12 form-group">
+                  <input type="password" name="password" class="form-control" id="password" placeholder="Enter Password" required>
+                </div>
+                {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</ul>
+{% endif %}
+                 <div class="col-12 form-group">
+                 <a href="/customer/Agency_ForgetPassword" class="text-warning text-center">Forgot Password</a>
+                </div>
+
+               
+                
+              <div class="my-3">
+                <!-- <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div> -->
+              <div class="text-center"><button type="submit">Login</button></div>
+              <br>
+             
+
+
+
+               <div class="col-12 form-group">
+                  &nbsp;Don't have account&nbsp;&nbsp;?&nbsp;<a href="/customer/agency_register"><u>Register</u>
+                </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+    </section>
+
+
+</main>
+  {% endblock %}

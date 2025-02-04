@@ -1,0 +1,95 @@
+{% extends 'agency/common/layout.html'%}
+{% block content %}
+{% load static %}
+
+<style>
+
+	.form-control:disabled, .form-control:read-only {
+    background-color: #252525;
+    opacity: 1;
+}
+	label
+	{
+		
+		color: #fff;
+	}
+</style>
+<br><br>
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-9 col-xl-9 col-9 m-auto">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Manage Profile</h6>
+                            <form action="/agency/agency_update/{{user.id}}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label" style="background: #252525;">User Name</label>
+                                    <input type="text" name="username" class="form-control" value="{{user.username}}" >
+                                    
+                                </div>
+                                 <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label" style="background: #252525;">Agency Name</label>
+                                    <input type="text" name="agencyname" class="form-control" value="{{result1.agencyname}}" >
+                                    
+                                </div>
+                                
+                                     
+
+                                    <div class="mb-6">
+                                    <label for="exampleInputPassword1" class="form-label">Email</label>
+                                    <input type="text" name="email" class="form-control" value="{{user.email}}">
+                                   
+                                </div>
+                                
+
+
+                                <div class="mb-6">
+                                    <label for="exampleInputEmail1" class="form-label">Owner Name</label>
+                                    <input type="text" name="ownername" class="form-control" value="{{result1.ownername}}">
+                                   
+                                   </div>
+
+                                    <div class="mb-12">
+                                    <label for="exampleInputPassword1" class="form-label">Address</label>
+
+                                   <textarea name="address" class="form-control">{{result1.address}}</textarea>
+
+                                </div>
+
+                                <div class="mb-6">
+                                    <label for="exampleInputEmail1" class="form-label">Contact</label>
+                                     <input type="text" name="contact" class="form-control" value="{{result1.contact}}">
+                                   
+                                   </div>
+
+                                   <div class="mb-6">
+                                    <label for="exampleInputEmail1" class="form-label">City</label>
+                                     <input type = "text" name="city" class="form-control" value="{{result1.city}}">
+                                   
+                                   </div>
+                                   <div class="mb-6">
+                                    <label for="exampleInputEmail1" class="form-label">State</label>
+                                     <input type="text" name="state" class="form-control" value="{{result1.state}}">
+
+                                     </div>
+                                    <label for="exampleInputEmail1" class="form-label">Establish Date</label>
+                                     <input name="est_date" type="date" class="form-control">
+                                   
+                                   </div>
+                                   
+
+                              <div class="col-2 m-auto">
+
+
+                                
+                                <input class="btn btn-danger" type="submit" value="update">
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                    <br><br>
+                
+
+
+{% endblock %}

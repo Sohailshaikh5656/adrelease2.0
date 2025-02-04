@@ -1,0 +1,142 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | search Advertise</title>
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+<style >
+  .img1
+  {
+    background-image: url("{% static 'customer/assets/img/a2.jpg'  %}");
+  }
+
+  body
+{
+  background-color: #fff;
+}
+
+section
+{
+
+  background-color: #fff;
+}
+.img2
+{
+  float: left;
+  
+}
+.dob
+{
+  padding: 10px;
+}
+
+td
+{
+  color:#fff;
+  font-size: 14px;
+}
+.img
+{
+  border-radius: 15px;
+  border-bottom: 3px solid red;
+}
+.img:hover
+{
+  box-shadow: 0px 0px 30px red;
+}
+table
+{
+  max-height: 200px;
+  width: 360px;
+  text-align: justify-all;
+}
+
+
+</style>
+
+  
+
+ <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Select Advertisement</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Select Advertisement</a></li>
+        </ol>
+
+      </div>
+    </div>
+
+<!-- End Breadcrumbs -->
+
+
+<section id="contact" class="contact">
+        <h3 class="text-warning text-left">&nbsp; &nbsp; &nbsp; Ad Release</h3>
+        <br>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+       
+
+        <div class="row gy-4 mt-1 m-auto holediv">
+
+
+            <div class="col-lg-12 contact" >
+          
+              <div class="row gy-4">
+                
+
+                  {% for row in result %}
+                <div class="col-lg-4 form-group" >
+
+   
+       <table border="0" cellpadding="20" cellspacing="0" style="background-color: #252525; border-radius: 20px;" >
+        <tr>
+          <td colspan="2"><img src="/media/upload/{{row.image}}" height="220" width="350" class="img"></td>
+        </tr>
+        <tr>
+          <td style="text-align: right">Title :</td>
+          <td style="text-align: left">{{row.title}}</td>
+        </tr>
+         <tr>
+          <td style="text-align: right" height="100" >Description :</td>
+          <td style="text-align: left" height="100">{{row.description}}</td>
+        </tr>
+         <tr>
+          <td style="text-align: right">Size :</td>
+          <td style="text-align: left">{{row.size}}</td>
+        </tr>
+         <tr>
+          <td style="text-align: right; color: red; font-size: 18px; font-weight: bold;">Price :</td>
+          <td style="text-align: left">{{row.price}}</td>
+        </tr>
+         <tr>
+          
+          <td colspan="2" style="text-align: center"><a href="/customer/customer_order/{{row.id}}"><button class="btn btn-success" style="margin-bottom: 15px;"><i class="fa-solid fa-cart-shopping"></i>&nbsp; &nbsp;NEXT &nbsp; &nbsp;</button></a></td>
+        </tr>
+         
+       </table>
+     </div>
+  
+       {% endfor %}
+
+                 
+             
+
+      </div>
+    </section>
+
+
+
+
+
+
+    <!-- ======= Contact Section ======= -->
+   
+  </main>
+  {% endblock %}

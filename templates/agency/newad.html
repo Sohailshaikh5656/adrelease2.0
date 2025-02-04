@@ -1,0 +1,132 @@
+{% extends 'agency/common/layout.html' %}
+{% block content %}
+{% load static %}
+
+<br><br>
+
+<style>
+    #size, #pageno, #adtype, #image, input {
+        background: #000;
+        color: #fff;
+    }
+
+    body, option {
+        color: #fff;
+    }
+
+    #imagePreview {
+        display: none;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        margin-top: 10px;
+        border: 2px solid #fff;
+        border-radius: 5px;
+    }
+
+    .form-container {
+        background: #2c2c2c;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 10px;
+    }
+</style>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-10 col-xl-10 m-auto">
+            <div class="form-container">
+                <h6 class="mb-4 text-center">Add New Ad Type</h6>
+                <form action="/agency/Add_adtype_store" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Size</label>
+                        <select id="size" name="size" class="form-control">
+                            <option value="">--Select Size--</option>
+                            <option value="10cm * 10cm">10cm*10cm</option>
+                            <option value="20cm * 20cm">20cm * 20cm</option>
+                            <option value="30cm * 30cm">30cm * 30cm</option>
+                            <option value="40cm * 40cm">40cm * 40cm</option>
+                            <option value="50cm * 50cm">50cm * 50cm</option>
+                            <option value="60cm * 60cm ">60cm * 60cm</option>
+                            <option value="60cm * 70cm">60cm * 70cm</option>
+                            <option value="60cm * 80cm">60cm * 80cm</option>
+                            <option value="60cm * 90cm">60cm * 90cm</option>
+                            <option value="60cm * 100cm">60cm * 100cm</option>
+                            <option value="60cm * 110cm">60cm * 110cm</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="text" class="form-control" id="price" name="price" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Page No:</label>
+                        <select id="pageno" name="pageno" class="form-control">
+                            <option value="">--Select Page--</option>
+                            {% for num in page_numbers %}
+                                <option value="{{ num }}">Page {{ num }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                        <img id="imagePreview" src="#" alt="Image Preview">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Select Ad Type</label>
+                        <select id="adtype" name="adtype" class="form-control">
+                            <option value="">--Select AdType--</option>
+                            <option value="online">Online</option>
+                            <option value="offline">Offline</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" id="submit" name="submit" class="btn btn-primary">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('image').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const preview = document.getElementById('imagePreview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+{% endblock %}

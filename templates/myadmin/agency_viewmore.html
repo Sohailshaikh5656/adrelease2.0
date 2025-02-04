@@ -1,0 +1,105 @@
+{% extends 'myadmin/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Agency</title>
+<style type="text/css">
+    th
+    {
+        color: #fff;
+    }
+</style>
+
+<div class="container-fluid pt-4 px-4">
+	<br><br>
+                <div class="row g-4">
+                    <div class="col-10 m-auto">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h4 class="mb-4">{{profile.agencyname}}</h4>
+                            <div class="table-responsive">
+                                <table class="table">
+                                <tbody> 
+                                    <tr>
+                                            <th scope="col">FIELDS</th>
+                                            <th>INFORMATION</th>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <td>{{result.id}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Agency Name</th>
+                                            <td>{{profile.agencyname}}</td>
+                                            
+                                        </tr>
+                                         <tr>
+                                            <th scope="col">Email</th>
+                                            <td>{{result.email}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Username</th>
+                                            <td>{{result.username}}</td>
+                                            
+                                        </tr>
+                                         <tr>
+                                            <th scope="col">Owner Name</th>
+                                            <td>{{profile.ownername}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Email</th>
+                                            <td>{{result.email}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Username</th>
+                                            <td>{{result.username}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Contact</th>
+                                            <td>{{profile.contact}}</td>
+                                            
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="col">Address</th>
+                                            <td>{{profile.address}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">City</th>
+                                            <td>{{profile.city}}</td>
+                                            
+                                        </tr>
+                                         <tr>
+                                            <th scope="col">State</th>
+                                            <td>{{profile.state}}</td>
+                                            
+                                        </tr>
+                                         <tr>
+                                            <th scope="col">Established Date</th>
+                                            <td>{{profile.est_date}}</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Reg Date</th>
+                                            <td>{{profile.reg_date}}</td>
+                                            
+                                        </tr>
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+             
+
+{% endblock %}

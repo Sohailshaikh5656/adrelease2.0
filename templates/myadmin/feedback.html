@@ -1,0 +1,70 @@
+{% extends 'myadmin/common/layout.html' %}
+{% block content %}
+{% load static %}
+<title>Adrelease | feedback</title>
+<style type="text/css">
+    td 
+    {
+        color: #fff;
+    }
+</style>
+
+
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">FeedBack</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Feedback Id</th>
+                                            <th scope="col">Rating</th>
+                                            <th scope="col">Message</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">User ID</th>
+                                            
+                                            <th scope="col">Delete</th>
+                                            
+
+                                        </tr>
+                                    </thead>
+                                    {% for i in result %}
+                                    <tr>
+                                
+                                        
+                                        <td>{{i.id}}</td>
+                                        <td>{{i.rating}}</td>
+                                        <td>{{i.message}}</td>
+                                        <td>{{i.date}}</td>
+                                        <td>{{i.user_id}}</td>
+                                        
+                                        <td><a href="/myadmin/feedback_delete/{{i.id}}">Delete</a></td>
+                                    </tr>
+                                       
+                                        
+                                        
+                                        {% endfor %}
+                                        
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+        <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+        
+        
+                    {% endblock %}

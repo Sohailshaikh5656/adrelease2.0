@@ -1,0 +1,89 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<style type="text/css">
+  .payment-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fade-in 0.5s forwards ease-in-out;
+}
+
+.payment-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #f2f2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  transform: scale(0);
+  animation: scale-in 0.5s 0.2s forwards ease-in-out;
+}
+
+.payment-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.payment-heading {
+  font-size: 24px;
+  color: #4CAF50;
+  opacity: 0;
+  animation: fade-in 0.5s 0.5s forwards ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+</style>
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Success</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Success</a></li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+</main>
+
+<br><br><br>
+<div class="payment-container">
+  <div class="payment-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path fill="#4CAF50" d="M9.75 17.25l7.5-7.5-1.5-1.5-6 6-2.25-2.25-1.5 1.5z"/>
+    </svg>
+  </div>
+  <h2 class="payment-heading">Payment Successful!</h2>
+</div>
+<br>
+<br>
+
+<center><a href="/customer/home"><input class="btn btn-success" value="&nbsp;home&nbsp;" type="submit"></a></center>
+<br><br>
+{% endblock %}
+

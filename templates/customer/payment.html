@@ -1,0 +1,58 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Payment</title>
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Payment</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Payment</a></li>
+        </ol>
+
+      </div>
+    </div>
+
+
+    <section id="contact" class="contact">
+        <h3 class="text-warning text-center">Payment</h3>
+        <br>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+       
+
+        <div class="row gy-4 mt-1 m-auto holediv">
+          <div class="col-lg-6 img2">
+            <img src="{% static 'customer/assets/img/payment.jpg'  %}" height="700" width="1250">
+            
+          </div>
+        </div>
+      </div>
+
+<form class="text-center border border-light p-5" action="/customer/success/{{user.id}}" method="POST">
+        {% csrf_token %}
+
+       
+      
+
+        <!-- RAZORPAY INTEGRATION HERE -->
+        <script src="https://checkout.razorpay.com/v1/checkout.js" 
+        data-key="rzp_test_QNjv8QlCmwSAy1" 
+        data-amount="{{payment.amount}}"
+        data-currency="INR" 
+        data-order_id="{{payment.id}}" 
+        data-buttontext="Pay with Razorpay"
+        data-name="Ad Release"
+        data-description="Complete Business Solution"
+        data-image="https://oibp1.000webhostapp.com/logo.PNG" 
+        data-prefill.name="{{request.user.first_name}}"
+        data-prefill.email="{{request.user.email}}" 
+        data-theme.color="#F37254"></script>
+
+</form>
+</main>
+{% endblock %}

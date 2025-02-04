@@ -1,0 +1,144 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | PostAdvertiserment</title>
+
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+<style >
+  .img1
+  {
+    background-image: url("{% static 'customer/assets/img/a2.jpg'  %}");
+  }
+
+.img2
+{
+  float: left;
+  
+}
+.dob
+{
+  padding: 10px;
+}
+
+</style>
+
+  
+
+ <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Select Your Advertisment</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Select Your Advertisment</a></li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Contact Section ======= -->
+       <section id="contact" class="contact">
+        <h3 class="text-warning text-center">Select Your Advertisment</h3>
+        <br>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+       
+
+        <div class="row gy-4 mt-1 m-auto holediv">
+          <div class="col-lg-6 img2">
+            <img src="{% static 'customer/assets/img/back.jpg'  %}" height="450" width="650">
+            
+          </div>
+         
+
+            <div class="col-lg-6 contact">
+            <form action="/customer/search_advertise" method="post" role="form" class="php-email-form">
+              {% csrf_token %}
+              <div class="row gy-4">
+                
+
+
+                <div class="col-lg-12 form-group">
+                  <label>Select Size:</label>
+
+                <select id="size" name="size" class="form-control">
+                  <option value="">--Select Size--</option>
+                  <option value="10cm * 10cm">10cm * 10cm</option>
+                  <option value="20cm * 20cm">20cm * 20cm</option>
+                  <option value="30cm * 30cm">30cm * 30cm</option>
+                  <option value="40cm * 40cm">40cm * 40cm</option>
+                  <option value="50cm * 50cm">50cm * 50cm</option>
+                  <option value="60cm * 60cm">60cm * 60cm</option>
+                  <option value="60cm * 70cm">60cm * 70cm</option>
+                  <option value="60cm * 80cm">60cm * 80cm</option>
+                  <option value="60cm * 90cm">60cm * 90cm</option>
+                  <option value="60cm * 100cm">60cm * 100cm</option>
+                  <option value="60cm * 110cm">60cm * 110cm</option>
+
+                </select>  
+                </div>
+                <div class="col-lg-12 form-group">
+                  <label>Select Page No:</label>
+                  <select id="pageno" name="pageno" class="form-control">
+                  <option value="">--Select Page No--</option>
+                  <option value="1">Page No 1</option>
+                  <option value="2">Page No 2</option>
+                  <option value="3">Page No 3</option>
+                  <option value="4">Page No 4</option>
+                  <option value="5">Page No 5</option>
+                  <option value="6">Page No 6</option>
+                  <option value="7">Page No 7</option>
+                  <option value="8">Page No 8</option>
+                  <option value="9">Page No 9</option>
+                  <option value="10">Page No 10</option>
+                  <option value="11">Page No 11</option>
+                  <option value="12">Page No 12</option>
+                  <option value="13">Page No 13</option>
+                  <option value="14">Page No 14</option>
+                  <option value="15">Page No 15</option>
+
+
+                </select>  
+                
+
+                </div>
+               
+                  <div class="col-lg-12 form-group">
+                    <label>Select Mode:</label>
+                  <select id="mode" name="mode" class="form-control">
+                  <option value="">--Select Mode--</option>
+                  <option value="offline">Offline</option>
+                  <option value="online">Online</option>
+                  <option value="both">Both</option>
+                </select>
+                </div>
+                 {% if messages %}
+                <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+               <div class="my-3">
+                <!-- <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div> -->
+              <div class="text-center"><button type="submit">Search</button></div>
+            </form>
+
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+  {% endblock %}

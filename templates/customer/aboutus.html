@@ -1,0 +1,110 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | About Us</title>
+
+
+	<style>
+
+		.img1
+  {
+    background-image: url("{% static 'customer/assets/img/a4.jpg'  %}");
+  }
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+
+		
+
+		h1 {
+			font-size: 48px;
+			margin-top: 0;
+		}
+
+		.container {
+			max-width: 1000px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.row {
+			display: flex;
+			flex-wrap: wrap;
+			margin: 0 -20px;
+		}
+
+		.col {
+			flex: 1;
+			padding: 0 20px;
+		}
+
+		.col h2 {
+			font-size: 36px;
+			margin-top: 0;
+		}
+
+		.col p {
+			font-size: 18px;
+			line-height: 1.5;
+		}
+
+		.about1
+		{
+			height: 420px;
+			width: 390px;
+		}
+	</style>
+
+	<div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>About Us</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>About Us</li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+    <div class="main">
+
+	<div class="container">
+		<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+		<div class="row">
+
+			<div class="col">
+
+				<h2>Our Agencys</h2>
+				<p>Newspaper agencies play an important role in the distribution and dissemination of news in India. These agencies act as intermediaries between newspaper publishers and distributors, ensuring that newspapers are delivered to subscribers and retailers across the country. They also provide a platform for advertisers to reach a wide audience through print media. In India, there are several prominent newspaper agencies, such as Press Trust of India, United News of India, and Hindustan Times Syndicate. These agencies not only facilitate the distribution of newspapers but also offer news wire services, photo archives, and other content to media outlets, making them a vital component of the media industry in India.</p>
+			</div>
+			<div class="col">
+				<img src="{% static 'customer/assets/img/aboutus1.jpg' %}" class="about1" alt="Our Team">
+			</div>
+		</div>
+		<br><br>
+		<div class="row">
+			<div class="col">
+				<img src="{% static 'customer/assets/img/aboutus2.jpg' %}" class="about1" alt="Our Values">
+			</div>
+			<div class="col">
+				<h2>Our Work</h2>
+				<p> Ad sponsorship can help businesses increase brand awareness, reach new audiences, and drive website traffic. It's important for businesses to choose the right platform and target audience for their ads to ensure maximum effectiveness. Additionally, websites that engage in ad sponsorship must be transparent about their advertising practices and disclose sponsored content to their users.</p>
+			</div>
+
+		</div>
+		<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+	</div>
+</div>
+{% endblock %}

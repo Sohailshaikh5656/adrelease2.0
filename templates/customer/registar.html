@@ -1,0 +1,328 @@
+{% extends 'customer/common/layout.html' %}
+{% block content %}
+{% load static %}
+<title>Ad Release | Register</title>
+
+<script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+
+<script>
+// JavaScript to display random wise quotes
+document.addEventListener('DOMContentLoaded', function() {
+  const wiseQuotes = [
+    "The best way to predict the future is to create it.",
+    "Success is not the key to happiness. Happiness is the key to success.",
+    "Do what you can, with what you have, where you are.",
+    "Believe you can and you're halfway there.",
+    "You miss 100% of the shots you don't take.",
+    "Life is 10% what happens to us and 90% how we react to it."
+  ];
+
+  const randomQuote = wiseQuotes[Math.floor(Math.random() * wiseQuotes.length)];
+  document.getElementById("wiseQuote").innerText = randomQuote;
+});
+
+// JavaScript to restrict future date selection
+document.addEventListener('DOMContentLoaded', function() {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+  const yyyy = today.getFullYear();
+  const maxDate = yyyy + '-' + mm + '-' + dd;
+  document.getElementById("dob").setAttribute("max", maxDate);
+});
+
+// JavaScript for image preview on hover
+document.addEventListener('DOMContentLoaded', function() {
+  const imageUpload = document.getElementById('imageUpload');
+  const imagePreview = document.getElementById('imagePreview');
+
+  imageUpload.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  imagePreview.addEventListener('mouseenter', function() {
+    imagePreview.style.transform = 'scale(1.5)';
+    imagePreview.style.transition = 'transform 0.3s ease';
+  });
+
+  imagePreview.addEventListener('mouseleave', function() {
+    imagePreview.style.transform = 'scale(1)';
+  });
+});
+</script>
+
+<style>
+  .img1 {
+    background-image: url("{% static 'customer/assets/img/a2.jpg' %}");
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+  }
+
+  body {
+    background-color: #fff;
+  }
+
+  section {
+    background-color: #fff;
+  }
+
+  .img2 {
+    width: 100%;
+    height: 100%; /* Ensure the image takes full height */
+    object-fit: cover; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional: Add rounded corners */
+  }
+
+  .contact {
+    background-color: #f1f1f1;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%; /* Ensure the form takes full height */
+  }
+
+  .contact:hover {
+    transform: translateY(-5px);
+    background-color: #e0e0e0;
+  }
+
+  .contact input,
+  .contact select,
+  .contact button {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 15px;
+    width: 100%;
+    transition: 0.3s;
+    animation: fadeIn 1s ease-out;
+  }
+
+  .contact input:focus,
+  .contact select:focus,
+  .contact button:hover {
+    border-color: #ff9800;
+    box-shadow: 0 0 5px rgba(255, 152, 0, 0.6);
+  }
+
+  .contact input:hover,
+  .contact select:hover {
+    background-color: #f1f1f1;
+  }
+
+  .contact label {
+    font-weight: bold;
+    color: #333;
+  }
+
+  .contact button {
+    background-color: #ff9800;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .contact button:hover {
+    background-color: #e68900;
+  }
+
+  .breadcrumbs {
+    background-color: #000;
+    color: white;
+  }
+
+  .breadcrumbs a {
+    color: #ff9800;
+  }
+
+  .messages p {
+    color: red;
+  }
+
+  /* Centering Heading */
+  h3#heading {
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  /* New Wisdom Section */
+  #wiseQuote {
+    text-align: center;
+    font-size: 1.3em;
+    font-style: italic;
+    color: #ff9800;
+    margin-top: 20px;
+  }
+
+  /* Animation for textboxes */
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Flexbox for equal size and alignment */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch; /* Ensure both columns have equal height */
+  }
+
+  .col-lg-6 {
+    flex: 1;
+    padding: 10px; /* Add some spacing */
+    display: flex;
+    align-items: stretch; /* Ensure child elements stretch to full height */
+  }
+
+  .col-lg-6 img {
+    width: 100%;
+    height: 100%; /* Ensure the image takes full height */
+  }
+
+  .col-lg-6 .contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the form vertically */
+  }
+
+  /* Image Upload and Preview Styles */
+  .image-upload-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .image-upload-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  #imagePreview {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  #imagePreview:hover {
+    transform: scale(1.5);
+    transition: transform 0.3s ease;
+  }
+</style>
+
+<main id="main">
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs d-flex align-items-center img1">
+    <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+      <h2>Register</h2>
+      <ol>
+        <li><a href="/customer/home">Home</a></li>
+        <li>Register</li>
+      </ol>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <h3 class="text-warning text-center">Register To Become Our User !!!</h3>
+    <br>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="row gy-4 mt-1 m-auto holediv">
+        <div class="col-lg-6">
+          <img src="{% static 'customer/assets/img/img2.jpg' %}" class="img2" alt="Register Image">
+        </div>
+
+        <div class="col-lg-6">
+          <div class="contact">
+            <form action="/customer/user_store" method="post" role="form" class="php-email-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row gy-4">
+                <!-- Image Upload and Preview -->
+               
+
+                <div class="col-lg-6 form-group">
+                  <input type="text" name="fname" class="form-control" id="fname" placeholder="First Name" required>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <input type="text" name="lname" class="form-control" id="lname" placeholder="Last Name" required>
+                </div>
+                <div class="col-lg-12 form-group">
+                  <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+                </div>
+                <div class="col-lg-12 form-group">
+                  <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                </div>
+                <div class="col-lg-12 form-group">
+                  <input type="text" name="contactno" class="form-control" id="contactno" placeholder="Contact No" required>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <select class="form-control" id="gender" name="gender">
+                    <option value="">--Select Gender--</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="col-lg-2 form-group">
+                  <label class="dob mt-3">DOB:</label>
+                </div>
+                <div class="col-lg-4 form-group">
+                  <input type="date" name="dob" class="form-control" id="dob" required>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="address" id="address" rows="5" placeholder="Address" required></textarea>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <input type="password" class="form-control" name="pass" id="pass" placeholder="Password" required>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <input type="password" class="form-control" name="cpass" id="cpass" placeholder="Confirm Password" required>
+                </div>
+                <div class="col-lg-12 image-upload-container">
+                  <label for="imageUpload">Upload Profile Picture</label>
+                  <input type="file" id="imageUpload" name="profile_picture" accept="image/*" required>
+                  <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
+                </div>
+
+                {% if messages %}
+                <ul class="messages">
+                  {% for message in messages %}
+                  <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+                <br>
+                <div class="col-12 form-group">
+                  &nbsp;Don't have an account?&nbsp;<a href="/customer/"><u>Login</u></a>
+                </div>
+                <div class="text-center">
+                  <button type="submit">Register</button>
+                </div>
+              </form>
+            </div>
+          </div><!-- End Contact Form -->
+        </div>
+      </div>
+    </div>
+    <div id="wiseQuote"></div> <!-- Display Random Wise Quote -->
+  </section>
+</main>
+
+{% endblock %}

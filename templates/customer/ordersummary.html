@@ -1,0 +1,106 @@
+
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Ordersummary</title>
+<style type="text/css">
+.img1
+  {
+    background-image: url("{% static 'customer/assets/img/a2.jpg'  %}");
+  }
+  
+
+body{margin-top:20px;
+background-color:#f2f6fc;
+color:#69707a;
+
+</style>
+
+
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Your Ad</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Your Ad</a></li>
+        </ol>
+
+      </div>
+    </div>
+
+    <div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+    <nav class="nav nav-borders">
+        <a class="nav-link  ms-0" href="/customer/profile/{{user.id}}">Profile</a>
+        <a class="nav-link " href="/customer/userprofile/{{user.id}}">Manage Profile</a>
+        <a class="nav-link active" href="/customer/ordersummary">Purchase</a>
+    </nav>
+    <hr class="mt-0 mb-4">
+
+
+{% for row in result %}
+
+<div class="container-fluid my-5 d-sm-flex justify-content-center">
+
+  
+   
+    <div class="card col-6 px-2">
+     
+       
+
+        <div class="card-header bg-white">
+          <div class="row justify-content-between">
+            <div class="col">
+                <p class="text-muted"> Order ID  : <span class="font-weight-bold text-dark">{{row.id}}</span></p> 
+                <p class="text-muted"> Order Date : <span class="font-weight-bold text-dark">{{row.order_date}}</span> </p></div>
+                <div class="flex-col my-auto">
+                    <h6 class="ml-auto mr-3">
+                        <a href="#">View Details</a>
+                    </h6>
+                </div>
+          </div>
+        </div>
+        <div class="card-body">
+            <div class="media flex-column flex-sm-row">
+                <div class="media-body ">
+                    <h5 class="bold">{{row.agency_id}}</h5>
+                    <p class="text-muted"> Qt: 1 Pair</p>
+                    <h4 class="mt-3 mb-4 bold"> <span class="mt-5">&#x20B9;</span>{{row.price}}</h4>
+                    <p class="text-muted">Ad Release on: <span class="Today">{{row.date}}</span></p>
+                    <button type="button" class="btn  btn-outline-primary d-flex" onclick = "window.location.href='/customer/home';"
+>Reached Ad Release</button>    
+                </div><center><img class="align-self-center img-fluid" src="/media/order/{{row.poster}}" width="250 " height="250">
+            </div>
+        </div>
+        <div class="media flex-column flex-sm-row">
+                <div class="media-body ">
+                    <h5 class="bold">Subject : {{row.subject}}</h5>
+                    <br>
+                     <h6 class="bold">Description : {{row.description}}</h6>
+                  </div>
+                </div>
+       
+         <div class="card-footer  bg-white px-sm-3 pt-sm-4 px-0">
+            <div class="row text-center  ">
+                
+                </div>
+                <div class="col my-auto   border-line "><center><h5><a href="/customer/order_delete/{{row.id}}">Cancel</a></h5></center></div>
+
+                
+            </div>
+            <hr>
+        </div>
+       
+    </div>
+    <br>
+     
+</div>
+</center>
+</div>
+{% endfor %}
+{% endblock %}

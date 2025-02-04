@@ -1,0 +1,149 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Profile</title>
+
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+
+  <script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+<style >
+  .img1
+  {
+    background-image: url("{% static 'customer/assets/img/a2.jpg'  %}");
+  }
+
+   body{margin-top:20px;
+background-color:#f2f6fc;
+color:#69707a;
+}
+.img-account-profile {
+    height: 10rem;
+}
+.rounded-circle {
+    border-radius: 50% !important;
+}
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+.card .card-header {
+    font-weight: 500;
+}
+.card-header:first-child {
+    border-radius: 0.35rem 0.35rem 0 0;
+}
+.card-header {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: rgba(33, 40, 50, 0.03);
+    border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+.form-control, .dataTable-input {
+    display: block;
+    width: 100%;
+    padding: 0.875rem 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #69707a;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #c5ccd6;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.nav-borders .nav-link.active {
+    color: #0061f2;
+    border-bottom-color: #0061f2;
+}
+.nav-borders .nav-link {
+    color: #69707a;
+    border-bottom-width: 0.125rem;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+</style>
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Manage Profile</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Manage Profile</a></li>
+        </ol>
+
+      </div>
+    </div>
+
+
+    <div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+    <nav class="nav nav-borders">
+        <a class="nav-link  ms-0" href="/customer/profile/{{user.id}}">Profile</a>
+        <a class="nav-link active" href="/customer/userprofile/{{user.id}}">Manage Profile</a>
+        <a class="nav-link" href="/customer/ordersummary">Purchase</a>
+    </nav>
+    <hr class="mt-0 mb-4">
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">{{user.username}}</span><span class="text-black-50">{{user.email}}</span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right"  style="margin-left: 150px;">
+            <form action="/customer/userprofile_update/{{result1.id}}" method="post">
+                {% csrf_token %}
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="text-right">Profile Settings</h3>
+                </div>
+                <div class="row mt-2">
+
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value="{{user.first_name}}" name="fname"></div>
+                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="{{user.last_name}}" placeholder="surname" name="lname"></div>
+                    <div class="col-md-12"><label class="labels">Username</label><input type="text" class="form-control" value="{{user.username}}" placeholder="username" name="username"></div>
+                   
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" value={{result1.contact}} placeholder="enter phone number" value="{{result.contact}}" name="contactno"></div>
+
+                    <div class="col-md-12"><label class="labels">Address</label><textarea class="form-control" name="address">{{result1.address}}</textarea></div>
+                    
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value="{{user.email}}" name="email"></div>
+                    <div class="col-md-12"><label class="labels">Date Of Birth</label><input type="date" class="form-control" placeholder="Date Of Birth" value="{{result.dob}}" name="dob" required></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12"><label class="labels">Gender</label>
+                        <select id="gender" name="gender" class="form-control">
+                            <option value="male" {% if result1.gender == 'male' %} selected {% endif %}>Male</option>
+                            <option value="female" {% if result1.gender == 'female' %} selected {% endif %}>Female</option>
+                            
+                        </select></div>
+                `
+                    
+                </div>
+                <div class="mt-5 text-center"><input type="submit" class="btn btn-warning" value="submit" name="submit"></div>
+            </div>
+        </form></div>
+        
+    </div>
+</div>
+</div>
+</div>
+</main>
+
+{% endblock %}

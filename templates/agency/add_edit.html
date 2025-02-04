@@ -1,0 +1,130 @@
+{% extends 'agency/common/layout.html'%}
+{% block content %}
+{% load static %}
+<br>
+<br>
+<style type="text/css">
+    #size,#pageno,#adtype,#image,input
+    {
+        background: #000;
+    }
+    body,option
+    {
+        color: #fff;
+    }
+    .image
+    {
+        border-radius: 20px;
+        box-shadow: 30px 60px 30px black;
+    }
+    .image:hover{
+        box-shadow: 0px 0px 30px red;
+
+    }
+</style>
+
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-11 col-xl-11 m-auto">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Add New Ad Type</h6>
+                            <center><img src="/media/upload/{{result.image}}" height="450" width="400" class="image"></center>
+                            <hr><br>
+                            <form action="/agency/All_Adtype_update/{{result.id}}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" 
+                                        aria-describedby="emailHelp" value="{{result.title}}">
+                                    
+                                </div>
+                                
+                                     
+
+                                    <div class="mb-6">
+                                    <label for="exampleInputPassword1" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" name="description">{{result.description}}</textarea>
+                                </div>
+                                
+                                <div class="mb-6">
+
+                                    <label for="exampleInputPassword1" class="form-label">Size</label>
+                                    <select id="size" name="size" class="form-control">
+                                        <option value="">--Select Size--</option>
+                                        <option value="10cm * 10cm" {% if result.size == '10cm * 10cm' %} selected {% endif %}>10cm*10cm</option>
+                                        <option value="20cm * 20cm" {% if result.size == '20cm * 20cm' %} selected {% endif %}>20cm * 20cm</option>
+                                        <option value="30cm * 30cm" {% if result.size == '30cm * 30cm' %} selected {% endif %}>30cm * 30cm</option>
+                                        <option value="40cm * 40cm" {% if result.size == '40cm * 40cm' %} selected {% endif %}>40cm * 40cm</option>
+                                        <option value="50cm * 50cm" {% if result.size == '50cm * 50cm' %} selected {% endif %}>50cm * 50cm</option>
+                                        <option value="60cm * 60cm " {% if result.size == '60cm * 60cm' %} selected {% endif %}>60cm * 60cm</option>
+                                        <option value="60cm * 70cm" {% if result.size == '60cm * 70cm' %} selected {% endif %}>60cm * 70cm</option>
+                                        <option value="60cm * 80cm" {% if result.size == '60cm * 80cm' %} selected {% endif %}>60cm * 80cm</option>
+                                        <option value="60cm * 90cm" {% if result.size == '60cm * 90cm' %} selected {% endif %}>60cm * 90cm</option>
+                                        <option value="60cm * 100cm" {% if result.size == '60cm * 100cm' %} selected {% endif %}>60cm * 100cm</option>
+                                        <option value="60cm * 110cm" {% if result.size == '60cm * 110cm' %} selected {% endif %}>60cm * 110cm</option>
+                                    </select>
+                                   </div>
+
+
+                                <div class="mb-6">
+                                    <label for="exampleInputEmail1" class="form-label">Price</label>
+                                    <input type="text" class="form-control" id="price" name="price" 
+                                        aria-describedby="emailHelp" value="{{result.price}}">
+                                   
+                                   </div>
+
+                                    <div class="mb-12">
+                                    <label for="exampleInputPassword1" class="form-label">Page No:</label>
+
+                                    <select id="pageno" name="pageno" class="form-control primary">
+                                        <option value="">--Select Page--</option>
+                                        <option value="1" {% if result.pageno == '1' %} selected {% endif %} >Page 1</option>
+                                        <option value="2" {% if result.pageno == '2' %} selected {% endif %}>Page 2</option>
+                                        <option value="3" {% if result.pageno == '3' %} selected {% endif %}>Page 3</option>
+                                        <option value="4" {% if result.pageno == '4' %} selected {% endif %}>Page 4</option>
+                                        <option value="5" {% if result.pageno == '5' %} selected {% endif %}>Page 5</option>
+                                        <option value="6" {% if result.pageno == '6' %} selected {% endif %}>Page 6</option>
+                                        <option value="7" {% if result.pageno == '7' %} selected {% endif %}>Page 7</option>
+                                        <option value="8" {% if result.pageno == '8' %} selected {% endif %}>Page 8</option>
+                                        <option value="9" {% if result.pageno == '9' %} selected {% endif %}>Page 9</option>
+                                        <option value="10"{% if result.pageno == '10' %} selected {% endif %}>Page 10</option>
+                                        <option value="11" {% if result.pageno == '11' %} selected {% endif %}>Page 11</option>
+                                        <option value="12" {% if result.pageno == '12' %} selected {% endif %}>Page 12</option>
+                                        <option value="13" {% if result.pageno == '13' %} selected {% endif %}>Page 13</option>
+                                        <option value="14" {% if result.pageno == '14' %} selected {% endif %}>Page 14</option>
+                                        <option value="15" {% if result.pageno == '15' %} selected {% endif %}>Page 15</option>
+                                        <option value="16" {% if result.pageno == '16' %} selected {% endif %}>Page 16</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="mb-6">
+                                    <label for="exampleInputEmail1" class="form-label">Image</label>
+                                    <input type="file" class="form-control" id="image" name="image" 
+                                        aria-describedby="emailHelp">
+                                   
+                                   </div>
+                                    <label for="exampleInputEmail1" class="form-label">Select Ad Type</label>
+                                    <select id="adtype" name="adtype" class="form-control">
+                                         <option value="">--select AdType--</option>
+                                        <option value="online" {% if result.adtype == 'online' %} selected {% endif %}>Online</option>
+                                        <option value="offline" {% if result.adtype == 'offline' %} selected {% endif %}>Offline</option>
+                                        <option value="Both" {% if result.adtype == 'Both' %} selected {% endif %}>Both</option>
+                                       </select>
+                                       <br>
+                                       <br>
+                              <div class="col-2 m-auto">
+
+
+                                
+                                <button type="submit" id="submit" name="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                    <br><br>
+                
+
+            
+{% endblock %}
