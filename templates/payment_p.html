@@ -1,4 +1,4 @@
-{% extends 'customer/common/layout.html'%}
+{% extends 'customer/common/layout.html' %}
 {% block content %}
 {% load static %}
 <main id="main">
@@ -6,36 +6,52 @@
     <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs d-flex align-items-center img1">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
-
         <h2>Your Ad</h2>
         <ol>
           <li><a href="/customer/home">Home</a></li>
-          <li>Payment</a></li>
+          <li>Payment</li>
         </ol>
-
       </div>
     </div>
 
-<form class="text-center border border-light p-5" action="/customer/success/{{user.id}}" method="POST">
+    <form class="text-center border border-light p-5">
         {% csrf_token %}
 
-       
-      
+        <!-- RAZORPAY INTEGRATION -->
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-        <!-- RAZORPAY INTEGRATION HERE -->
-        <script src="https://checkout.razorpay.com/v1/checkout.js" 
-        data-key="rzp_test_QNjv8QlCmwSAy1" 
-        data-amount="{{payment.amount}}"
-        data-currency="INR" 
-        data-order_id="{{payment.id}}" 
-        data-buttontext="Pay with Razorpay"
-        data-name="Ad Release"
-        data-description="Complete Business Solution"
-        data-image="https://oibp1.000webhostapp.com/logo.PNG" 
-        data-prefill.name="{{request.user.first_name}}"
-        data-prefill.email="{{request.user.email}}" 
-        data-theme.color="#F37254"></script>
+        <button type="button" id="pay-button" class="btn btn-warning text-white">Pay Now</button>
+    </form>
 
-</form>
 </main>
+
+<script>
+    var options = {
+        "key": "rzp_test_QNjv8QlCmwSAy1",
+        "amount": "{{ payment.amount }}",
+        "currency": "INR",
+        "order_id": "{{ payment.id }}",
+        "name": "Ad Release",
+        "description": "Complete Business Solution",
+        "image": "https://oibp1.000webhostapp.com/logo.PNG",
+        "prefill": {
+            "name": "{{ request.user.first_name }}",
+            "email": "{{ request.user.email }}"
+        },
+        "theme": {
+            "color": "#F37254"
+        },
+        "handler": function(response) {
+            window.location.href = "/customer/success/{{ user.id }}";
+        }
+    };
+
+    var rzp = new Razorpay(options);
+    
+    document.getElementById('pay-button').onclick = function(e) {
+        rzp.open();
+        e.preventDefault();
+    }
+</script>
+
 {% endblock %}

@@ -1,56 +1,121 @@
 {% load static %}
+<style>
+    /* 3D Effect for Sidebar */
+    .sidebar {
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3); /* 3D shadow effect */
+    }
+
+    /* Active State Styles */
+    .navbar-nav .nav-link.active,
+    .dropdown-menu .dropdown-item.active {
+        background-color: #3498db; /* Blue background for active link */
+        color: white !important; /* White text for active link */
+        border-radius: 5px; /* Rounded corners */
+        transform: translateX(10px); /* 3D effect for active link */
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .navbar-nav .nav-link.active i,
+    .dropdown-menu .dropdown-item.active i {
+        color: white !important; /* White icon for active link */
+    }
+
+    .dropdown-toggle.active {
+        background-color: #3498db; /* Blue background for active dropdown toggle */
+        color: white !important; /* White text for active dropdown toggle */
+        border-radius: 5px; /* Rounded corners */
+        transform: translateX(10px); /* 3D effect for active dropdown toggle */
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Hover Effect */
+    .navbar-nav .nav-link:hover,
+    .dropdown-menu .dropdown-item:hover {
+        transform: translateX(5px); /* Slight 3D effect on hover */
+        transition: transform 0.3s ease;
+    }
+
+    /* Fix for extra padding/margin */
+    .navbar-nav {
+        padding-right: 0 !important; /* Remove extra padding */
+    }
+
+    .dropdown-menu {
+        margin-left: 0 !important; /* Align dropdown menu properly */
+    }
+</style>
+
 <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-secondary navbar-dark">
-                <a href="/myadmin/dashboard" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>AD Release</h3>
-                </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        
-                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">{{user.username}}</h6>
-                        <span>Admin</span>
-                    </div>
-                </div>
-                <div class="navbar-nav w-100">
-
-                    <a href="/myadmin/dashboard" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Agency</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                           
-                             <a href="/myadmin/agency_Approve" class="dropdown-item">Approve Agency</a>
-                             <a href="/myadmin/agency" class="dropdown-item">All Agency</a>
-                             <a href="/myadmin/blocked_Agency" class="dropdown-item">Block Agency</a>
-                             <a href="/myadmin/unblocked_Agency" class="dropdown-item">Unblock Agency</a>
-                            
-                        </div>
-                    </div>
-
-
-                    <!-- <a href="/myadmin/customer" class="nav-item nav-link"><i class="fa fa-solid fa-user me-2"></i>Customer</a> -->
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Customer</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                             <a href="/myadmin/customer" class="dropdown-item">All Customer</a>
-                             <a href="/myadmin/blocked_customer" class="dropdown-item">Blocked Customer</a>
-                             <a href="/myadmin/unblocked_customer" class="dropdown-item">Unblock Customer</a>
-                        </div>
-                    </div>
-                    <a href="/myadmin/admin_order" class="nav-item nav-link"><i class="fa fa-solid fa-money-bill me-2"></i>Orders</a>
-                    <a href="/myadmin/inquiry_read" class="nav-item nav-link"><i class="fa fa-solid fa-money-bill me-2"></i>Inquires</a>
-                    
-                   
-                    
-
-
-                    <a href="/myadmin/feedback" class="nav-item nav-link"><i class="fa fa-solid fa-comment me-2"></i>Feedbacks</a>
-                    <hr>
-                    <a href="/myadmin/logout" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
-                   
-                </div>
-            </nav>
+    <nav class="navbar bg-secondary navbar-dark">
+        <a href="/myadmin/dashboard" class="navbar-brand mx-4 mb-3">
+            <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>AD Release</h3>
+        </a>
+        <div class="d-flex align-items-center ms-4 mb-4">
+            <div class="position-relative">
+                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+            </div>
+            <div class="ms-3">
+                <h6 class="mb-0">{{user.username}}</h6>
+                <span>Admin</span>
+            </div>
         </div>
-        
+        <div class="navbar-nav w-100">
+            <a href="/myadmin/dashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Category</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/myadmin/addCategory" class="dropdown-item"><i class="fas fa-plus-circle me-2"></i>Add New Category</a>
+                    <a href="/myadmin/allCategory" class="dropdown-item"><i class="fas fa-list-ul me-2"></i>All Category</a>
+                    <a href="/myadmin/nonActiveCategory" class="dropdown-item"><i class="fas fa-times-circle me-2"></i>Non Active Category</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Agency</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/myadmin/agency_Approve" class="dropdown-item"><i class="fas fa-check-circle me-2"></i>Approve Agency</a>
+                    <a href="/myadmin/agency" class="dropdown-item"><i class="fas fa-list-ul me-2"></i>All Agency</a>
+                    <a href="/myadmin/blocked_Agency" class="dropdown-item"><i class="fas fa-ban me-2"></i>Block Agency</a>
+                    <a href="/myadmin/unblocked_Agency" class="dropdown-item"><i class="fas fa-check-circle me-2"></i>Unblock Agency</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Customer</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/myadmin/customer" class="dropdown-item"><i class="fas fa-list-ul me-2"></i>All Customer</a>
+                    <a href="/myadmin/blocked_customer" class="dropdown-item"><i class="fas fa-ban me-2"></i>Blocked Customer</a>
+                    <a href="/myadmin/unblocked_customer" class="dropdown-item"><i class="fas fa-check-circle me-2"></i>Unblock Customer</a>
+                </div>
+            </div>
+            <a href="/myadmin/admin_order" class="nav-item nav-link"><i class="fa fa-solid fa-money-bill me-2"></i>Orders</a>
+            <a href="/myadmin/inquiry_read" class="nav-item nav-link"><i class="fa fa-solid fa-money-bill me-2"></i>Inquires</a>
+            <a href="/myadmin/feedback" class="nav-item nav-link"><i class="fa fa-solid fa-comment me-2"></i>Feedbacks</a>
+            <a href="/myadmin/reportLandingPage" class="nav-item nav-link"><i class="fa fa-file-alt me-2"></i>Reports</a>
+            <hr>
+            <a href="/myadmin/logout" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+        </div>
+    </nav>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the current URL path
+        const currentPath = window.location.pathname;
+
+        // Find all navigation links
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-menu .dropdown-item');
+
+        // Loop through each link and check if it matches the current URL
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath) {
+                link.classList.add('active'); // Add 'active' class to the matching link
+
+                // If the link is inside a dropdown, also add 'active' to the parent dropdown toggle
+                const dropdownToggle = link.closest('.dropdown-menu')?.previousElementSibling;
+                if (dropdownToggle) {
+                    dropdownToggle.classList.add('active');
+                }
+            }
+        });
+    });
+</script>

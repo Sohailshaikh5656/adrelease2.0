@@ -35,7 +35,13 @@
                                 
                                         
                                         <td>{{i.id}}</td>
-                                        <td>{{i.rating}}</td>
+                                        <td>
+                                            {% with ''|center:i.rating as range %}
+                                                {% for _ in range %}
+                                                    <span style="color: gold;">&#9733;</span>
+                                                {% endfor %}
+                                            {% endwith %}
+                                        </td>
                                         <td>{{i.message}}</td>
                                         <td>{{i.date}}</td>
                                         <td>{{i.user_id}}</td>

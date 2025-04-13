@@ -1,0 +1,94 @@
+{% extends 'myadmin/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Trending</title>
+<style type="text/css">
+    #edit {
+        color: blue;
+    }
+    #del {
+        color: whitesmoke;
+    }
+    .text-wrap {
+        white-space: normal;
+        word-wrap: break-word;
+        max-width: 200px;
+    }
+    table th, table td {
+        text-align: left;
+    }
+</style>
+
+<!-- Navbar Start -->
+<!-- Navbar End -->
+
+<!-- Table Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-xl-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h6 class="mb-0">{{reportType}}</h6>
+                    <a href="/myadmin/trendingReportPDF/{{type}}" class="btn btn-primary">Download Report</a>
+                </div>
+                <table class="table table-hover">
+                    {% if type == 'trendingagency' %}
+                        <thead>
+                            <th>#</th>
+                            <th>Profile</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Agency Name</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>EST Date</th>
+                            <th>Orders (Last Month)</th>
+                        </thead>
+                        {% for row in result %}
+                        <tr>
+                            <td>{{row.id}}</td>
+                            <td>
+                                <img src="../../../../media/profile/{{row.profile_picture}}" style="height: 50; width: auto; border-radius: 50%;">
+                            </td>
+                            <td>{{row.username}}</td>
+                            <td class="text-wrap">{{row.email}}</td>
+                            <td>{{row.agencyname}}</td>
+                            <td>{{row.contact}}</td>
+                            <td class="text-wrap">{{row.address}}</td>
+                            <td>{{row.est_date}}</td>
+                            <td>{{row.order_count}}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if type == 'trendingcategory' %}
+                        <thead>
+                            <th>Rank</th>
+                            <th>Id</th>
+                            <th>Category Name</th>
+                            <th>Classified Type</th>
+                            <th>Orders (Last Month)</th>
+                        </thead>
+                        {% for row in result %}
+                        <tr>
+                            <td>{{row.rank}}</td>
+                            <td>{{row.id}}</td>
+                            <td>{{row.name}}</td>
+                            <td>{{row.classifiedtype}}</td>
+                            <td>{{row.order_count}}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table End -->
+
+<!-- Footer Start -->
+<!-- Footer End -->
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+
+{% endblock %}

@@ -52,7 +52,7 @@ urlpatterns = [
     path('search_advertisement', views.search_advertisement, name='search_advertisement'),
     
     path('search_advertise', views.search_advertise, name='search_advertise'),
-    path('ordersummary', views.ordersummary, name='ordersummary'),
+    path('ordersummary/<str:type>', views.ordersummary, name='ordersummary'),
     path('order_delete/<int:id>', views.order_delete, name='order_delete'),
     # path('place_order/<int:id>', views.place_order, name='place_order'),
     path('order_store/<int:id>', views.order_store, name='order_store'),
@@ -70,7 +70,19 @@ urlpatterns = [
     path('success/<int:id>', views.success, name='success'),
     
     path('custom_404_view', views.custom_404_view, name='custom_404_view'),
-    path('singleAdType/<int:id>', views.singleAdType, name='singleAdType')
-
+    path('singleAdType/<int:id>', views.singleAdType, name = 'singleAdType'),
     
+    #==========================Diffrent Order Page : ======================
+
+    path('order/classifiedTextAdOrderPage/<int:id>', views.classifiedTextAdOrderPage, name = 'classifiedTextAdOrderPage'),
+    path('SelectRegion/<int:id>', views.SelectRegion, name = 'SelectRegion'),
+    path('get-cities/', views.get_cities, name='get_cities'), # AJAX Endpoint 
+    path('SelectedRegion', views.SelectedRegion, name='SelectedRegion'),
+    path('textOrderStore', views.textOrderStore, name='textOrderStore'),
+    path('send_test_email_view', views.send_test_email_view, name='send_test_email_view'),
+    path('chat_with_bot/', views.chat_with_bot, name='chat_with_bot'),
+    path('agencyInquiry', views.agencyInquiry, name='agencyInquiry'),
+    path('store_agency_inquiry', views.store_agency_inquiry, name='store_agency_inquiry'),
+    
+
 ]

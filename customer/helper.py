@@ -9,7 +9,6 @@ from django.conf import settings
 
 
 def send_forget_password_mail(email,password,fname,lname):
-
 	
 	subject = 'Your Forget Password'
 	message = f'Hi, {fname} {lname},\n Your password is {password}, \n Thanks and regardss'

@@ -1,0 +1,110 @@
+{% extends 'myadmin/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Feedback & Inquiry</title>
+<style type="text/css">
+    #edit {
+        color: blue;
+    }
+    #del {
+        color: whitesmoke;
+    }
+</style>
+
+            <!-- Navbar Start -->
+
+            <!-- Navbar End -->
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h6 class="mb-0">{{reportType}}</h6>
+                                <a href="/myadmin/feedbackAndInquiryReportPDF/{{type}}" class="btn btn-primary">Download Report</a>
+                            </div>
+                            <table class="table table-hover">
+                                {% if type == 'feedback' %}
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Profile Picture</th>
+                                        <th>Username</th>
+                                        <th>Rating</th>
+                                        <th>Message</th>
+                                        <th>Date</th>
+                                    </thead>
+                                    {% for row in result %}
+                                    <tr>
+                                        <td>{{row.id}}</td>
+                                        <td><img src="../../../../media/profile/{{row.profile_image}}" style="height: 50; width: auto; border-radius: 50%;"></td>
+                                        <td>{{row.username}}</td>
+                                        <td>
+                                            {% with ''|center:row.rating as range %}
+                                            {% for _ in range %}
+                                                <span style="color: gold;">&#9733;</span>
+                                            {% endfor %}
+                                        {% endwith %}
+                                        </td>
+                                        <td>{{row.message}}</td>
+                                        <td>{{row.created_at}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+
+                                {% if type == 'inquiry' %}
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Contact</th>
+                                        <th>Message</th>
+                                        <th>Date</th>
+                                    </thead>
+                                    {% for row in result %}
+                                    <tr>
+                                        <td>{{row.id}}</td>
+                                        <td>{{row.name}}</td>
+                                        <td>{{row.email}}</td>
+                                        <td>{{row.contact}}</td>
+                                        <td>{{row.message}}</td>
+                                        <td>{{row.created_at}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+
+                                {% if type == 'agencyinquiry' %}
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Agency</th>
+                                        <th>User</th>
+                                        <th>Subject</th>
+                                        <th>Message</th>
+                                        <th>Date</th>
+                                    </thead>
+                                    {% for row in result %}
+                                    <tr>
+                                        <td>{{row.id}}</td>
+                                        <td>{{row.agency}}</td>
+                                        <td>{{row.user}}</td>
+                                        <td>{{row.subject}}</td>
+                                        <td>{{row.message}}</td>
+                                        <td>{{row.created_at}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table End -->
+
+            <!-- Footer Start -->
+            
+            <!-- Footer End -->
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+
+{% endblock %}
+

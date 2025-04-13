@@ -1,0 +1,141 @@
+{% extends 'agency/common/layout.html' %}
+{% block content %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+    .select-region-container {
+        min-height: 100vh;
+        background: #1a1a1a;
+        padding: 2rem;
+    }
+    .select-region-form {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #2c2c2c;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    .select-region-form label {
+        color: #fff;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    .select-region-form select,
+    .select-region-form input {
+        background: #1a1a1a;
+        color: #fff;
+        border: 1px solid #444;
+    }
+    .select-region-form select:focus,
+    .select-region-form input:focus {
+        background: #1a1a1a;
+        color: #fff;
+        border-color: #666;
+        box-shadow: none;
+    }
+    .city-list {
+        padding: 1rem;
+        background: #1a1a1a;
+        border-radius: 5px;
+        margin-top: 1rem;
+    }
+    .form-check-label {
+        color: #fff;
+    }
+    .select-region-btn {
+        background: #0d6efd;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 1.5rem;
+    }
+    .select-region-btn:hover {
+        background: #0b5ed7;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="select-region-container">
+    <div class="select-region-form">
+        <h3 class="text-center mb-4" style="color: #fff;">Select Region</h3>
+        <form action="/agency/selected_region" method="post">
+            {% csrf_token %}
+            <div class="row gy-4">
+                <!-- State Dropdown -->
+                <div class="col-lg-12 form-group">
+                    <label>Select State:</label>
+                    <select name="state" id="state" class="form-control">
+                        <option value="">---Select State---</option>
+                        {% for state in states %}
+                            <option value="{{ state.id }}">{{ state.state_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- City Selection (Checkboxes) -->
+                <div class="col-lg-12 form-group city-checkbox" style="display:none;">
+                    <label>Select Cities:</label>
+                    <div id="city-list" class="city-list"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-lg-12 text-center">
+                    <button type="submit" class="btn select-region-btn" style="color: #fff;">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $("#state").change(function() {
+        var state_id = $(this).val();
+        $("#city-list").html('<p class="text-white">Loading cities...</p>'); 
+        $(".city-checkbox").hide();
+
+        if (state_id) {
+            $.ajax({
+                url: "{% url 'get_cities_list' %}",
+                type: "GET",
+                data: { state_id: state_id },
+                success: function(data) {
+                    if (data.error) {
+                        $("#city-list").html('<p class="text-danger">' + data.error + '</p>');
+                        return;
+                    }
+
+                    $("#city-list").html('');
+                    $(".city-checkbox").show();
+
+                    let selectedCities = data.selected_cities || [];
+
+                    $.each(data.cities, function(index, city) {
+                        let cityId = parseInt(city.id);
+                        let checked = selectedCities.includes(cityId) ? 'checked' : '';
+
+                        $("#city-list").append(
+                            `<div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="cities[]" value="${cityId}" id="city${cityId}" ${checked}>
+                                <label class="form-check-label" for="city${cityId}">${city.city_name}</label>
+                            </div>`
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    $("#city-list").html('<p class="text-danger">Error loading cities.</p>');
+                }
+            });
+        } else {
+            $("#city-list").html('');
+            $(".city-checkbox").hide();
+        }
+    });
+});
+</script>
+
+{% endblock %}

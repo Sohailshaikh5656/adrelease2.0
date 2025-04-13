@@ -1,0 +1,60 @@
+{% extends 'agency/common/layout.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Order</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">User ID</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Full Name</th>
+                                            <th scope="col">Subject</th>
+                                            <th scope="col">Message</th>
+                                            <th scope="col">Created At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in result %}
+                                        <tr>
+                                            <th scope="row">{{row.id}}</th>
+                                            <td><img src="/media/profile/{{row.profile_image}}" style="width: 50px; height: 50px; border-radius: 50%;"></td>
+                                            <td>{{row.user_id}}</td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.fullname}}</td>
+                                            <td>{{row.subject}}</td>
+                                            <td>{{row.message}}</td>
+                                            <td>{{row.created_at}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+        
+        
+                    {% endblock %}

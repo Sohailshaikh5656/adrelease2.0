@@ -1,0 +1,182 @@
+{% extends 'myadmin/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Agency</title>
+<style type="text/css">
+    #edit
+    {
+        color: blue;
+    }
+    #del
+    {
+        color: whitesmoke;
+    }
+</style>
+ 
+ 
+            <!-- Navbar Start -->
+
+            <!-- Navbar End -->
+
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                  
+                    <div class="col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h6 class="mb-0">{{reportType}}</h6>
+                                <a href="/myadmin/agencyReportPDF/{{type}}" class="btn btn-primary">Download Report</a>
+                            </div>
+                            <table class="table table-hover">
+                                {% if type == 'newagency'%}
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Profile Picture</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Agency Name</th> 
+                                        <th>Contact</th>
+                                        <th>Address</th>
+                                        <th>EST Date</th>
+                                    </thead>
+                                    
+                                        {% for row in result %}
+                                        <tr>
+                                            <td>{{row.id}}</td>
+                                            <td><img src="../../../../media/profile/{{row.profile_picture}}" style="height: 50; width: auto; border-radius: 50%;"></td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.email}}</td>
+                                            <td>{{row.agencyname}}</td>
+                                            <td>{{row.contact}}</td>
+                                            <td>{{row.address}}</td>
+                                            <td>{{row.est_date}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if type == 'activeinactive'%}
+                                    <thead>
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Profile Picture</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Agency Name</th> 
+                                            <th>Contact</th>
+                                            <th>Address</th>
+                                            <th>EST Date</th>
+                                        </thead>
+                                        
+                                            {% for row in result %}
+                                            <tr>
+                                                <td>{{row.id}}</td>
+                                                <td><img src="../../../../media/profile/{{row.profile_picture}}" style="height: 50; width: auto; border-radius: 50%;"></td>
+                                                <td>{{row.username}}</td>
+                                                <td>{{row.email}}</td>
+                                                <td>{{row.agencyname}}</td>
+                                                <td>{{row.contact}}</td>
+                                                <td>{{row.address}}</td>
+                                                <td>{{row.est_date}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                    {% if type == 'blockagency'%}
+                                    <thead>
+                                        <th>Profile Picture</th>
+                                        <th>User Name</th>
+                                        <th>Agency Name</th>
+                                    </thead>
+                                    
+                                        {% for row in result %}
+                                        <tr>
+                                            <td><img src="../../../../media/profile/{{row.profile_image}}" style="height: 50; width: auto; border-radius: 50%;"></td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.agencyname}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                    {% if type == 'notapprove'%}
+                                    <thead>
+                                        <th>Profile Picture</th>
+                                        <th>User Name</th>
+                                        <th>Agency Name</th> 
+                                        <th>View More</th> 
+                                        
+                                    </thead>
+                                    
+                                        {% for row in result %}
+                                        <tr>
+                                            <td><img src="../../../../media/profile/{{row.profile_picture}}" style="height: 50; width: auto; border-radius: 50%;"></td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.agencyname}}</td>
+                                            <td><a href = "/myadmin/agency_viewmore/{{row.id}}" class="btn btn-danger">View More</a></td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+          
+                            </table>
+
+                        </div>
+                    </div>
+                    {% if type == 'activeinactive'%}
+                    <div class="col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h6 class="mb-0">{{reportType2}}</h6>"
+                                <a href="/myadmin/userReportPDF/{{type}}" class="btn btn-primary">Download Report</a>
+                            </div>
+                            <table class="table table-hover">
+                               
+                                  
+                                <thead>
+                                    <th>#</th>
+                                    <th>Profile Picture</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Agency Name</th> 
+                                    <th>Contact</th>
+                                    <th>Address</th>
+                                    <th>EST Date</th>
+                                </thead>
+                                
+                                    {% for row in result2 %}
+                                    <tr>
+                                        <td>{{row.id}}</td>
+                                        <td><img src="../../../../media/profile/{{row.profile_picture}}" style="height: 50; width: auto; border-radius: 50%;"></td>
+                                        <td>{{row.username}}</td>
+                                        <td>{{row.email}}</td>
+                                        <td>{{row.agencyname}}</td>
+                                        <td>{{row.contact}}</td>
+                                        <td>{{row.address}}</td>
+                                        <td>{{row.est_date}}</td>
+                                    </tr>
+                                        {% endfor %}
+                                    
+          
+                            </table>
+
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    </div>
+                </div>
+            <!-- Table End -->
+
+
+            <!-- Footer Start -->
+            
+            <!-- Footer End -->
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+
+        
+        
+
+{% endblock %}

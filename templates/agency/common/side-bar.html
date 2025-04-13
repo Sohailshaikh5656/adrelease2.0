@@ -1,49 +1,176 @@
-{% load static %}
+<style>
+    /* 3D Effect for Sidebar */
+    .sidebar {
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3); /* 3D shadow effect */
+    }
 
+    /* Active State Styles */
+    .navbar-nav .nav-link.active,
+    .dropdown-menu .dropdown-item.active {
+        background-color: #3498db; /* Blue background for active link */
+        color: white !important; /* White text for active link */
+        border-radius: 5px; /* Rounded corners */
+        transform: translateX(10px); /* 3D effect for active link */
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .navbar-nav .nav-link.active i,
+    .dropdown-menu .dropdown-item.active i {
+        color: white !important; /* White icon for active link */
+    }
+
+    .dropdown-toggle.active {
+        background-color: #3498db; /* Blue background for active dropdown toggle */
+        color: white !important; /* White text for active dropdown toggle */
+        border-radius: 5px; /* Rounded corners */
+        transform: translateX(10px); /* 3D effect for active dropdown toggle */
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Hover Effect */
+    .navbar-nav .nav-link:hover,
+    .dropdown-menu .dropdown-item:hover {
+        transform: translateX(5px); /* Slight 3D effect on hover */
+        transition: transform 0.3s ease;
+    }
+</style>
 <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-secondary navbar-dark">
-                <a href="/myadmin/dashboard" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>AD Release</h3>
-                </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                       
-                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">Agency </h6>
-                        <span>{{user.username}}</span>
-                    </div>
-                </div>
-                <div class="navbar-nav w-100">
-
-                    <a href="/agency/dashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dahboard</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-building me-2"></i>Ad Type</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                           
-                             <a href="/agency/Add_adtype" class="dropdown-item">Add New Ad Type</a>
-                            <a href="/agency/All_Adtype" class="dropdown-item">All Ad Type</a>
-                        </div>
-                    </div>
-                    
-                        
-
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="ffa fa-solid fa-shopping-cart me-2"></i>Order</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                           
-                             <a href="/agency/order_front_page" class="dropdown-item">Ad Search Page</a>
-                            <a href="/agency/allOrder" class="dropdown-item">All Order</a>
-                        </div>
-                    </div>
-
-                    
-                    <a href="/agency/payment" class="nav-item nav-link"><i class="fa fa-solid fa-money-bill me-2"></i>Payment</a>
-                    
-                    <a href="/agency/logout" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
-                   
-                </div>
-            </nav>
+    <nav class="navbar bg-secondary navbar-dark">
+        <a href="/myadmin/dashboard" class="navbar-brand mx-4 mb-3">
+            <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>AD Release</h3>
+        </a>
+        <div class="d-flex align-items-center ms-4 mb-4">
+            <div class="position-relative">
+                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+            </div>
+            <div class="ms-3">
+                <h6 class="mb-0">Agency </h6>
+                <span>{{user.username}}</span>
+            </div>
         </div>
-        
+        <div class="navbar-nav w-100">
+            <a href="/agency/dashboard" class="nav-item nav-link" data-route="dashboard">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-map-marked-alt me-2"></i>Region
+                </a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/agency/select-region/" class="dropdown-item" data-route="select-region">
+                        <i class="fas fa-plus-circle me-2"></i>Add / Delete Region
+                    </a>
+                    <a href="/agency/allRegion" class="dropdown-item" data-route="allRegion">
+                        <i class="fas fa-list-ul me-2"></i>All Region
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-ad me-2"></i>Ad Type
+                </a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/agency/Add_adtype" class="dropdown-item" data-route="Add_adtype">
+                        <i class="fas fa-plus-circle me-2"></i>Add New Ad Type
+                    </a>
+                    <a href="/agency/All_Adtype" class="dropdown-item" data-route="All_Adtype">
+                        <i class="fas fa-list-ul me-2"></i>All Ad Type
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-file-alt me-2"></i>Classified Text
+                </a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/agency/NewClassfiedTextOrder" class="dropdown-item" data-route="NewClassfiedTextOrder">
+                        <i class="fas fa-plus-circle me-2"></i>New Order
+                    </a>
+                    <a href="/agency/classfiedTextOrder" class="dropdown-item" data-route="classfiedTextOrder">
+                        <i class="fas fa-check-circle me-2"></i>Approved Order
+                    </a>
+                    <a href="/agency/printedClassifiedTextOrder" class="dropdown-item" data-route="printedClassifiedTextOrder">
+                        <i class="fas fa-print me-2"></i>Printed
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-file-image me-2"></i>Classified Display
+                </a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/agency/NewClassifiedDisplayOrder" class="dropdown-item" data-route="NewClassifiedDisplayOrder">
+                        <i class="fas fa-plus-circle me-2"></i>New Order
+                    </a>
+                    <a href="/agency/classifiedDisplayOrder" class="dropdown-item" data-route="classifiedDisplayOrder">
+                        <i class="fas fa-check-circle me-2"></i>Approved Order
+                    </a>
+                    <a href="/agency/printedClassifiedDisplayOrder" class="dropdown-item" data-route="printedClassifiedDisplayOrder">
+                        <i class="fas fa-print me-2"></i>Printed
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-tv me-2"></i> Displayed
+                </a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/agency/NewDisplayOrder" class="dropdown-item" data-route="NewDisplayOrder">
+                        <i class="fas fa-plus-circle me-2"></i>New Order
+                    </a>
+                    <a href="/agency/DisplayOrder" class="dropdown-item" data-route="DisplayOrder">
+                        <i class="fas fa-check-circle me-2"></i>Approved Order
+                    </a>
+                    <a href="/agency/printedDisplayOrder" class="dropdown-item" data-route="printedDisplayOrder">
+                        <i class="fas fa-print me-2"></i>Printed
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-shopping-cart me-2"></i>Order
+                </a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="/agency/order_front_page" class="dropdown-item" data-route="order_front_page">
+                        <i class="fas fa-search me-2"></i>Ad Search Page
+                    </a>
+                    <a href="/agency/allOrder" class="dropdown-item" data-route="allOrder">
+                        <i class="fas fa-list-ul me-2"></i>All Order
+                    </a>
+                </div>
+            </div>
+            <a href="/agency/payment" class="nav-item nav-link" data-route="payment">
+                <i class="fas fa-money-bill-wave me-2"></i>Payment
+            </a>
+            <a href="/agency/allInquiry" class="nav-item nav-link" data-route="allInquiry">
+                <i class="fas fa-question-circle me-2"></i>Inquiries
+            </a>
+            <a href="/agency/logout" class="nav-item nav-link" data-route="logout">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+        </div>
+    </nav>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the current URL path
+        const currentPath = window.location.pathname;
+
+        // Find all navigation links
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-menu .dropdown-item');
+
+        // Loop through each link and check if it matches the current URL
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (currentPath === linkPath) {
+                link.classList.add('active'); // Add 'active' class to the matching link
+
+                // If the link is inside a dropdown, also add 'active' to the parent dropdown toggle
+                const dropdownToggle = link.closest('.dropdown-menu')?.previousElementSibling;
+                if (dropdownToggle) {
+                    dropdownToggle.classList.add('active');
+                }
+            }
+        });
+    });
+</script>

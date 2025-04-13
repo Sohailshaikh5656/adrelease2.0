@@ -1,140 +1,333 @@
-{% extends 'customer/common/layout.html'%}
+{% extends 'customer/common/layout.html' %}
 {% block content %}
 {% load static %}
 <title>Ad Release | Agency Register</title>
 
+<script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
 
-  <script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
-
-  <script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
-<style >
-  .img1
-  {
-    background-image: url("{% static 'customer/assets/img/a2.jpg'  %}");
+<style>
+  .hidden {
+    display: none;
   }
 
-  body
-{
-  background-color: #fff;
+  .img1 {
+    background-image: url("{% static 'customer/assets/img/a2.jpg' %}");
+  }
+
+  .custom-file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8b400;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+  }
+
+  .custom-file-label:hover {
+    background-color: #ff9f00;
+  }
+  .custom-file-input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
 }
 
-section
-{
-
-  background-color: #fff;
-}
-.img2
-{
-  float: left;
-  
-}
-.dob
-{
-  padding: 10px;
+.custom-file-label {
+    padding: 10px 15px;
+    background-color: #f8b400;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
 }
 
+.custom-file-label:hover {
+    background-color: #ff9f00;
+}
 </style>
 
-  
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let step1 = document.getElementById('step1');
+    let step2 = document.getElementById('step2');
+    let step3 = document.getElementById('step3');
+    let nextBtn = document.getElementById('nextStep');
+    let backBtn = document.getElementById('backStep');
+    let nextBtn2 = document.getElementById('nextStep2');
+    let backBtn2 = document.getElementById('backStep2');
+    let form = document.querySelector('.php-email-form');
 
- <main id="main">
+    nextBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (validateStep1()) {
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+        }
+    });
 
-    <!-- ======= Breadcrumbs ======= -->
+    backBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        step2.classList.add('hidden');
+        step1.classList.remove('hidden');
+    });
+
+    nextBtn2.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (validateStep2()) {
+            step2.classList.add('hidden');
+            step3.classList.remove('hidden');
+        }
+    });
+
+    backBtn2.addEventListener('click', function(event) {
+        event.preventDefault();
+        step3.classList.add('hidden');
+        step2.classList.remove('hidden');
+    });
+
+    function validateStep1() {
+        let agencyname = document.getElementById('agencyname').value;
+        let email = document.getElementById('email').value;
+        let contactno = document.getElementById('contactno').value;
+
+        if (!agencyname || !email || !contactno ) {
+            alert("Please fill out all required fields in Step 1.");
+            return false;
+        }
+        return true;
+    }
+
+    function validateStep2() {
+        let pass = document.getElementById('pass').value;
+        let cpass = document.getElementById('cpass').value;
+
+        if (pass !== cpass) {
+            alert("Passwords do not match.");
+            return false;
+        }
+
+        let fileInput = document.getElementById('imageUpload');
+        if (!fileInput.files.length) {
+            alert("Please upload a profile picture.");
+            return false;
+        }
+        return true;
+    }
+
+    form.addEventListener('submit', function(event) {
+        let requiredFields = this.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                isValid = false;
+                alert("Please fill out all required fields.");
+                event.preventDefault();
+                return;
+            }
+        });
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+
+    document.getElementById('imageUpload').addEventListener('change', function(event) {
+        let reader = new FileReader();
+        reader.onload = function() {
+            let imgPreview = document.getElementById('imagePreview');
+            imgPreview.src = reader.result;
+            imgPreview.style.display = "block";
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+    $(document).ready(function () {
+        $('select[name="state"]').on('change', function () {
+            let state_id = $(this).val();
+
+            if (state_id) {
+                $.ajax({
+                    url: "{% url 'get_cities_list' %}",
+                    data: {'state_id': state_id},
+                    dataType: 'json',
+                    success: function (data) {
+                        let cityDropdown = $('#city');
+                        cityDropdown.empty().append('<option value="">--Select City---</option>');
+
+                        $.each(data.cities, function (index, city) {
+                            cityDropdown.append(`<option value="${city.id}">${city.city_name}</option>`);
+                        });
+                    },
+                    error: function () {
+                        alert('Error loading cities. Please try again.');
+                    }
+                });
+            } else {
+                $('#city').empty().append('<option value="">--Select City---</option>');
+            }
+        });
+    });
+});
+</script>
+
+<main id="main">
     <div class="breadcrumbs d-flex align-items-center img1">
-      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
-
+      <div class="container position-relative d-flex flex-column align-items-center">
         <h2>Register</h2>
         <ol>
           <li><a href="/customer/home">Home</a></li>
-          <li>Register</a></li>
+          <li>Register</li>
         </ol>
-
       </div>
-    </div><!-- End Breadcrumbs -->
+    </div>
 
-    <!-- ======= Contact Section ======= -->
-       <section id="contact" class="contact">
-        <h3 class="text-warning text-center">Register To Became Our News Agency !!!</h3>
+    <section id="contact" class="contact">
+        <h3 class="text-warning text-center">Register To Become Our News Agency</h3>
         <br>
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-       
-
-        <div class="row gy-4 mt-1 m-auto holediv">
-          <div class="col-lg-6 img2">
-            <img src="{% static 'customer/assets/img/agency1.jpg'  %}" height="720" width="600">
-            
-          </div>
-
-
-            <div class="col-lg-6 contact">
-            <form action="/customer/agency_store" method="post" role="form" class="php-email-form">
-              {% csrf_token %}
-              <div class="row gy-4">
-                
-
-
-                <div class="col-lg-12 form-group">
-
-                  <input type="text" name="agencyname" class="form-control" id="agencyname" placeholder="Agency Name" required>
-                </div>
-                <div class="col-lg-12 form-group">
-                  <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
-                </div>
-                <div class="col-lg-6 form-group">
-                  <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
-                </div>
-                <div class="col-lg-6 form-group">
-                  <input type="text" name="contactno" class="form-control" id="contactno" placeholder="Contact No" required>
-                </div>
-                <div class="col-lg-6 form-group">
-                  <input type="text" name="ownername" class="form-control" id="ownername" placeholder="Owner Name" required>
-                </div>
-                <div class="col-lg-2 form-group">
-                  <label class="dob">Est_date:</label>
+        <div class="container">
+            <div class="row gy-4 mt-1 m-auto">
+                <div class="col-lg-6 img2">
+                    <img src="{% static 'customer/assets/img/agency1.jpg' %}" height="720" width="600">
                 </div>
 
-                <div class="col-lg-4 form-group">
-                  <input type="date" name="est_date" class="form-control" id="est_date" placeholder="Established Date" required>
-                </div>
-                <div class="col-lg-12 form-group">
-                 <textarea id="address" name="address" class="form-control"></textarea>
-                </div>
+                <div class="col-lg-6 contact">
+                    <form action="/customer/agency_store" method="post" class="php-email-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Step 1 -->
+                        <div id="step1">
+                            <div class="row gy-4">
+                                <div class="col-lg-12 form-group">
+                                    <input type="text" name="agencyname" class="form-control" id="agencyname" placeholder="Agency Name" required>
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <input type="text" name="contactno" class="form-control" id="contactno" placeholder="Contact No" required>
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <input type="text" name="ownername" class="form-control" id="ownername" placeholder="Owner Name" required>
+                                </div>
+                                <div class="col-lg-2 form-group">
+                                    <label class="dob">Est_date:</label>
+                                </div>
+                                <div class="col-lg-4 form-group">
+                                    <input type="date" name="est_date" class="form-control" id="est_date" required>
+                                </div>
+                                <div class="mb-3">
+                                  <label class="label-control">Upload Profile Picture</label>
+                                  <div class="custom-file">
+                                    <input type="file" id="imageUpload" name="profile_picture" class="custom-file-input" accept="image/*" required>
+                                    <label class="custom-file-label" for="imageUpload">Choose file</label>
+                                  </div>
+                                  <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid mt-2 rounded shadow" style="display: none; max-width: 200px;">
+                              </div>
+                              
+                                <div class="col-lg-12 form-group">
+                                    <textarea id="address" name="address" class="form-control" placeholder="Address" required></textarea>
+                                </div>
+                                <div class="text-center">
+                                  <button id="nextStep" class="btn btn-warning px-4 py-2 text-white">Next</button>
+                              </div>
+                              
+                            </div>
+                        </div>
 
-                 <div class="col-lg-6 form-group">
-                  <input type="text" name="city" class="form-control" id="city" required placeholder="City">
-                </div>
-              
-              <div class="col-lg-6 form-group">
-                <input type="text" class="form-control" name="state" id="state" placeholder="State" required>
-              </div>
-              <div class="col-lg-6 form-group">
-                <input type="password" class="form-control" name="pass" id="pass" placeholder="Password" required>
-              </div>
-              <div class="col-lg-6 form-group">
-                <input type="password" class="form-control" name="cpass" id="cpass" placeholder="Confirm Password" required>
-              </div>
-              {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <p{% if message.tags %} class="{{ message.tags }} msg"{% endif %} id="msg">{{ message }}</p>
-    {% endfor %}
-</ul>
-{% endif %}
-              
-              
-              <div class="my-3">
-                <!-- <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div> -->
-              <div class="text-center"><button type="submit">Register</button></div>
-            </form>
-          </div><!-- End Contact Form -->
+                        <!-- Step 2 -->
+                        <div id="step2" class="hidden">
+                            <div class="row gy-4">
+                                <div class="col-lg-6 form-group">
+                                    <select name="state" class="form-control">
+                                      <option>--Select State---</option>
+                                      {% for i in state %}
+                                      <option value="{{i.id}}">{{i.state_name}}
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <select name="city" class="form-control" id="city">
+                                      <option>--Select City---</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <input type="password" name="pass" class="form-control" id="pass" placeholder="Password" required>
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <input type="password" name="cpass" class="form-control" id="cpass" placeholder="Confirm Password" required>
+                                </div>
+                                
+                                <div class="col-lg-12 form-group">
+                                  <button id="backStep" class="btn btn-danger px-4 py-2 text-white">Back</button>
+                                  <button id="nextStep2" class="btn btn-warning px-4 py-2 text-white">Next</button>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- Step 3 -->
+                       <!-- Step 3: Important Document Upload -->
+<div id="step3" class="hidden">
+    <h4 class="mb-4 text-center fw-bold text-primary">Step 3: Important Document Upload</h4>
+    <div class="row gy-4">
+        <!-- PAN Number -->
+        <div class="col-lg-6 form-group">
+            <label for="panno" class="form-label fw-semibold">PAN Number</label>
+            <input type="text" name="panno" id="panno" class="form-control form-control-lg" placeholder="Enter PAN Number" required>
         </div>
 
-      </div>
+        <!-- PAN Photo -->
+        <div class="col-lg-6 form-group">
+            <label class="form-label fw-semibold">Upload PAN Photo</label>
+            <input type="file" name="panphoto" id="panphoto" class="form-control form-control-lg" accept="image/*" onchange="previewImage(event, 'panPreview')" required>
+            <img id="panPreview" src="#" alt="PAN Preview" class="img-thumbnail mt-2 d-none" style="max-height: 150px;">
+        </div>
+
+        <!-- GST Number -->
+        <div class="col-lg-6 form-group">
+            <label for="gstno" class="form-label fw-semibold">GST Number</label>
+            <input type="text" name="gstno" id="gstno" class="form-control form-control-lg" placeholder="Enter GST Number" required>
+        </div>
+
+        <!-- Aadhaar Number -->
+        <div class="col-lg-6 form-group">
+            <label for="aadhaar" class="form-label fw-semibold">Aadhaar Number</label>
+            <input type="text" name="aadhaar" id="aadhaar" class="form-control form-control-lg" placeholder="Enter Aadhaar Number" required>
+        </div>
+
+        <!-- Aadhaar Photo -->
+        <div class="col-lg-6 form-group">
+            <label class="form-label fw-semibold">Upload Aadhaar Photo</label>
+            <input type="file" name="aadhaarphoto" id="aadhaarphoto" class="form-control form-control-lg" accept="image/*" onchange="previewImage(event, 'aadhaarPreview')" required>
+            <img id="aadhaarPreview" src="#" alt="Aadhaar Preview" class="img-thumbnail mt-2 d-none" style="max-height: 150px;">
+        </div>
+
+        <!-- Client Name -->
+        <div class="col-lg-6 form-group">
+            <label for="client_name" class="form-label fw-semibold">Client Name</label>
+            <input type="text" name="client_name" id="client_name" class="form-control form-control-lg" placeholder="Enter Client Name" required>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="col-lg-12 form-group text-center mt-4">
+            <button id="backStep2" type="button" class="btn btn-danger px-5 py-2 me-3">Back</button>
+            <button type="submit" class="btn btn-success px-5 py-2">Submit</button>
+        </div>
+    </div>
+</div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </section>
-  </main>
-  {% endblock %}
+</main>
+{% endblock %}

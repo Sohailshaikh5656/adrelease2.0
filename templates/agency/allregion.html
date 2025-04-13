@@ -1,0 +1,51 @@
+{% extends 'agency/common/layout.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Press Region</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">State</th>
+                                            <th scope="col">Cities</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in regions %}
+                                        <tr>
+                                            <th scope="row">{{ forloop.counter }}</th> <!-- Numbering the rows -->
+                                            <td>{{ row.state_name }}</td>
+                                            <td>{{row.city_name}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+        
+        
+                    {% endblock %}

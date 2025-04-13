@@ -1,0 +1,191 @@
+{% extends 'myadmin/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Agency</title>
+<style type="text/css">
+    #edit
+    {
+        color: blue;
+    }
+    #del
+    {
+        color: whitesmoke;
+    }
+</style>
+ 
+ 
+            <!-- Navbar Start -->
+
+            <!-- Navbar End -->
+
+
+            <!-- Table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                  
+                    <div class="col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h6 class="mb-0">{{reportType}}</h6>
+                                <a href="/myadmin/userReportPDF/{{type}}" class="btn btn-primary">Download Report</a>
+                            </div>
+                            <table class="table table-hover">
+                                {% if type == 'newuser'%}
+                                    <thead>
+                                        <th>#</th>
+                                       
+                                        <th>Username</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Contact</th>
+                                        <th>Gender</th>
+                                        <th>Address</th>
+                                        <th>DOB</th>
+                                        
+                                    </thead>
+                                    
+                                        {% for row in result %}
+                                        <tr>
+                                            <td>{{row.id}}</td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.first_name}}</td>
+                                            <td>{{row.last_name}}</td>
+                                            <td>{{row.email}}</td>
+                                            <td>{{row.contact}}</td>
+                                            <td>{{row.gender}}</td>
+                                            <td>{{row.address}}</td>
+                                            <td>{{row.dob}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if type == 'activeinactive'%}
+                                    <thead>
+                                        <th>#</th>
+                                       
+                                        <th>Username</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Contact</th>
+                                        <th>Gender</th>
+                                        <th>Address</th>
+                                        <th>DOB</th>
+                                        
+                                    </thead>
+                                    
+                                        {% for row in result %}
+                                        <tr>
+                                            <td>{{row.id}}</td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.first_name}}</td>
+                                            <td>{{row.last_name}}</td>
+                                            <td>{{row.email}}</td>
+                                            <td>{{row.contact}}</td>
+                                            <td>{{row.gender}}</td>
+                                            <td>{{row.address}}</td>
+                                            <td>{{row.dob}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                    {% if type == 'blockuser'%}
+                                    <thead>
+                                        <th>Profile Picture</th>
+                                        <th>User Name</th>
+                                        <th>Full Name</th>
+                                    </thead>
+                                    
+                                        {% for row in result %}
+                                        <tr>
+                                            <td><img src="../../../../media/profile/{{row.profile_image}}" style="height: 50; width: auto; border-radius: 50%;"></td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.fullname}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                    {% if type == 'topbuyer'%}
+                                    <thead>
+                                        <th>Profile Picture</th>
+                                        <th>Number of Purchase</th>
+                                        <th>User Name</th>
+                                        <th>Fullname</th> 
+                                    </thead>
+                                    
+                                        {% for row in result %}
+                                        <tr>
+                                            <td><img src="../../../../media/profile/{{row.profile_image}}" style="height: 50; width: auto; border-radius: 50%;"></td>
+                                            <td>{{row.count}}</td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.fullname}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+          
+                            </table>
+
+                        </div>
+                    </div>
+                    {% if type == 'activeinactive'%}
+                    <div class="col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h6 class="mb-0">{{reportType2}}</h6>"
+                                <a href="/myadmin/userReportPDF/{{type}}" class="btn btn-primary">Download Report</a>
+                            </div>
+                            <table class="table table-hover">
+                               
+                                  
+                                    <thead>
+                                        <th>#</th>
+                                       
+                                        <th>Username</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Contact</th>
+                                        <th>Gender</th>
+                                        <th>Address</th>
+                                        <th>DOB</th>
+                                        
+                                    </thead>
+                                    
+                                        {% for row in result2 %}
+                                        <tr>
+                                            <td>{{row.id}}</td>
+                                            <td>{{row.username}}</td>
+                                            <td>{{row.first_name}}</td>
+                                            <td>{{row.last_name}}</td>
+                                            <td>{{row.email}}</td>
+                                            <td>{{row.contact}}</td>
+                                            <td>{{row.gender}}</td>
+                                            <td>{{row.address}}</td>
+                                            <td>{{row.dob}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    
+          
+                            </table>
+
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    </div>
+                </div>
+            <!-- Table End -->
+
+
+            <!-- Footer Start -->
+            
+            <!-- Footer End -->
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+
+        
+        
+
+{% endblock %}

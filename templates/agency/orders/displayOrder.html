@@ -1,0 +1,76 @@
+{% extends 'agency/common/layout.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    table{
+        text-align: center;
+    }
+</style>
+<div class="container-fluid pt-4 px-4 ">
+                <div class="row g-4">
+                    <div class="col-12">
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Order</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Profile Image</th>
+                                            <th scope="col">Fullname</th>
+                                            <th scope="col">Delever Date</th>
+                                            <th scope="col">Order Date</th>
+                                            <th scope="col">Subject</th>
+                                            <th scope="col">Price</th>
+                                            <th>Printed</th>                                            
+                                            <th scope="col">View More</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in result %}
+                                        <tr>
+                                            <th scope="row">{{row.id}}</th>
+                                            <td><img src="/media/profile/{{row.profile_image}}" style="border-radius: 50%; height: 50px; width: 50px;"></td>
+                                            <td>{{row.fullname}}</td>
+                                            <td>{{row.date}}</td>
+                                            <td>{{row.order_date}}</td>
+                                            <td>{{row.subject}}</td>
+                                            <td>{{row.price}}</td>
+                                            <td><a class="btn btn-success" href="/agency/printOrder/{{row.id}}">Printed</a></td>
+                                            <td><a class="btn btn-warning" href="/agency/classifiedTextOrderViewmore/{{row.id}}">View More</a></td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+         <br>
+        <br>
+        <br>
+        
+        
+                    {% endblock %}

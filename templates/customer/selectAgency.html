@@ -1,0 +1,72 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Success</title>
+<style>
+  table{
+    font-size: 1.5rem;
+    text-align: center;
+  }
+</style>
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Select Agency Page</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Select Agency Page</a></li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+</main>
+
+<div class="container mt-5 mb-5">
+  <h1>Select Your Newspaper :</h1>
+    <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Logo</th>
+            <th scope="col">AgencyName</th>
+            <th scope="col">Circulation</th>
+            {% if adType == 'adType1' %}
+                <th scope="col">Ad Rate / word</th>
+            {% elif adType == 'adType2' or adType == 'adType3' %}
+                <th scope="col">Ad Rate / Sq Cm</th>
+            {% endif %}
+            <th scope="col">Book Now !</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in result %}
+            <tr>
+                <th scope="row" rowspan="2" align="center">{{i.id}}</th>
+                <th rowspan="2"><img src="/media/profile/{{i.profile_picture}}" height="80" width="auto"></th>
+                <td>{{i.agencyname}}</td>
+                <td>{{i.circulation}}</td>
+                {% if adType == 'adType1' %}
+                <td>&#8377; {{i.per_word_rate}}</td>
+                {% endif %} 
+                
+                {% if adType == 'adType2' or adType == 'adType3'%}
+                <td>&#8377; {{i.cm_charge}}</td>
+                {% endif %}
+                <td><a href="{% url 'classifiedTextAdOrderPage' i.id %}" class="btn btn-success">Book Now</a></td>
+            </tr>
+            <tr>
+              <td colspan="5" style="text-align: left; font-size: 16px;">[ {{i.regions}} ]</td>
+            </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+        
+      
+</div>
+
+{% endblock %}
+

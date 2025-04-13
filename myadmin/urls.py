@@ -19,7 +19,8 @@ from myadmin import views
 from .views import *
 
 urlpatterns = [
-    path('pdf/', GeneratePdf.as_view()),
+    #path('pdf/', GeneratePdf.as_view()),
+    path('userReportPDF/<str:param>', UserGeneratePDF.as_view(), name='userReportPDF'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('', views.login, name='login'),
     path('admin_login_check', views.admin_login_check, name='admin_login_check'),
@@ -61,7 +62,24 @@ urlpatterns = [
 
     path('ForgetPassword', views.ForgetPassword, name='ForgetPassword'),
     path('ForgetPassword_chk', views.ForgetPassword_chk, name='ForgetPassword_chk'),
-       
-
-
+    path('addCategory', views.adcategory_page, name='adcategory_page'),
+    path('adcategory_store', views.adcategory_store, name='adcategory_store'),
+    path('allCategory', views.allCategory, name='allCategory'),
+    path('editCategory/<int:id>', views.editCategory, name = 'editCategory'), 
+    path('adcategory_update/<int:id>', views.adcategory_update, name = 'adcategory_update'),
+    path('deleteCategory/<int:id>', views.adCategoryDelete, name = 'adCategoryDelete'), 
+    path('nonActiveCategory', views.nonActiveCategory, name='nonActiveCategory'),
+    path('reportLandingPage', views.reportLandingPage, name='reportLandingPage'),
+    path('userReportListing', views.userReportListing, name='userReportListing'),
+    path('agencyReportListing', views.agencyReportListing, name='agencyReportListing'),
+    path('userReport/<str:param>', views.userReport, name='userReport'),
+    path('agencyReport/<str:param>', views.agencyReport, name='agencyReport'),
+    path('agencyReportPDF/<str:param>', views.agencyReportPDF, name='agencyReportPDF'),
+    path('trendingReportListing', views.trendingReportListing, name='trendingReportListing'),
+    path('trendingReport/<str:param>', views.trendingReport, name='trendingReport'),
+    path('trendingReportPDF/<str:param>', views.trendingReportPDF, name='trendingReportPDF'),
+    path('feedbackAndInquiryListing', views.feedbackAndInquiryListing, name='feedbackAndInquiryListing'),
+    path('feedbackAndInquiryReport/<str:param>', views.feedbackAndInquiryReport, name='feedbackAndInquiryReport'),
+    path('feedbackAndInquiryReportPDF/<str:param>', views.feedbackAndInquiryReportPDF, name='feedbackAndInquiryReportPDF'),
 ]
+

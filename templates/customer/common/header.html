@@ -64,25 +64,22 @@
           <li><a href="/customer/home">Home</a></li>
           <li><a href="/customer/aboutus">About Us</a></li>
           <li><a href="/customer/contactus">Contact</a></li>
-         {% if request.user.is_authenticated %}
-      <li><a href="/customer/post_advertisement">Post Advertisement</a></li>
-      <li><a href="/customer/profile/{{user.id}}">Profile</a></li>
-      <li><a href="/customer/logout">logout</a></li>
-      <li><a href="/customer/feedback">Feedback</a></li>
-    {% else %}
-    <li><a href="/customer/agency">Agency</a></li>
-      <li><a href="/customer/register">Register</a></li>
+          {% if request.session.user_id %}
+          <li><a href="/customer/post_advertisement">Post Advertisement</a></li>
+          <li><a href="/customer/profile/{{ request.session.user_id }}">Profile</a></li>
+          <li><a href="/customer/logout">Logout</a></li>
+          <li><a href="/customer/feedback">Feedback</a></li>
+      {% else %}
+          <li><a href="/customer/agency">Agency</a></li>
+          <li><a href="/customer/register">Register</a></li>
+          <li class="dropdown"><a href="#"><span>Login</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+              <ul>
+                  <li><a href="/customer/">Login as a User</a></li>
+                  <li><a href="/myadmin/">Login as an Admin</a></li>
+              </ul>
+          </li>
+      {% endif %}
       
-       <li class="dropdown"><a href="#"><span>Login</span> <i
-                class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
-              <li><a href="/customer/">Login as a User</a></li>
-              <li><a href="/myadmin/">Login as an Admin</a></li>
-              
-                <ul>
-
-
-    {% endif %}
         </ul>
          
       </nav><!-- .navbar -->

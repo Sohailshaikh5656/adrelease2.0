@@ -1,0 +1,240 @@
+{% extends 'customer/common/layout.html' %}
+{% block content %}
+{% load static %}
+<title>Ad Release | Order</title>
+
+<!-- Include jQuery & Bootstrap -->
+<script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+
+<style>
+.img1 {
+    background-image: url("{% static 'customer/assets/img/a2.jpg' %}");
+}
+body, section {
+    background-color: #fff;
+}
+.sample-btn-container {
+    text-align: right;
+    margin-top: 5px;
+}
+</style>
+
+<main id="main">
+    <div class="breadcrumbs d-flex align-items-center img1">
+        <div class="container position-relative d-flex flex-column align-items-center">
+            <h2>Text Ad Order</h2>
+            <ol>
+                <li><a href="/customer/home">Home</a></li>
+                <li>Text Ad Order</li>
+            </ol>
+        </div>
+    </div>
+
+    <section id="contact" class="contact">
+        <h3 class="text-warning text-center">Classified Text Ad Order | Only Text Ad</h3>
+        <br>
+        <div class="container">
+            <div class="row gy-4 mt-1 m-auto">
+                <div class="col-lg-6">
+                    <img src="{% static 'customer/assets/img/back11.png' %}" height="450" width="650">
+                </div>
+                <div class="col-lg-6 contact m-auto">
+                    <form id="orderForm" action="/customer/textOrderStore" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row gy-4">
+
+                            <!-- Date Picker -->
+                            <div class="col-lg-12 form-group">
+                                <label>Select Date:</label>
+                                <input type="date" name="date" id="date_picker" class="form-control" required>
+                            </div>
+
+                            <!-- Subject -->
+                            <div class="col-lg-12 form-group">
+                                <label>Subject</label>
+                                <input type="text" name="subject" class="form-control" required>
+                            </div>
+                            <input type="hidden" name="total_price" id="modalTotalInput">
+                            <!--Select Color-->
+                            <div class="col-12 form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="" class="form-label">Select Ad Color Type :</label>
+                                        <select name="adcolor" id="adcolor" class="form-control">
+                                            <option value="colored">Colored</option>
+                                            <option value="Black and White">Black And White</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <textarea name="anypreferance" class="form-control" id="anypreferance" rows="3" placeholder="Any Preferance ? Share It.."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Description -->
+                            <div class="col-lg-12 form-group">
+                                <label>Description / Order Text:</label>
+                                <textarea class="form-control" name="description" id="description" required></textarea>
+                            </div>
+
+                            <!-- Sample Order Button -->
+                            <div class="col-lg-12 sample-btn-container">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#sampleOrderModal">
+                                    Sample Order
+                                </button>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="button" class="btn btn-warning text-white" id="checkoutBtn">Check Out</button>
+                            </div>
+
+                            <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="checkoutModalLabel">Order Summary</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                                            <p><strong>Subject:</strong> <span id="modalSubject"></span></p>
+                                            <p><strong>Description:</strong> <span id="modalDescription"></span></p>
+                                            <p><strong>Ad Color Type:</strong> <span id="modalAdColorType"></span></p>
+                                            <p><strong>Any Preferance:</strong> <span id="modalToAnyPreferance"></span></p>
+                                            <p><strong>Total Words:</strong> <span id="modalTotalWords"></span></p>
+                                            <p><strong>Price per word:</strong> {{ result.per_word_rate }}</p>
+                                            <p><strong>Total:</strong> <span id="modalTotal"></span></p>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary" id="confirmOrder">Confirm Order</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Sample Order Modal -->
+<div class="modal fade" id="sampleOrderModal" tabindex="-1" aria-labelledby="sampleOrderLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sampleOrderLabel">Sample Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="sampleText">_BHK Flat in ___ Floor, near (Location) for sale. Possession by (Month) (Year). Genuine Buyers only. Contact: xxxxxxxxxxxx. Brokers Excuse.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="copyToDescription" onclick="cpyDesc()">Copy to Description</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    // Function to copy description (if needed)
+    function cpyDesc() {
+        var desc = document.getElementById("description");
+        var data = document.getElementById("sampleText");
+        desc.innerHTML = data.innerText;
+    }
+
+    // Initialize when the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        // Set minimum date for the date picker to today
+        let today = new Date().toISOString().split("T")[0];
+        document.getElementById("date_picker").setAttribute("min", today);
+
+        // Add event listener to the checkout button
+        document.getElementById("checkoutBtn").addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Retrieve form values
+            var date = document.getElementById('date_picker').value.trim();
+            var subject = document.getElementsByName('subject')[0].value.trim();
+            var description = document.getElementById('description').value.trim();
+            var adColor = document.getElementById('adcolor').value;
+            var anypreferance = document.getElementById('anypreferance').value.trim();
+
+            // Validation
+            let errorMessage = "";
+
+            if (date === "") {
+                errorMessage += "❌ Date is required.\n";
+            }
+            if (subject === "" || !/^[A-Za-z\s]+$/.test(subject)) {
+                errorMessage += "❌ Subject should contain only letters and cannot be empty.\n";
+            }
+            if (description === "") {
+                errorMessage += "❌ Description is required.\n";
+            }
+
+            // Show error message if validation fails
+            if (errorMessage !== "") {
+                alert(errorMessage);
+                return; // Stop further execution
+            }
+
+            // Calculate total price
+            let perWordRate = parseFloat("{{ result.per_word_rate|default:1 }}") || 1; // Default rate = 1
+            let wordCount = description.split(/\s+/).length;
+
+            if (isNaN(perWordRate) || perWordRate <= 0) {
+                alert("Error: Invalid per-word rate.");
+                return;
+            }
+            if (wordCount === 0) {
+                alert("Error: Description is empty.");
+                return;
+            }
+
+            let total = perWordRate * wordCount;
+            let totalPrice = total.toFixed(2); // Format to 2 decimal places
+
+            // Debugging logs
+            console.log("Per Word Rate:", perWordRate);
+            console.log("Word Count:", wordCount);
+            console.log("Total Price:", totalPrice);
+
+            // Set values in the modal
+            document.getElementById('modalDate').innerText = date;
+            document.getElementById('modalSubject').innerText = subject;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('modalAdColorType').innerText = adColor;
+            document.getElementById('modalToAnyPreferance').innerText = anypreferance;
+            document.getElementById('modalTotalWords').innerText = wordCount;
+            document.getElementById('modalTotal').innerHTML = "&#8377;" + totalPrice;
+            document.getElementById('modalTotalInput').value = totalPrice; // Set the hidden input value
+
+            // Show the modal
+            let checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+            checkoutModal.show();
+        });
+
+        // Add event listener to the confirm order button in the modal
+        document.getElementById('confirmOrder').addEventListener("click", function () {
+            var totalPrice = document.getElementById('modalTotalInput').value;
+
+            if (!totalPrice || parseFloat(totalPrice) <= 0) {
+                alert("Error: Total price is invalid.");
+                return;
+            }
+
+            console.log("Submitting form with Total Price:", totalPrice);
+            document.getElementById("orderForm").submit(); // Submit the form
+        });
+    });
+</script>
+
+{% endblock %}

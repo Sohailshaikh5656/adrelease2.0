@@ -1,0 +1,88 @@
+{% extends 'customer/common/layout.html'%}
+{% block content %}
+{% load static %}
+<title>Ad Release | Inquiry</title>
+<style >
+  .img1
+  {
+    background-image: url("{% static 'customer/assets/img/a2.jpg'  %}");
+  }
+</style>
+
+
+ 
+{% load static %}
+  
+
+ <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center img1">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+        <h2>Inquiry</h2>
+        <ol>
+          <li><a href="/customer/home">Home</a></li>
+          <li>Inquiry</a></li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+       
+
+        <div class="row gy-4 mt-1">
+
+          <!-- End Google Maps -->
+
+          <div class="col-lg-6 m-auto">
+            {% if messages %}
+                    {% for message in messages %}
+                    <div class="col-12">
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            <form action="/customer/store_agency_inquiry" method="post" role="form" class="php-email-form">
+              {% csrf_token %}
+              <div class="row gy-4">
+                <div class="col-12 mb-1">
+                    <label for="agency_id" class="form-label fs-4 mb-3" style="font-weight: 500; color: #444;">Inquiry to agency?</label>
+                    <select name="agency_id" id="agency_id" class="form-select" required>
+                        <option value="" selected disabled>Select an agency</option>
+                        {% if agencies %}
+                            {% for agency in agencies %}
+                            <option value={{ agency.id }}>{{ agency.username }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="" disabled>No agencies available</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="col-12 mb-1">
+                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Enter subject" required>
+                </div>
+                <div class="col-12 mb-1">
+                    <textarea class="form-control" name="message" id="message" rows="5" placeholder="Write your message here..." required></textarea>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Send Inquiry</button>
+                </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+
+    </section><!-- End Contact Section -->
+
+  </main>
+  {% endblock %}

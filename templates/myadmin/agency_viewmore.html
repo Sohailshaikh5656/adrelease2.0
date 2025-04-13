@@ -87,9 +87,15 @@
                                         <tr>
                                             <th scope="col">Reg Date</th>
                                             <td>{{profile.reg_date}}</td>
-                                            
                                         </tr>
-                                        
+                                        <tr>
+                                            <th scope="col">Is Approved</th>
+                                            <td>{% if result.approved %}<i class="fa fa-check-circle text-success"></i> Approved{% else %}<i class="fa fa-times-circle text-danger"></i> Not Approved{% endif %}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Is Blocked</th>
+                                            <td>{% if result.isBlocked %}<i class="fa fa-check-circle text-success"></i> Blocked{% else %}<i class="fa fa-times-circle text-danger"></i> Not Blocked{% endif %}</td>
+                                        </tr>
                                         
                                     </tbody>
                                 </table>

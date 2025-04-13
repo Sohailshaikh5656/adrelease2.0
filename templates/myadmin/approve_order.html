@@ -41,8 +41,7 @@
                                             <th scope="col">User ID</th>
                                             <th scope="col">Agency ID</th>
                                             <th scope="col">View More</th>
-                                            <th>Approve</th>
-                                            <th>Reject</th>
+                                           
 
                                             
                                         </tr>
@@ -63,9 +62,6 @@
                                             <td>{{row.user_id}}</td>
                                             <td>{{row.agency_id}}</td>
                                             <td><a href="/myadmin/order_viewmore/{{row.id}}">View More</a></td>
-                                            <td><a href="/myadmin/approve/{{row.id}}"><button class="btn btn-success">Approve</button></a></td>
-                                            <td><a href="/myadmin/reject/{{row.id}}"><button class="btn btn-danger">Reject</button></a></td>
-                                            
                                         </tr>
                                         {% endfor %}
                                         
