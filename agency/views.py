@@ -526,3 +526,19 @@ def allInquiry(request):
 	"""
 	result = AgencyInquiry.objects.raw(query, [agency_id])
 	return render(request, "agency/allInquiry.html", {'result': result})
+
+
+
+def previewOrder(request,id):
+		
+	query = """SELECT o.id,o.order_date,o.date,o.subject,o.description, o.price, c.name 
+	           FROM `order` AS o 
+	           JOIN adCategory AS c ON o.category_id = c.id 
+	           WHERE o.is_active=1 AND o.id = %s"""
+	result = Order.objects.raw(query, [id])
+	if result[0].is_approve == 0:
+		return HttpResponse("Wait for order Approval!")
+	context = {'result': result}
+	return render(request,"agency/previewOrder/previewOrder.html",context)
+
+

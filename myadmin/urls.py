@@ -81,5 +81,7 @@ urlpatterns = [
     path('feedbackAndInquiryListing', views.feedbackAndInquiryListing, name='feedbackAndInquiryListing'),
     path('feedbackAndInquiryReport/<str:param>', views.feedbackAndInquiryReport, name='feedbackAndInquiryReport'),
     path('feedbackAndInquiryReportPDF/<str:param>', views.feedbackAndInquiryReportPDF, name='feedbackAndInquiryReportPDF'),
+    path('recommended/<int:id>', views.recommended, name='recommended'),
+
 ]
 

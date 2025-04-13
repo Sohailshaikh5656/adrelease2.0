@@ -83,6 +83,4 @@ urlpatterns = [
     path('chat_with_bot/', views.chat_with_bot, name='chat_with_bot'),
     path('agencyInquiry', views.agencyInquiry, name='agencyInquiry'),
     path('store_agency_inquiry', views.store_agency_inquiry, name='store_agency_inquiry'),
-    
-
 ]

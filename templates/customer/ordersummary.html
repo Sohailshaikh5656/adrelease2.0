@@ -102,7 +102,14 @@ body {
             <a class="nav-link active" href="/customer/ordersummary/history">History</a>
         </nav>
         <hr>
-
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
         {% for row in result %}
         <div class="card">
             <div class="card-header bg-white text-center">
@@ -113,7 +120,8 @@ body {
                 </span>
             </div>
             <div class="card-body">
-                <h5 class="bold">Agency: {{row.agency_id}}</h5>
+                <h5 class="bold">Agency: {{row.agency.username}}</h5>
+                <h5 class="bold">Agency ID: {{row.agency_id}}</h5>
                 <p class="text-muted">Quantity: 1 Pair</p>
                 <h4 class="bold text-dark">&#x20B9;{{row.price}}</h4>
                 <p class="text-muted mt-2">Ad Release on: <span class="Today">{{row.date}}</span></p>
@@ -124,11 +132,35 @@ body {
                 <h5 class="bold">Subject: {{row.subject}}</h5>
                 <h6 class="bold">Description: {{row.description}}</h6>
                 {% if row.is_approved != 1 and row.is_printed != 1 %}
-                <button class="btn-cancel" onclick="window.location.href='/customer/order_delete/{{row.id}}'">Cancel Order</button>
+                {% endif %}
+                <button class="btn-cancel" onclick="window.location.href='/agency/previewOrder/{{row.id}}'">View Preview</button>
+                {% if row.is_approved != 1 and row.is_printed != 1 %}
+                <button class="btn-cancel" onclick="cancelOrder('{{ row.id }}')">Cancel Order</button>
                 {% endif %}
             </div>
         </div>
         {% endfor %}
     </div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const cancelOrder = (orderId) => {
+        console.log("Order_id : ",orderId)
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/customer/order_delete/' + orderId;
+            }
+        });
+    }
+</script>
+
 {% endblock %}

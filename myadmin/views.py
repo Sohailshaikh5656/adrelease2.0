@@ -346,7 +346,7 @@ def admin_login_check(request):
 #-----------------------------------------------------------
 def agency(request):
     query = """
-        SELECT ap.*, a.email, a.username from agency as a JOIN agencyprofile as ap ON ap.agency_id = a.id WHERE
+        SELECT ap.*, a.email,a.is_recomanded, a.username from agency as a JOIN agencyprofile as ap ON ap.agency_id = a.id WHERE
         approved = 1 AND isBlocked = 0 AND isactive = 1  
     """
     result = Agency.objects.raw(query)
@@ -989,3 +989,17 @@ def feedbackAndInquiryReport(request, param):
     
     else:
         return render(request, "myadmin/404.html")
+    
+def recommended(request, id):
+    try:
+        agency = Agency.objects.get(id=id)
+        agency.is_recomanded = True
+        agency.save()
+        messages.success(request, 'Agency has been recommended successfully')
+        return redirect('/myadmin/agency')
+    except Agency.DoesNotExist:
+        messages.error(request, 'Agency not found')
+        return redirect('/myadmin/agency')
+    except Exception as e:
+        messages.error(request, f'Error recommending agency: {str(e)}')
+        return redirect('/myadmin/agency')

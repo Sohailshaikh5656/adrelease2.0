@@ -124,7 +124,16 @@ color:#69707a;
                     <div class="col-md-12"><label class="labels">Address</label><textarea class="form-control" name="address">{{result1.address}}</textarea></div>
                     
                     <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value="{{user.email}}" name="email"></div>
-                    <div class="col-md-12"><label class="labels">Date Of Birth</label><input type="date" class="form-control" placeholder="Date Of Birth" value="{{result.dob}}" name="dob" required></div>
+                    <div class="col-md-12"><label class="labels">Date Of Birth</label>
+                        <input type="date" 
+                               class="form-control" 
+                               placeholder="Date Of Birth" 
+                               value="{{result1.dob|date:'Y-m-d'}}" 
+                               name="dob" 
+                               required
+                               max="{% now 'Y-m-d' %}"
+                               min="{% now 'Y'|add:'-100' %}-01-01" max="{% now 'Y'|add:'-16' %}-12-31">
+                    </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-12"><label class="labels">Gender</label>

@@ -97,20 +97,19 @@ def ChangePassword_chk(request):
     cpasswd = request.POST['cpass']
 
     if passwd != cpasswd:
-        messages.success(request, 'Confirm password does not match')
+        messages.error(request, 'Password confirmation failed. Please ensure both passwords match.')
         return redirect('/customer/ChangePassword')
     if user_id is None:
         messages.success(request, 'Login First to Change Password')
         return redirect('/customer/')
 
     else :
-        u= User.objects.get(username=username)
+        u= User.objects.get(id=user_id)
+        if(u.username != username):
+            messages.error(request, 'Wrong username entered for current user')
+            return redirect("/customer/ChangePassword")
         u.set_password(passwd)
         u.save()
-        data = {
-                'password_user': passwd
-                }
-        Passwordall.objects.update_or_create(user_id=user_id, defaults=data)
         messages.success(request, 'Successfully Updated !! \nlogin first')
         return redirect('/customer/')
 
@@ -309,11 +308,24 @@ def agency_register(request):
 def agency_store(request):
     try:
         # Get file if it exists
-        if 'profile_picture' in request.FILES:
+        if 'profile_picture' in request.FILES and 'panphoto' in request.FILES and 'aadhaarphoto' in request.FILES:
             myfile = request.FILES['profile_picture']
             mylocation = os.path.join(settings.MEDIA_ROOT,'profile')
             obj = FileSystemStorage(location=mylocation)
             filename = obj.save(myfile.name, myfile)
+
+            #pan Photo
+            myPan = request.FILES['panphoto']
+            myCrediationalLocation = os.path.join(settings.MEDIA_ROOT,'agencyCredintial')
+            obj = FileSystemStorage(location=myCrediationalLocation)
+            panPhoto = obj.save(myPan.name, myPan)
+
+            #Adhare Photo : 
+            myAdhare = request.FILES['aadhaarphoto']
+            myCrediationalLocation = os.path.join(settings.MEDIA_ROOT,'agencyCredintial')
+            obj = FileSystemStorage(location=myCrediationalLocation)
+            adharePhoto = obj.save(myAdhare.name, myAdhare)
+
             email = request.POST['email']
             username = request.POST['username']
             password = request.POST['pass']
@@ -330,6 +342,10 @@ def agency_store(request):
             per_word_rate = request.POST['per_word_rate']
             circulation = request.POST['circulation']
             cm_charge = request.POST['cm_charge']
+            pan_number = request.POST["panno"]
+            gst_number = request.POST["gstno"]
+            aadhaar_number = request.POST["aadhaar"]
+            client_name = request.POST["client_name"]
 
             if password == cpassword:
                 agency = Agency.objects.create(
@@ -369,7 +385,13 @@ def agency_store(request):
                     circulation=circulation,
                     profile_picture=filename,
                     agency=agency,
-                    cm_charge = cm_charge
+                    cm_charge = cm_charge,
+                    adhare_number = aadhaar_number,
+                    pan_number = pan_number,
+                    gst_number = gst_number,
+                    client_name = 	client_name,
+                    adhare_photo = adharePhoto,
+                    pan_photo = panPhoto
                 )
 
                 # Passwordall.objects.create(password_user=password, user_id=result.id)
@@ -617,22 +639,23 @@ def ordersummary(request, type):
     result = None
     
     if type == 'all':
-        result = Order.objects.filter(user_id=user)
+        result = Order.objects.filter(user_id=user, is_deleted=0, is_active=1).select_related('agency')
     elif type == "newOrder":
-        result = Order.objects.filter(user_id=user, is_approve=0)
+        result = Order.objects.filter(user_id=user, is_approve=0, is_deleted=0, is_active=1)
     elif type == "approved":
-        result = Order.objects.filter(user_id=user, is_approve=1)
+        result = Order.objects.filter(user_id=user, is_approve=1, is_deleted=0, is_active=1)
     elif type == "history":
-        result = Order.objects.filter(user_id=user, is_printed=1)
-    
+        result = Order.objects.filter(user_id=user, is_printed=1, is_deleted=0, is_active=1)
     
     context = {'result': result}
     return render(request, 'customer/ordersummary.html', context)
 
 def order_delete(request,id):
     result = Order.objects.get(pk=id)
-    result.delete()
-    return redirect('/customer/ordersummary')
+    result.is_deleted = 1
+    result.save()
+    messages.success(request, 'Order deleted successfully!')
+    return redirect('/customer/ordersummary/all')
 def search_advertisement(request):
     search = request.POST['search']
 
@@ -643,12 +666,6 @@ def search_advertisement(request):
     context={'feedback':feedback, 'result1':result1}
     return render (request,'customer/home.html',context)
     
-
-
-
-
-
-
 
     
     
@@ -955,3 +972,4 @@ def store_agency_inquiry(request):
             return redirect('/customer/agencyInquiry')
     else:
         return redirect('/customer/agencyInquiry')
+    

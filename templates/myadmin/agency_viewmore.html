@@ -1,111 +1,287 @@
 {% extends 'myadmin/common/layout.html'%}
 {% block content %}
 {% load static %}
-<title>Ad Release | Agency</title>
+<title>Ad Release | Agency Profile</title>
+
 <style type="text/css">
-    th
-    {
-        color: #fff;
+    .profile-header {
+        background: linear-gradient(135deg, #2c3e50, #4ca1af);
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 5px solid white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .profile-picture:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .document-image {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+        padding: 10px;
+    }
+    
+    .document-image:hover {
+        transform: scale(1.03);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .info-card {
+        background-color: #2c3e50;
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .document-card {
+        background-color: #34495e;
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+    
+    .approved {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .not-approved {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .blocked {
+        background-color: #ffc107;
+        color: #212529;
+    }
+    
+    .section-title {
+        border-left: 5px solid #4ca1af;
+        padding-left: 15px;
+        margin-bottom: 20px;
+        color: white;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #4ca1af;
+    }
+    
+    .document-label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #4ca1af;
     }
 </style>
 
 <div class="container-fluid pt-4 px-4">
-	<br><br>
-                <div class="row g-4">
-                    <div class="col-10 m-auto">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h4 class="mb-4">{{profile.agencyname}}</h4>
-                            <div class="table-responsive">
-                                <table class="table">
-                                <tbody> 
+    <div class="row g-4">
+        <div class="col-12">
+            <!-- Profile Header -->
+            <div class="profile-header d-flex align-items-center">
+                <div class="me-4">
+                    {% if profile.profile_picture %}
+                    <img src="/media/profile/{{profile.profile_picture}}" alt="Profile Picture" class="profile-picture rounded-circle">
+                    {% else %}
+                    <img src="{% static 'img/default_profile.png' %}" alt="Profile Picture" class="profile-picture rounded-circle">
+                    {% endif %}
+                </div>
+                <div>
+                    <h2>{{profile.agencyname}}</h2>
+                    <p class="mb-1"><i class="fas fa-user me-2"></i> Owner: {{profile.ownername}}</p>
+                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i> {{profile.city}}, {{profile.state}}</p>
+                    <p class="mb-1"><i class="fas fa-phone me-2"></i> {{profile.contact}}</p>
+                    <p class="mb-0"><i class="fas fa-envelope me-2"></i> {{result.email}}</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Basic Information Column -->
+                <div class="col-md-6">
+                    <div class="info-card">
+                        <h4 class="section-title">Basic Information</h4>
+                        <div class="table-responsive">
+                            <table class="table table-borderless text-white">
+                                <tbody>
                                     <tr>
-                                            <th scope="col">FIELDS</th>
-                                            <th>INFORMATION</th>
+                                        <td class="info-label">Agency ID</td>
+                                        <td>{{result.id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-label">Username</td>
+                                        <td>{{result.username}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-label">Contact</td>
+                                        <td>{{profile.contact}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-label">Address</td>
+                                        <td>{{profile.address}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-label">City/State</td>
+                                        <td>{{profile.city}}, {{profile.state}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-label">Established Date</td>
+                                        <td>{{profile.est_date}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-label">Profile Picture</td>
+                                        <td><img src="/media/profile/{{ profile.profile_picture }}" alt="Profile Picture" class="profile-thumbnail" style="height: 150px; width: auto;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-label">Registration Date</td>
+                                        <td>{{profile.reg_date}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-label">Status</td>
+                                        <td>
+                                            {% if result.approved %}
+                                                <span class="status-badge approved">Approved</span>
+                                            {% else %}
+                                                <span class="status-badge not-approved">Not Approved</span>
+                                            {% endif %}
                                             
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <td>{{result.id}}</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Agency Name</th>
-                                            <td>{{profile.agencyname}}</td>
-                                            
-                                        </tr>
-                                         <tr>
-                                            <th scope="col">Email</th>
-                                            <td>{{result.email}}</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Username</th>
-                                            <td>{{result.username}}</td>
-                                            
-                                        </tr>
-                                         <tr>
-                                            <th scope="col">Owner Name</th>
-                                            <td>{{profile.ownername}}</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Email</th>
-                                            <td>{{result.email}}</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Username</th>
-                                            <td>{{result.username}}</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Contact</th>
-                                            <td>{{profile.contact}}</td>
-                                            
-                                        </tr>
-
-                                        <tr>
-                                            <th scope="col">Address</th>
-                                            <td>{{profile.address}}</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">City</th>
-                                            <td>{{profile.city}}</td>
-                                            
-                                        </tr>
-                                         <tr>
-                                            <th scope="col">State</th>
-                                            <td>{{profile.state}}</td>
-                                            
-                                        </tr>
-                                         <tr>
-                                            <th scope="col">Established Date</th>
-                                            <td>{{profile.est_date}}</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Reg Date</th>
-                                            <td>{{profile.reg_date}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Is Approved</th>
-                                            <td>{% if result.approved %}<i class="fa fa-check-circle text-success"></i> Approved{% else %}<i class="fa fa-times-circle text-danger"></i> Not Approved{% endif %}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Is Blocked</th>
-                                            <td>{% if result.isBlocked %}<i class="fa fa-check-circle text-success"></i> Blocked{% else %}<i class="fa fa-times-circle text-danger"></i> Not Blocked{% endif %}</td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
+                                            {% if result.isBlocked %}
+                                                <span class="status-badge blocked ms-2">Blocked</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Documents Column -->
+                <div class="col-md-6">
+                    <div class="document-card">
+                        <h4 class="section-title">Client Information</h4>
+                        <div class="mb-4">
+                            <p class="document-label">Client Name:</p>
+                            <p class="text-white">{{profile.client_name|default:"Not provided"}}</p>
+                        </div>
+                        
+                        <h4 class="section-title">Document Details</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <p class="document-label">PAN Number:</p>
+                                <p class="text-white">{{profile.pan_number|default:"Not provided"}}</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <p class="document-label">GST Number:</p>
+                                <p class="text-white">{{profile.gst_number|default:"Not provided"}}</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <p class="document-label">Aadhaar Number:</p>
+                                <p class="text-white">{{profile.adhare_number|default:"Not provided"}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <br>
-                <br>
-                <br>
-             
+            </div>
+            
+            <!-- Document Images Section -->
+            <div class="row mt-4">
+                <!-- PAN Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="document-card text-center">
+                        <h5 class="document-label">PAN Card</h5>
+                        {% if profile.pan_photo %}
+                        <a href="/media/agencyCredintial/{{profile.pan_photo}}" data-lightbox="pan-card" data-title="PAN Card">
+                            <img src="/media/agencyCredintial/{{profile.pan_photo}}" alt="PAN Card" class="document-image mb-2 img-preview">
+                        </a>
+                        {% else %}
+                        <div class="document-image d-flex align-items-center justify-content-center mb-2">
+                            <p class="text-muted">No PAN card uploaded</p>
+                        </div>
+                        {% endif %}
+                        <p class="text-white">PAN: {{profile.pan_number|default:"Not provided"}}</p>
+                    </div>
+                </div>
+                
+                <!-- Aadhaar Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="document-card text-center">
+                        <h5 class="document-label">Aadhaar Card</h5>
+                        {% if profile.aadhaar_photo %}
+                        <a href="/media/agencyCredintial/{{profile.adhare_photo}}" data-lightbox="aadhaar-card" data-title="Aadhaar Card">
+                            <img src="/media/agencyCredintial/{{profile.adhare_photo}}" alt="Aadhaar Card" class="document-image mb-2 img-preview">
+                        </a>
+                        {% else %}
+                        <div class="document-image d-flex align-items-center justify-content-center mb-2">
+                            <p class="text-muted">No Aadhaar card uploaded</p>
+                        </div>
+                        {% endif %}
+                        <p class="text-white">Aadhaar: {{profile.adhare_number|default:"Not provided"}}</p>
+                    </div>
+                </div>
+                
+                <!-- Other Documents -->
+                <div class="col-md-4 mb-4">
+                    <div class="document-card text-center">
+                        <h5 class="document-label">Other Documents</h5>
+                        {% if profile.other_documents %}
+                        <a href="{{ profile.other_documents.url }}" data-lightbox="other-docs" data-title="Other Documents">
+                            <img src="{{ profile.other_documents.url }}" alt="Other Documents" class="document-image mb-2 img-preview">
+                        </a>
+                        {% else %}
+                        <div class="document-image d-flex align-items-center justify-content-center mb-2">
+                            <p class="text-muted">No other documents uploaded</p>
+                        </div>
+                        {% endif %}
+                        <p class="text-white">Additional agency documents</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lightbox CSS -->
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+            <!-- Lightbox JS -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+            <style>
+                .img-preview {
+                    cursor: pointer;
+                    transition: transform 0.2s;
+                }
+                .img-preview:hover {
+                    transform: scale(1.03);
+                }
+            </style>
+        </div>
+    </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 {% endblock %}

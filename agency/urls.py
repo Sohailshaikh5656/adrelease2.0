@@ -64,4 +64,6 @@ urlpatterns = [
     path('DisplayOrder', views.DisplayOrder, name = 'DisplayOrder'),
     path('printedDisplayOrder', views.printedDisplayOrder, name = 'printedDisplayOrder'),
     path('allInquiry', views.allInquiry, name='allInquiry'),
+    path('previewOrder/<int:id>', views.previewOrder, name='previewOrder'),
+    
 ]
