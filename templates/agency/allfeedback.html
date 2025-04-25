@@ -6,17 +6,16 @@
     <div class="row g-4">
         <div class="col-12">
             <div class="bg-secondary rounded h-100 p-4">
-                <h3 class="mb-4 text-center">Customer Inquiries</h3>
+                <h3 class="mb-4 text-center">Customer Feedbacks</h3>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">User ID</th>
+                                <th scope="col">Image</th>  
                                 <th scope="col">Username</th>
                                 <th scope="col">Full Name</th>
-                                <th scope="col">Subject</th>
+                                <th scope="col">Rating</th>
                                 <th scope="col">Message</th>
                                 <th scope="col">Created At</th>
                             </tr>
@@ -26,14 +25,18 @@
                             <tr class="align-middle">
                                 <th scope="row">{{row.id}}</th>
                                 <td>
-                                    <img src="{% if row.profile_image %}/media/profile/{{row.profile_image}}{% else %}/media/profile/dummy.jpg{% endif %}" 
-                                         class="rounded-circle hover-zoom"
-                                         style="width: 50px; height: 50px; object-fit: cover; transition: all 0.3s ease;">
+                                    <img src="{% if feedback.profile_image %}../../media/profile/{{feedback.profile_image}}{% else %}../../media/profile/dummy.jpg{% endif %}"
+                                    alt="User Image" 
+                                    class="rounded-circle me-3 hover-zoom"
+                                    style="width: 50px; height: 50px; object-fit: cover; transition: all 0.3s ease;">
                                 </td>
-                                <td>{{row.user_id}}</td>
                                 <td>{{row.username}}</td>
                                 <td>{{row.fullname}}</td>
-                                <td>{{row.subject}}</td>
+                                <td>
+                                    <div class="rating" style="font-size: 1.2rem;" data-rating="{{ row.rating }}">
+                                        <!-- JS will inject stars here -->
+                                    </div>
+                                </td>
                                 <td>{{row.message}}</td>
                                 <td>{{row.created_at}}</td>
                             </tr>
@@ -55,12 +58,36 @@
         background-color: #343a40;
         color: white;
     }
-    .hover-zoom {
+    .img-thumbnail {
         transition: transform 0.3s ease;
     }
-    .hover-zoom:hover {
+    .img-thumbnail:hover {
         transform: scale(1.1);
     }
 </style>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const ratings = document.querySelectorAll('.rating');
+  
+      ratings.forEach(function (ratingDiv) {
+        const rating = parseInt(ratingDiv.getAttribute('data-rating')) || 0;
+  
+        for (let i = 1; i <= 5; i++) {
+          const star = document.createElement('i');
+          star.classList.add('fa-star', 'text-warning');
+  
+          if (i <= rating) {
+            star.classList.add('fas'); // solid star
+          } else {
+            star.classList.add('far'); // outlined star
+          }
+  
+          ratingDiv.appendChild(star);
+        }
+      });
+    });
+</script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  
 {% endblock %}

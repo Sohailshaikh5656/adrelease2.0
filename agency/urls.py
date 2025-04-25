@@ -65,5 +65,7 @@ urlpatterns = [
     path('printedDisplayOrder', views.printedDisplayOrder, name = 'printedDisplayOrder'),
     path('allInquiry', views.allInquiry, name='allInquiry'),
     path('previewOrder/<int:id>', views.previewOrder, name='previewOrder'),
+    path('allfeedback', views.allFeedback, name='allfeedback'),
+    path('edit_profile', views.edit_profile, name='edit_profile'),
     
 ]

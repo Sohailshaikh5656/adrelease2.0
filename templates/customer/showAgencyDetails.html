@@ -1,0 +1,214 @@
+{% extends 'customer/common/layout.html' %}
+{% block content %}
+{% load static %}
+<title>Ad Release | Agency Details</title>
+
+<script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
+
+<style>
+  .agency-header {
+    background-image: url("{% static 'customer/assets/img/a2.jpg' %}");
+    background-size: cover;
+    height: 300px;
+    position: relative;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+  }
+  .agency-header:hover {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+  .agency-info-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-top: -100px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+  .agency-info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+  .feedback-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+  }
+  .feedback-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background: #fff;
+  }
+  .rating-stars {
+    color: #ffc107;
+    transition: all 0.3s ease;
+  }
+  .rating-stars:hover {
+    transform: scale(1.1);
+  }
+  .agency-details-section {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+  .agency-details-section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+</style>
+
+<main id="main">
+  <!-- Agency Header -->
+  <div class="agency-header">
+    <div class="container h-100 d-flex align-items-end">
+      <h1 class="text-white mb-4 display-4">{{result2.agencyname}}</h1>
+    </div>
+  </div>
+  </main>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="agency-info-card">
+        <div class="row align-items-center">
+          <div class="col-md-3 text-center">
+            <img src="../../media/profile/{{agencyData.profile_picture}}" alt="Agency Logo" 
+                 class="img-fluid rounded-circle hover-zoom" 
+                 style="width: 200px; height: 200px; object-fit: cover; border: 5px solid #fff; transition: all 0.3s ease;">
+          </div>
+          <div class="col-md-9">
+            <h2 class="mb-3">{{agency.username}}</h2>
+            <p class="lead">{{agencyData.agencyname}}</p>
+            <div class="row mt-4">
+              <div class="col-md-3">
+                <p><i class="fas fa-newspaper me-2 hover-icon"></i> Circulation: {{agencyData.circulation}}</p>
+              </div>
+              <div class="col-md-3">
+                <p><i class="fas fa-file-word me-2 hover-icon"></i> Word Price: ₹{{agencyData.per_word_rate}}/word</p>
+              </div>
+              <div class="col-md-3">
+                <p><i class="fas fa-ruler-combined me-2 hover-icon"></i> Sqcm Price: ₹{{agencyData.cm_charge}}/sqcm</p>
+              </div>
+              <div class="col-md-3">
+                <p><i class="fas fa-map-marker-alt me-2 hover-icon"></i> Address: {{agencyData.address}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5" style="min-height: 500px;">
+  <div class="agency-feedbacks-section">
+    <h2 class="mb-4">Customer Feedback</h2>
+    <div class="row">
+      {% for feedback in agencyFeedbacks %}
+      <div class="col-md-6 mb-4">
+        <div class="feedback-card">
+          <div class="d-flex align-items-center mb-3">
+            <img src="{% if feedback.profile_image %}../../media/profile/{{feedback.profile_image}}{% else %}../../media/profile/dummy.jpg{% endif %}"
+                 alt="User Image" 
+                 class="rounded-circle me-3 hover-zoom"
+                 style="width: 50px; height: 50px; object-fit: cover; transition: all 0.3s ease;">
+            <div>
+              <h5 class="mb-0">{{feedback.fullname}}</h5>
+              <div class="rating" style="font-size: 1.2rem;" data-rating="{{ feedback.rating }}">
+                <!-- JS will inject stars here -->
+              </div>
+            </div>
+          </div>
+          <p class="feedback-message">{{feedback.message}}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .agency-feedbacks-section {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+  .agency-feedbacks-section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+  
+  .feedback-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    height: 100%;
+  }
+  
+  .feedback-message {
+    color: #666;
+    font-style: italic;
+  }
+  
+  .hover-zoom {
+    transition: all 0.3s ease;
+  }
+  .hover-zoom:hover {
+    transform: scale(1.05);
+  }
+  
+  .hover-icon {
+    transition: all 0.3s ease;
+  }
+  .hover-icon:hover {
+    color: #007bff;
+    transform: scale(1.2);
+  }
+  
+  .hover-star {
+    transition: all 0.3s ease;
+  }
+  .hover-star:hover {
+    transform: scale(1.2);
+  }
+</style>
+
+</main>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const ratings = document.querySelectorAll('.rating');
+
+    ratings.forEach(function (ratingDiv) {
+      const rating = parseInt(ratingDiv.getAttribute('data-rating')) || 0;
+
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('i');
+        star.classList.add('fa-star', 'text-warning');
+
+        if (i <= rating) {
+          star.classList.add('fas'); // solid star
+        } else {
+          star.classList.add('far'); // outlined star
+        }
+
+        ratingDiv.appendChild(star);
+      }
+    });
+  });
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+{% endblock %}

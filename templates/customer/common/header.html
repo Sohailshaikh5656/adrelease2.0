@@ -1,88 +1,60 @@
 {% load static %}
 <style type="text/css">
-  .search-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60px;
-  background-color: #f5f5f5;
-  border-radius: 30px;
-  padding: 0 20px;
-}
-
-.search-bar input[type="text"] {
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  color: #333;
-
-  width: 300px;
-}
-
-.search-bar button[type="submit"] {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  margin-left: 10px;
-  font-size: 20px;
-  color: #333;
-}
-
-.search-bar button[type="submit"]:hover {
-  color: #007bff;
-}
-
- 
+  .navbar ul li a.active {
+    color: #ffffff;
+    font-weight: bold;
+    border-bottom: 2px solid #007bff;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
 </style>
 <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-
       <a href="/customer/home" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>AD Release<span>.</span></h1>
-        
       </a>
-      
 
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><div class="search-bar">
-  <form action="/customer/search_advertisement" method="post">
-    {% csrf_token %}
-    <input type="text" placeholder="Search" name="search">
-    <button type="submit"><i class="fas fa-search"></i></button>
-  </form>
-</div>
-</li>
-          <li><a href="/customer/home">Home</a></li>
-          <li><a href="/customer/aboutus">About Us</a></li>
-          <li><a href="/customer/contactus">Contact</a></li>
+          <li><a href="/customer/home" class="{% if request.path == '/customer/home' %}active{% endif %}">Home</a></li>
+          <li><a href="/customer/aboutus" class="{% if request.path == '/customer/aboutus' %}active{% endif %}">About Us</a></li>
+          <li><a href="/customer/contactus" class="{% if request.path == '/customer/contactus' %}active{% endif %}">Contact</a></li>
           {% if request.session.user_id %}
-          <li><a href="/customer/post_advertisement">Post Advertisement</a></li>
-          <li><a href="/customer/profile/{{ request.session.user_id }}">Profile</a></li>
-          <li><a href="/customer/logout">Logout</a></li>
-          <li><a href="/customer/feedback">Feedback</a></li>
-      {% else %}
-          <li><a href="/customer/agency">Agency</a></li>
-          <li><a href="/customer/register">Register</a></li>
-          <li class="dropdown"><a href="#"><span>Login</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-              <ul>
-                  <li><a href="/customer/">Login as a User</a></li>
-                  <li><a href="/myadmin/">Login as an Admin</a></li>
+            <li><a href="/customer/agencyInquiry" class="{% if request.path == '/customer/agencyInquiry' %}active{% endif %}">AgencyInquiry</a></li>
+            <li><a href="/customer/profile/{{ request.session.user_id }}" class="{% if request.path == '/customer/profile/'|add:request.session.user_id %}active{% endif %}">Profile</a></li>
+            <li><a href="/customer/logout" class="{% if request.path == '/customer/logout' %}active{% endif %}">Logout</a></li>
+            <li><a href="/customer/feedback" class="{% if request.path == '/customer/feedback' %}active{% endif %}">Feedback</a></li>
+          {% else %}
+            <li><a href="/customer/agency" class="{% if request.path == '/customer/agency' %}active{% endif %}">Agency</a></li>
+            <li><a href="/customer/register" class="{% if request.path == '/customer/register' %}active{% endif %}">Register</a></li>
+            <li class="dropdown">
+              <a href="#" class="{% if request.path == '/customer/' or request.path == '/myadmin/' %}active{% endif %} position-relative" style="color: #ffffff; transition: all 0.3s ease;">
+                <span class="d-flex align-items-center gap-1">
+                  <i class="bi bi-box-arrow-in-right me-1"></i>
+                  <span>Login</span>
+                  <i class="bi bi-chevron-down dropdown-indicator ms-1"></i>
+                </span>
+              </a>
+              <ul class="dropdown-menu shadow-lg" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 8px; padding: 0.5rem; min-width: 200px;">
+                <li>
+                  <a href="/customer/" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 rounded {% if request.path == '/customer/' %}active bg-primary text-white{% else %}text-dark{% endif %}" style="transition: all 0.2s ease;">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Login as User</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/myadmin/" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 rounded {% if request.path == '/myadmin/' %}active bg-primary text-white{% else %}text-dark{% endif %}" style="transition: all 0.2s ease;">
+                    <i class="bi bi-shield-lock"></i>
+                    <span>Login as Admin</span>
+                  </a>
+                </li>
               </ul>
-          </li>
-      {% endif %}
-      
+            </li>
+          {% endif %}
         </ul>
-         
       </nav><!-- .navbar -->
-
     </div>
-  </header>
+</header>

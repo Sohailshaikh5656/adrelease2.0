@@ -26,6 +26,7 @@ import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.db import IntegrityError 
 
 # Create your views here.
 
@@ -35,13 +36,40 @@ def home(request):
     adCategory = AdCategory.objects.filter(classifiedtype__icontains="Classified Text Ad")
     adCategory2 = AdCategory.objects.filter(classifiedtype="Classified Display Ad")
     adCategory3 = AdCategory.objects.filter(classifiedtype="Display Ad")
+    query = """
+            SELECT a.id, ap.agencyname, ap.circulation, ap.per_word_rate, ap.profile_picture, ap.cm_charge, 
+                   COALESCE((SELECT AVG(of.rating) 
+                            FROM order_feedback AS of 
+                            JOIN `order` AS o ON o.agency_id = a.id 
+                            WHERE of.order_id = o.id), 0) AS avg_rating,
+                   COALESCE((SELECT COUNT(*) 
+                            FROM `order` AS o 
+                            WHERE o.agency_id = a.id), 0) AS Orders
+            FROM agency AS a
+            JOIN agencyprofile AS ap ON ap.agency_id = a.id
+            WHERE ap.is_active = 1 
+              AND ap.is_deleted = 0 
+              AND a.isactive = 1 
+              AND a.is_deleted = 0 
+              AND a.is_recomanded = 1
+    """
 
-
+    feedbackQuery = """
+        SELECT a.id, ap.agencyname, ap.circulation, ap.per_word_rate, ap.profile_picture, ap.cm_charge, 
+        COALESCE((SELECT COUNT(*) FROM order_feedback AS af JOIN `order` AS o ON o.agency_id = a.id WHERE af.order_id = o.id), 0) AS total_rating, 
+        COALESCE((SELECT AVG(af.rating) FROM order_feedback AS af JOIN `order` AS o ON o.agency_id = a.id WHERE af.order_id = o.id), 0) AS avg_rating 
+        FROM agency AS a 
+        JOIN agencyprofile AS ap ON ap.agency_id = a.id 
+        WHERE ap.is_active=1 AND ap.is_deleted=0 AND a.isactive=1 AND a.is_deleted=0
+    """
+    recomended = Agency.objects.raw(query)
+    feedbackData = Agency.objects.raw(feedbackQuery)
+    print("This is Data : ",recomended)
     id = request.user.id
     if id == None:
         result1 = Newadtype.objects.all()
         context = {'result1':result1,'adCategory': adCategory,
-                    'adCategory2':adCategory2,'adCategory3':adCategory3}
+                    'adCategory2':adCategory2,'adCategory3':adCategory3, "recomended" : recomended, "feedbackData":feedbackData}
 
         return render (request,'customer/home.html',context)
     else:
@@ -49,7 +77,7 @@ def home(request):
         result1 = Newadtype.objects.all()
         feedback = User_feedback.objects.all()
         context = {'result': result, 'feedback': feedback, 'result1': result1, 'adCategory': adCategory,
-                    'adCategory2':adCategory2,'adCategory3':adCategory3
+                    'adCategory2':adCategory2,'adCategory3':adCategory3, "recomended" : recomended, "feedbackData":feedbackData
         }
         print(adCategory)
         return render (request,'customer/home.html',context)
@@ -159,17 +187,14 @@ def ForgetPassword_chk(request):
     
 
 def Agency_ForgetPassword(request):
-
     
     return render(request,'customer/agencyforgetpassword.html')
 
 
 def Agency_ForgetPassword_chk(request):
-
     username = request.POST['username']
-    result = User.objects.get(username=username)
-    user_id = result.id
-    result1 = Passwordall.objects.get(user_id = user_id)
+    result = Agency.objects.get(username=username)
+
 
     if result is None:
         messages.success(request, 'Invalid Username ')
@@ -178,14 +203,21 @@ def Agency_ForgetPassword_chk(request):
 
     else:
         email = result.email
-        
-        username = result.username
-        password = result1.password_user
-        
-        send_forget_password_mail_to_agency(email,password,username)
+
+        insertedUsername = result.username  
+        insertedEmail = result.email
+
+        import secrets
+        import string
+        from datetime import datetime, timedelta
+        token = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(20))
+        print("Token Generated : ",token)
+        from customer.models import ForgetPasswordAgency
+        expiry_time = datetime.now() + timedelta(minutes=10)
+        ForgetPasswordAgency.objects.create(username=insertedUsername, email=insertedEmail, token=token, expiry_date_time=expiry_time)
+        send_password_reset_email_to_agency(email,username,token)
         messages.success(request, 'Check Your Mail ')
-    
-    
+
     return redirect('/customer/Agency_ForgetPassword')
     
 
@@ -198,31 +230,66 @@ def register(request):
 
 def user_store(request):
     # User Model
+    try:
+        # Store form data in session
+        request.session['dummy_fname'] = request.POST['fname']
+        request.session['dummy_lname'] = request.POST['lname']
+        request.session['dummy_username'] = request.POST['username']
+        request.session['dummy_email'] = request.POST['email']
+        request.session['dummy_pass'] = request.POST['pass']
+        request.session['dummy_cpass'] = request.POST['cpass']
 
-    fname = request.POST['fname']
-    lname = request.POST['lname']
-    username = request.POST['username']
-    email = request.POST['email']
-    password = request.POST['pass']
-    cpassword = request.POST['cpass']
+        # Profile Model
+        request.session['dummy_contact'] = request.POST['contactno']
+        request.session['dummy_gender'] = request.POST['gender']
+        request.session['dummy_address'] = request.POST['address']
+        request.session['dummy_dob'] = request.POST['dob']
+        
+        # Handle image upload
+        if 'image' in request.FILES:
+            profile_image = request.FILES['image']
+            myCrediationalLocation = os.path.join(settings.MEDIA_ROOT,'profile')
+            obj = FileSystemStorage(location=myCrediationalLocation)
+            profile_image_url = obj.save(profile_image.name, profile_image)
+        else:
+            profile_image_url = 'profile/default.png'
 
-    # Profile Model
-    contact = request.POST['contactno']
-    gender = request.POST['gender']
-    address = request.POST['address']
-    dob = request.POST['dob']
+        if request.session['dummy_pass'] == request.session['dummy_cpass']:
+            result = User.objects.create_user(
+                first_name=request.session['dummy_fname'],
+                last_name=request.session['dummy_lname'],
+                email=request.session['dummy_email'],
+                username=request.session['dummy_username'],
+                password=request.session['dummy_pass']
+            )
+            Profile.objects.create(
+                contact=request.session['dummy_contact'],
+                gender=request.session['dummy_gender'],
+                address=request.session['dummy_address'],
+                dob=request.session['dummy_dob'],
+                user_id=result.id,
+                profile_image=profile_image_url
+            )
+            # Clear session data after successful registration
+            for key in list(request.session.keys()):
+                if key.startswith('dummy_'):
+                    del request.session[key]
+                    
+            messages.success(request, 'Account Created Successfully !! \nPlease Login !! ')
+            send_welcome_email(result)
+            return redirect('/customer/')
+        else:
+            messages.success(request, 'Password Missmatch')
+            print("Missmatch Password")
+            return redirect('/customer/register')
 
-    if password == cpassword:
-        result = User.objects.create_user(first_name=fname,last_name=lname,email=email,username=username,password=password)
-        Profile.objects.create(contact=contact,gender=gender,address=address,dob=dob,user_id=result.id)
-        Passwordall.objects.create(password_user = password,user_id=result.id)
-        messages.success(request, 'Account Created Successfully !! \nPlease Login !! ')
-        send_welcome_email(result)
-        return redirect('/customer/')
-
-    else:
-        messages.success(request, 'Password Missmatch')
-        print("Missmatch Password")
+    except IntegrityError as e:
+        if 'username' in str(e):
+            messages.error(request, 'Username already exists. Please choose a different username.')
+            print('Username already exists')
+        else:
+            messages.error(request, f'Error during registration: {str(e)}')
+            print(f'Error during registration: {str(e)}')
         return redirect('/customer/register')
 
 
@@ -291,6 +358,7 @@ def agency_login_check(request):
         elif result.password == password:  # Direct password comparison
             request.session['agency_id'] = result.id 
             request.session['super_agency_id'] = result.id # Set agency_id in session
+            request.session["agencyname"] = result.username
             return redirect('/agency/dashboard')
         else:
             messages.success(request, 'Invalid Password')
@@ -396,7 +464,7 @@ def agency_store(request):
 
                 # Passwordall.objects.create(password_user=password, user_id=result.id)
                 messages.success(request, 'Successfully Registered. Login to Access.')
-                return redirect('/customer/agency_register')
+                return redirect('/customer/agency')
             else:
                 messages.error(request, 'Password Mismatch')
                 return redirect('/customer/agency_register')
@@ -508,7 +576,8 @@ def order_store(request, id):
         date=date, subject=subject, description=description, price=price,
         user_id=user, agency_id=agency, poster=myimage.name, word=myword.name
     )
-    Payment.objects.create(amount=price, agency_id=agency, adType=ad_type_obj,user_id=user,order_id = res1)
+    PaymentResult = Payment.objects.create(amount=price, agency_id=agency,user_id=user,order_id = res1)
+    request.session['payment_id'] = PaymentResult.id
     return redirect('/customer/process_payment')
 
     # myimage = request.FILES['image']
@@ -637,17 +706,22 @@ def userprofile_update(request,id):
 def ordersummary(request, type):
     user = request.user.id
     result = None
-    
+    order_filter = OrderFeedback.objects.filter(user_id=user)
+    order_ids = list(order_filter.values_list('order_id', flat=True))
+
     if type == 'all':
         result = Order.objects.filter(user_id=user, is_deleted=0, is_active=1).select_related('agency')
     elif type == "newOrder":
         result = Order.objects.filter(user_id=user, is_approve=0, is_deleted=0, is_active=1)
     elif type == "approved":
-        result = Order.objects.filter(user_id=user, is_approve=1, is_deleted=0, is_active=1)
+        result = Order.objects.filter(user_id=user, is_approve=1, is_printed=0, is_deleted=0, is_active=1)
     elif type == "history":
-        result = Order.objects.filter(user_id=user, is_printed=1, is_deleted=0, is_active=1)
+        result = Order.objects.filter(user_id=user, is_approve=1, is_printed=1, is_deleted=0, is_active=1)
     
-    context = {'result': result}
+    context = {
+        'result': result,
+        'order_ids': order_ids,  # pass the list here
+    }
     return render(request, 'customer/ordersummary.html', context)
 
 def order_delete(request,id):
@@ -692,30 +766,66 @@ def payment(request):
     return render(request,'customer/payment.html',context)
 
 @csrf_exempt
-def success(request,id):
-    return render(request, "customer/success.html")
+@csrf_exempt
+def success(request, id):
+    try:
+        payment_id = request.session.get("payment_id")
+        print("This is Payment ID Fetched!", payment_id)
+
+        if not payment_id:
+            print("Error in Payment")
+            raise ValueError("Payment ID not found in session")
+
+        result = Payment.objects.get(pk=payment_id)
+        result.is_payment = True
+        result.save()
+
+        return render(request, "customer/success.html")
+
+    except Payment.DoesNotExist:
+        return HttpResponse("Payment not found", status=404)
+    except ValueError as e:
+        return HttpResponse(str(e), status=400)
+    except Exception as e:
+        return HttpResponse(f"An error occurred: {str(e)}", status=500)
 
 def process_payment(request):
-    
     key_id = 'rzp_test_QNjv8QlCmwSAy1'
     key_secret = 'ZPfmqY4Y21JBquMOkBl90mTh'
+
     amount = int(request.session['total_price']) * 100
     client = razorpay.Client(auth=(key_id, key_secret))
+
     data = {
         'amount': amount,
         'currency': 'INR',
-        "receipt":"OIBP",
-        "notes":{
-            'name' : 'AK',
-            'payment_for':'OIBP Test'
+        "receipt": "OIBP",
+        "notes": {
+            'name': 'AK',
+            'payment_for': 'OIBP Test'
         }
     }
 
+    payment = client.order.create(data=data)  # Razorpay order created
+
+    # 🧠 Optional: Store Razorpay order_id into your DB for reference
+    payment_id = request.session.get('payment_id')
+    if payment_id:
+        try:
+            result = Payment.objects.get(pk=payment_id)
+            result.razorpay_order_id = payment['id']  # If you have such a field
+            result.save()
+        except Payment.DoesNotExist:
+            pass  # ignore if not found; already handled in textOrderStore
+
     id = request.user.id
     result = User.objects.get(pk=id)
-    payment = client.order.create(data=data)
-    context = {'payment' : payment,'result':result,}
-    return render(request, 'customer/payment.html',context)
+
+    context = {
+        'payment': payment,
+        'result': result,
+    }
+    return render(request, 'customer/payment.html', context)
     
 def profile_image(request,id):
     user = request.user.id
@@ -868,6 +978,9 @@ def textOrderStore(request):
             )
             user = User.objects.get(pk=order.user_id)
             agency = Agency.objects.get(pk=order.agency_id)
+            PaymentResult = Payment.objects.create(amount=total_price, agency_id=agencyOrderId,user=user,order = order)
+            request.session['payment_id'] = PaymentResult.id
+            print("Payment ID Setted !: ",request.session['payment_id'])
             messages.success(request, "Order placed successfully!")
             send_order_confirmation_email(user,order,agency)
             return redirect("/customer/process_payment")
@@ -973,3 +1086,42 @@ def store_agency_inquiry(request):
     else:
         return redirect('/customer/agencyInquiry')
     
+def agencyFeedbackForm(request, id):
+    result = OrderFeedback.objects.filter(order_id=id).exists()
+    if result:
+        messages.success(request, 'Already Feedback Given !')
+        return redirect("/customer/ordersummary/history")
+    context = {"order_id": id, "user_id": request.user.id}
+    return render(request, 'customer/agencyFeedbackForm.html', context)
+def saveFeedbackAgency(requset):
+    
+    order_id = requset.POST["order_id"]
+    user_id = requset.POST["user_id"]
+    message = requset.POST["message"]
+    rating = requset.POST["rating"]
+    
+
+    order = Order.objects.get(id=order_id)
+    user = User.objects.get(id=user_id)
+    OrderFeedback.objects.create(rating=rating, message=message, user=user, order=order)
+    messages.success(requset, 'Thank you for your feedback!')
+    return redirect("/customer/ordersummary/history")
+
+
+def showAgencyDetails(request, id):
+    agency = Agency.objects.get(pk=id)
+    agencyData = Agencyprofile.objects.get(agency_id = id)
+    agencyFeedbacks = """SELECT af.id, af.message, af.rating, 
+               (SELECT CONCAT(u.first_name,' ',u.last_name) FROM auth_user as u WHERE o.user_id = u.id) as fullname, 
+               (SELECT ap.profile_image FROM profile as ap WHERE o.user_id = ap.user_id) as profile_image 
+        FROM `order` as o 
+        JOIN order_feedback as af ON af.order_id = o.id 
+        WHERE o.agency_id = %s """
+    agencyFeedbackData  = Agency.objects.raw(agencyFeedbacks,[id])
+    context = {
+        "agency" : agency,
+        "agencyData" : agencyData,
+        "agencyFeedbacks" : agencyFeedbackData
+    }
+
+    return render(request, "customer/showAgencyDetails.html", context)

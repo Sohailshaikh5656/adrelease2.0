@@ -3,6 +3,12 @@
 {% load static %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Times+New+Roman&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Bundle JS with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <script>
         function toggleText(id) {
             let fullText = document.getElementById(id);
@@ -437,7 +443,7 @@ h3 {
               <!-- Classified Text Ad -->
               <div class="col-md-4">
                   <div class="card category-card">
-                      <div class="image-container">
+                      <div class="image-container" onclick="setTimeout(() => { document.getElementById('firstConti').scrollIntoView({behavior: 'smooth', block: 'start'}) }, 300)">
                           <img src="../../static/customer/assets/img/a1.jpg"  alt="Classified Text Ad">
                           <div class="overlay">
                               <h3>Classified Text Ad</h3>
@@ -450,7 +456,7 @@ h3 {
               <!-- Display Ad -->
               <div class="col-md-4">
                   <div class="card category-card">
-                      <div class="image-container">
+                      <div class="image-container" onclick="setTimeout(() => { document.getElementById('secondConti').scrollIntoView({behavior: 'smooth', block: 'start'}) }, 300)">
                           <img src="../../static/customer/assets/img/a2.jpg"  alt="Display Ad">
                           <div class="overlay">
                               <h3>Display Ad</h3>
@@ -463,8 +469,8 @@ h3 {
               <!-- Classified Display Ad -->
               <div class="col-md-4">
                   <div class="card category-card">
-                      <div class="image-container">
-                          <img src="../../static/customer/assets/img/a3.jpg"  alt="Classified Display Ad">
+                      <div class="image-container" onclick="setTimeout(() => { document.getElementById('thirdConti').scrollIntoView({behavior: 'smooth', block: 'start'}) }, 300)">
+                            <img src="../../static/customer/assets/img/a3.jpg"  alt="Classified Display Ad">
                           <div class="overlay">
                               <h3>Classified Display Ad</h3>
                               <p>A Classified Display Ad is an enhanced version of a text ad, including images, logos, and custom fonts.</p>
@@ -482,7 +488,7 @@ h3 {
   <h2 style="font-weight:300; color: #f7f4ef;">Select Your Newspaper <b style="font-weight:900">Classified Text</b> Ad Category Below To Start Booking</h2>
 </div>
 
-<div class="container mb-5 position-relative d-flex justify-content-center">
+<div id="firstConti" class="container mb-5 position-relative d-flex justify-content-center">
   <div id="carousel1" class="carousel slide w-100" data-bs-ride="carousel" style="max-width: 1200px;">
       <div class="carousel-inner text-center"> <!-- Center align carousel content -->
           {% for i in adCategory %}
@@ -529,7 +535,7 @@ h3 {
   <h2 style="font-weight:300; color: #f7f4ef;">Select Your Newspaper <b style="font-weight:900">Classified Text Display</b> Ad Category Below To Start Booking</h2>
 </div>
 
-<div class="container mb-5 position-relative d-flex justify-content-center">
+<div id="secondConti" class="container mb-5 position-relative d-flex justify-content-center">
   <div id="carousel2" class="carousel slide w-100" data-bs-ride="carousel" style="max-width: 1200px;"> <!-- Fixed -->
       <div class="carousel-inner text-center">
           {% for i in adCategory2 %}
@@ -574,7 +580,7 @@ h3 {
   <h2 style="font-weight:300;color: #f7f4ef;">Select Your Newspaper <b style="font-weight:900">Classified Display</b> Ad Category Below To Start Booking</h2>
 </div>
 
-<div class="container mb-5 position-relative d-flex justify-content-center">
+<div id="thirdConti" class="container mb-5 position-relative d-flex justify-content-center">
   <div id="carousel3" class="carousel slide w-100" data-bs-ride="carousel" style="max-width: 1200px;"> <!-- Fixed -->
       <div class="carousel-inner text-center">
           {% for i in adCategory3 %}
@@ -614,39 +620,195 @@ h3 {
   </button>
 </div>
 
-    <section id="contact" class="contact">
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row gy-4 mt-1 m-auto holediv">
-          <div class="col-lg-12 contact">
-            <div class="section-header">
-              <h2>Some Popular Ad</h2>
-             
-            </div>
-            <br>
-            <div class="row gy-4">
-              {% for row in result1 %}
-              <div class="col-lg-4 form-group">
-                <div class="ad-card">
-                  <div class="ad-image-container">
-                    <img src="/media/upload/{{row.image}}" class="ad-image">
+
+<div class="category-bar mt-5 mb-3 bg-warning text-white">
+  <h2 style="font-weight:300;color: #f7f4ef;">Customer <b style="font-weight:900">Feedback</b> About Agencies</h2>
+</div>
+
+
+<section id="contact" class="contact">
+  
+  <div class="container">
+      <h2 class="text-center mb-5 display-5 fw-bold">Recommended Agencies</h2>
+      <div class="row justify-content-center">
+        {% for i in recomended %}
+        <div class="col-md-4 mb-4">
+          <div class="agency-card shadow-lg">
+              <div class="card-content text-center">
+                  <img src="../../media/profile/{{i.profile_picture}}" alt="Agency Logo" class="agency-logo mb-3">
+                  <h3 class="agency-name fs-4 fw-semibold">{{i.agencyname}}</h3>
+                  <div class="agency-table">
+                      <div class="table-row">
+                          <span class="table-label"><i class="fas fa-shopping-cart fa-2x"></i> Orders</span>
+                          <span class="table-value">{{i.Orders}}+</span>
+                      </div>
+                      <div class="table-row">
+                          <span class="table-label"><i class="fas fa-star fa-2x"></i> Rating</span>
+                          <span class="table-value">{{i.avg_rating|floatformat:1}}/5</span>
+                      </div>
+                      <div class="table-row">
+                          <span class="table-label"><i class="fas fa-newspaper fa-2x"></i> Circulation</span>
+                          <span class="table-value">{{i.circulation}}</span>
+                      </div>
+                      <div class="table-row">
+                          <span class="table-label"><i class="fas fa-file-word fa-2x"></i> Word Price</span>
+                          <span class="table-value">₹{{i.per_word_rate}}/word</span>
+                      </div>
+                      <div class="table-row">
+                          <span class="table-label"><i class="fas fa-ruler-combined fa-2x"></i> Sqcm Price</span>
+                          <span class="table-value">₹{{i.cm_charge}}/sqcm</span>
+                      </div>
                   </div>
-                  <div class="ad-content">
-                    <h4>{{row.title}}</h4>
-                    <p>{{row.description}}</p>
-                    <p><strong>Size:</strong> {{row.size}}</p>
-                    <p class="price">₹ {{row.price}}</p>
-                    <a href="/customer/singleAdType/{{row.id}}" class="btn btn-success">
-                      <i class="fa-solid fa-cart-shopping"></i> NEXT
-                    </a>
-                  </div>
-                </div>
               </div>
-              {% endfor %}
+          </div>
+      </div>
+        {% endfor %}
+          <!-- You can copy this block for more agencies -->
+      </div>
+  </div>
+
+  <style>
+      .agency-card {
+          position: relative;
+          background: #ffffff;
+          border-radius: 20px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+          transition: all 0.4s ease;
+          overflow: hidden;
+          padding: 30px;
+      }
+
+      .agency-card:hover {
+          transform: translateY(-12px) scale(1.03);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
+      }
+
+      .agency-logo {
+          width: 120px;
+          height: 120px;
+          object-fit: contain;
+      }
+
+      .agency-name {
+          font-size: 1.5rem;
+          color: #2c3e50;
+          margin-bottom: 20px;
+      }
+
+      .agency-table {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          padding: 15px;
+          border-radius: 12px;
+          background: #f1f3f5;
+          transition: all 0.3s ease;
+      }
+
+      .agency-card:hover .agency-table {
+          background: #ffffff;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .table-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px 14px;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+          font-size: 1.1rem;
+      }
+
+      .agency-card:hover .table-row:hover {
+          background: #e9ecef;
+      }
+
+      .table-label {
+          font-weight: 600;
+          color: #495057;
+      }
+
+      .table-value {
+          color: #212529;
+          font-weight: 700;
+      }
+  </style>
+</section>
+
+
+
+
+<div class="container mb-5">
+  <h2 class="text-center mb-5 display-3 fw-bold" style="color: #2c3e50;">Top Rated Agencies</h2>
+  <div class="row g-4">
+    {% for agency in feedbackData %}
+    <div class="col-md-6 mb-4">
+      <a href="/customer/showAgencyDetails/{{agency.id}}" style="text-decoration: none; color: inherit;">
+        <div class="agency-feedback-card shadow-lg h-100">
+          <div class="card-content text-center p-5">
+            <div class="d-flex justify-content-center align-items-center mb-4">
+              <img src="../../media/profile/{{agency.profile_picture}}" alt="Agency Logo" 
+                   class="agency-logo mb-3" 
+                   style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #f8f9fa;">
+            </div>
+            <h3 class="agency-name display-6 fw-bold mb-4" style="color: #34495e;">{{agency.agencyname}}</h3>
+            
+            <div class="rating-section mb-4 p-3 rounded-pill">
+              <span class="badge bg-warning text-dark fs-4 p-3">
+                <i class="fas fa-star"></i> {{agency.avg_rating|floatformat:1}}/5
+              </span>
+              <span class="text-muted ms-3 fs-5">({{agency.total_rating}} reviews)</span>
+            </div>
+
+            <div class="agency-details fs-5">
+              <div class="detail-item mb-3 p-3 bg-light rounded">
+                <i class="fas fa-newspaper me-3 fs-4"></i>
+                <span>Circulation: {{agency.circulation}}</span>
+              </div>
+              <div class="detail-item mb-3 p-3 bg-light rounded">
+                <i class="fas fa-file-word me-3 fs-4"></i>
+                <span>Word Price: ₹{{agency.per_word_rate}}/word</span>
+              </div>
+              <div class="detail-item p-3 bg-light rounded">
+                <i class="fas fa-ruler-combined me-3 fs-4"></i>
+                <span>Sqcm Price: ₹{{agency.cm_charge}}/sqcm</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .agency-feedback-card {
+    background: #ffffff;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+  
+  .agency-feedback-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .rating-section {
+    background: rgba(255, 193, 7, 0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+  
+  .detail-item {
+    font-size: 0.9rem;
+    color: #666;
+  }
+</style>
+
+
     
  
 
@@ -776,8 +938,8 @@ h3 {
     
 
     <!-- ======= Recent Blog Posts Section ======= -->
-    <section id="recent-blog-posts" class="recent-blog-posts">
-      <div class="container" data-aos="fade-up">
+    <!-- <section id="recent-blog-posts" class="recent-blog-posts">
+      <div class="container" data-aos="fade-up"> -->
 {% endblock %}
     
     

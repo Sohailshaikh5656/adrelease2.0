@@ -89,7 +89,7 @@ body {
             <h2>Your Ad</h2>
             <ol>
                 <li><a href="/customer/home">Home</a></li>
-                <li>Your Ad</li>
+                <li>Agency Feexdback</li>
             </ol>
         </div>
     </div>
@@ -137,6 +137,15 @@ body {
                 {% if row.is_approved != 1 and row.is_printed != 1 %}
                 <button class="btn-cancel" onclick="cancelOrder('{{ row.id }}')">Cancel Order</button>
                 {% endif %}
+
+                {% if row.is_printed == 1 %}
+                    {% if row.id not in order_ids %}
+                        <a class="btn btn-success" href="/customer/agencyFeedbackForm/{{row.id}}">FeedBack</a>
+                    {% else %}
+                        <button class="btn btn-success" disabled style="opacity: 0.5;">FeedBack</button>
+                    {% endif %}
+            
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -161,6 +170,9 @@ body {
             }
         });
     }
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 {% endblock %}

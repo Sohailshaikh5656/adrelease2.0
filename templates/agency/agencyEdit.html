@@ -1,0 +1,151 @@
+{% extends 'agency/common/layout.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid pt-4 px-4 min-vh-100">
+    <div class="row g-4">
+        <div class="col-12">
+        {% if messages %}
+        <div class="alert alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="bg-secondary rounded h-100 p-4">
+            <h3 class="mb-4">Edit Agency Profile</h3>
+            <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="ownername" class="form-label">Owner Name</label>
+                        <input type="text" class="form-control" id="ownername" name="ownername" 
+                               value="{{agency.ownername}}" required
+                               minlength="2" maxlength="100"
+                               oninput="validateName(this)">
+                        <div class="invalid-feedback">Please enter a valid name (2-100 characters)</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="contact" class="form-label">Contact Number</label>
+                        <input type="text" class="form-control" id="contact" name="contact" 
+                               value="{{agency.contact}}" pattern="[0-9]{10}" required
+                               oninput="validateContact(this)">
+                        <div class="invalid-feedback">Please enter a valid 10-digit phone number</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="circulation" class="form-label">Circulation</label>
+                        <input type="number" class="form-control" id="circulation" name="circulation" 
+                               value="{{agency.circulation}}" min="0" max="10000000" required
+                               oninput="validateCirculation(this)">
+                        <div class="invalid-feedback">Circulation must be between 0 and 10,000,000</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="per_word_rate" class="form-label">Per Word Rate (₹)</label>
+                        <input type="number" class="form-control" id="per_word_rate" name="per_word_rate" 
+                               value="{{agency.per_word_rate}}" min="0" max="1000" step="0.01" required
+                               oninput="validateRate(this)">
+                        <div class="invalid-feedback">Rate must be between ₹0 and ₹1000</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="profile_picture" class="form-label">Profile Picture</label>
+                        <input class="form-control" type="file" id="profile_picture" name="profile_picture" 
+                               accept="image/*" onchange="validateImage(this)">
+                        <div class="invalid-feedback">Please upload a valid image file (max 5MB)</div>
+                        {% if agency.profile_picture %}
+                        <div class="mt-2">
+                            <img src="../../media/profile/{{agency.profile_picture}}" alt="Current Profile Picture" 
+                                 class="img-thumbnail" style="max-width: 200px;">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            function validateName(input) {
+                if (input.value.length < 2 || input.value.length > 100) {
+                    input.classList.add('is-invalid');
+                    return false;
+                }
+                input.classList.remove('is-invalid');
+                return true;
+            }
+
+            function validateContact(input) {
+                if (!/^\d{10}$/.test(input.value)) {
+                    input.classList.add('is-invalid');
+                    return false;
+                }
+                input.classList.remove('is-invalid');
+                return true;
+            }
+
+            function validateCirculation(input) {
+                const value = parseFloat(input.value);
+                if (isNaN(value) || value < 0 || value > 10000000) {
+                    input.classList.add('is-invalid');
+                    return false;
+                }
+                input.classList.remove('is-invalid');
+                return true;
+            }
+
+            function validateRate(input) {
+                const value = parseFloat(input.value);
+                if (isNaN(value) || value < 0 || value > 1000) {
+                    input.classList.add('is-invalid');
+                    return false;
+                }
+                input.classList.remove('is-invalid');
+                return true;
+            }
+
+            function validateImage(input) {
+                if (input.files && input.files[0]) {
+                    const file = input.files[0];
+                    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                    const maxSize = 5 * 1024 * 1024; // 5MB
+                    
+                    if (!validTypes.includes(file.type)) {
+                        input.classList.add('is-invalid');
+                        return false;
+                    }
+                    if (file.size > maxSize) {
+                        input.classList.add('is-invalid');
+                        return false;
+                    }
+                }
+                input.classList.remove('is-invalid');
+                return true;
+            }
+
+            function validateForm() {
+                const isValidName = validateName(document.getElementById('ownername'));
+                const isValidContact = validateContact(document.getElementById('contact'));
+                const isValidCirculation = validateCirculation(document.getElementById('circulation'));
+                const isValidRate = validateRate(document.getElementById('per_word_rate'));
+                const isValidImage = validateImage(document.getElementById('profile_picture'));
+
+                return isValidName && isValidContact && isValidCirculation && isValidRate && isValidImage;
+            }
+        </script>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  
+{% endblock %}

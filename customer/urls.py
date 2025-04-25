@@ -82,5 +82,8 @@ urlpatterns = [
     path('send_test_email_view', views.send_test_email_view, name='send_test_email_view'),
     path('chat_with_bot/', views.chat_with_bot, name='chat_with_bot'),
     path('agencyInquiry', views.agencyInquiry, name='agencyInquiry'),
-    path('store_agency_inquiry', views.store_agency_inquiry, name='store_agency_inquiry'),
+    path('store_agency_inquiry', views.store_agency_inquiry, name='store_agency_inquiry'),    
+    path('agencyFeedbackForm/<int:id>', views.agencyFeedbackForm, name='agencyFeedbackForm'),    
+    path('saveFeedbackAgency', views.saveFeedbackAgency, name='saveFeedbackAgency'),
+    path('showAgencyDetails/<int:id>', views.showAgencyDetails, name='showAgencyDetails'),
 ]

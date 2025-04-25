@@ -966,3 +966,60 @@ def send_password_reset_email(email, name,token):
     )
     email.attach_alternative(html_content, "text/html")
     email.send()
+
+
+def send_password_reset_email_to_agency(email, name,token):
+    subject = "Password Reset Request - Ad Release"
+    current_year = datetime.now().strftime('%B %d, %Y %I:%M %p')
+    
+    # HTML content
+    html_content = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 5px;">
+            <h2 style="color: #333;">Password Reset Request</h2>
+            <p>Dear {name},</p>
+            <p>We received a request to reset your password. Please click the button below to change your password:</p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="http://localhost/resetemailpasswordagency.php?token={token}" 
+                    style="background-color: #007bff; color: white; padding: 10px 20px; 
+                            text-decoration: none; border-radius: 5px; display: inline-block;">
+                    Change Password
+                </a>
+            </div>
+            
+            <p>If you didn't request this password reset, you can safely ignore this email.</p>
+            <p style="margin-top: 30px; color: #666; font-size: 0.9em;">
+                &copy; {current_year} Ad Release. All rights reserved.
+            </p>
+        </div>
+    </body>
+    </html>
+    """
+    
+    # Plain text content
+    text_content = f"""
+    Password Reset Request - Ad Release
+    
+    Dear {name},
+    
+    We received a request to reset your password. Please visit the following link to change your password:
+    
+    https:/localhost/forgetPassword.php
+    
+    If you didn't request this password reset, you can safely ignore this email.
+    
+    © {current_year} Ad Release. All rights reserved.
+    """
+    
+    # Send email
+    email = EmailMultiAlternatives(
+        subject,
+        text_content.strip(),
+        settings.DEFAULT_FROM_EMAIL,
+        [email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+

@@ -93,19 +93,88 @@
         function validateStep1() {
             let agencyname = document.getElementById('agencyname').value;
             let email = document.getElementById('email').value;
+            let username = document.getElementById('username').value;
             let contactno = document.getElementById('contactno').value;
+            let ownername = document.getElementById('ownername').value;
+            let est_date = document.getElementById('est_date').value;
+            let address = document.getElementById('address').value;
+            let profile_picture = document.getElementById('imageUpload').files[0];
 
-            if (!agencyname || !email || !contactno) {
+            // Check for empty required fields
+            if (!agencyname || !email || !username || !contactno || !ownername || !est_date || !address || !profile_picture) {
                 alert("Please fill out all required fields in Step 1.");
                 return false;
             }
+
+            // Validate email format
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            // Validate contact number (10 digits)
+            let contactPattern = /^\d{10}$/;
+            if (!contactPattern.test(contactno)) {
+                alert("Please enter a valid 10-digit contact number.");
+                return false;
+            }
+
+            // Validate establishment date (not in future)
+            let today = new Date();
+            let selectedDate = new Date(est_date);
+            if (selectedDate > today) {
+                alert("Establishment date cannot be in the future.");
+                return false;
+            }
+
             return true;
         }
 
         function validateStep2() {
-            let pass = document.getElementById('pass').value;
-            let cpass = document.getElementById('cpass').value;
+            let pass = document.getElementById('pass').value.trim();
+            let cpass = document.getElementById('cpass').value.trim();
+            let circulation = document.getElementById('circulation').value;
+            let per_word_rate = document.getElementById('per_word_rate').value;
+            let cm_charge = document.getElementById('cm_charge').value;
+            let state = document.getElementById('state').value;
+            let city = document.getElementById('city').value;
 
+            // Validate required fields
+            if (!circulation || !per_word_rate || !cm_charge || !state || !city) {
+                alert("Please fill out all required fields in Step 2.");
+                return false;
+            }
+
+            // Validate circulation (minimum 1000)
+            if (circulation < 1000) {
+                alert("Daily circulation must be at least 1000 copies.");
+                return false;
+            }
+
+            // Validate per word rate (minimum ₹1)
+            if (per_word_rate < 1) {
+                alert("Per word rate must be at least ₹1.");
+                return false;
+            }
+
+            // Validate cm charge (between ₹1 and ₹15)
+            if (cm_charge < 1 || cm_charge > 15) {
+                alert("Per centimeter charge must be between ₹1 and ₹15.");
+                return false;
+            }
+
+            // Validate state and city selection
+            if (state === "" || city === "") {
+                alert("Please select both state and city.");
+                return false;
+            }
+
+            let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordPattern.test(pass)) {
+                alert("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character.");
+                return false;
+            }
             if (pass !== cpass) {
                 alert("Passwords do not match.");
                 return false;
@@ -448,9 +517,7 @@
                                         class="btn btn-danger px-5 py-2 me-3">
                                         <i class="bi bi-arrow-left me-2"></i>Back
                                     </button>
-                                    <button type="submit" class="btn btn-success px-5 py-2">
-                                        <i class="bi bi-check-circle me-2"></i>Submit
-                                    </button>
+                                    <input type="submit" class="btn btn-success px-5 py-2" value="Register">
                                 </div>
                             </div>
                         </div>

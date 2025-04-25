@@ -2,74 +2,317 @@
 {% block content %}
 {% load static %}
 
-            <!-- Navbar Start -->
-            
-            <!-- Navbar End -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <!-- Stats Cards -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-eye fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Visitor</p>
+                    <h6 class="mb-0">110</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-user fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Customer</p>
+                    <h6 class="mb-0">{{ user_count }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-solid fa-money-bill fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Orders</p>
+                    <h6 class="mb-0">{{ order_count }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-building fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Agency</p>
+                    <h6 class="mb-0">{{ agency_count }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Task Management Section -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <!-- Task Creation Form -->
+        <div class="col-md-4">
+            <div class="bg-secondary rounded p-4">
+                <h4 class="mb-4">Create New Task</h4>
+                <form id="taskForm">
+                    <div class="mb-3">
+                        <label for="taskTitle" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="taskTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="taskDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskDeadline" class="form-label">Deadline</label>
+                        <input type="datetime-local" class="form-control" id="taskDeadline" 
+                               min="{% now 'Y-m-d\TH:i' %}" 
+                               value="{% now 'Y-m-d\TH:i' %}" 
+                               required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Task</button>
+                </form>
+            </div>
+        </div>
 
-            <!-- Sale & Revenue Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-eye fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Visitor</p>
-                                <h6 class="mb-0">110</h6>
-                            </div>
-                        </div>
+        <!-- Task Listing -->
+        <div class="col-md-8">
+            <div class="bg-secondary rounded p-4">
+                <h4 class="mb-4">Task List</h4>
+                <ul class="nav nav-tabs mb-3" id="taskTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active btn-primary" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab">Pending</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link btn-success" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab">Completed</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="taskTabsContent">
+                    <div class="tab-pane fade show active" id="pending" role="tabpanel">
+                        <ul class="list-group" id="pendingTasks"></ul>
                     </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-user fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Customer</p>
-                                <h6 class="mb-0">{{ user_count }}</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-solid fa-money-bill fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Orders</p>
-                                <h6 class="mb-0">{{ order_count }}</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-building fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Agency</p>
-                                <h6 class="mb-0">{{ agency_count }}</h6>
-                            </div>
-                        </div>
+                    <div class="tab-pane fade" id="completed" role="tabpanel">
+                        <ul class="list-group" id="completedTasks"></ul>
                     </div>
                 </div>
             </div>
-            <br><br><br>
-            <center><a href="/agency/pdf"><button class="btn btn-success">Order Report</button></a></center>
-            <!-- Sale & Revenue End -->
+        </div>
+    </div>
+<div class="row g-4 mt-4">
+    <div class="col-12">
+        <div class="bg-secondary rounded p-4" style="min-height: 300px;">
+            <h4 class="mb-4">Trending News Categories</h4>
+            <div class="row h-100">
+                {% for category in trendings %}
+                <div class="col-md-3 mb-3 d-flex">
+                    <div class="category-card p-3 rounded w-100 d-flex flex-column">
+                        <div class="d-flex justify-content-center">
+                            {% if category.picture %}
+                            <img src="../../media/category/{{category.picture }}" alt="{{ category.name }}" 
+                                 class="img-fluid mb-2 hover-glow" 
+                                 style="height: 120px; width: 120px; object-fit: cover; border-radius: 10px; transition: all 0.3s ease; filter: grayscale(20%);">
+                            {% else %}
+                                <img src="/media/category/dummy.jpg" alt="Default category image" 
+                                     class="img-fluid mb-2 hover-glow" 
+                                     style="height: 120px; width: 120px; object-fit: cover; border-radius: 10px; transition: all 0.3s ease; filter: grayscale(20%);">
+                            {% endif %}
+                        </div>
+                        <h5 class="text-center">{{ category.name }}</h5>
+                        <small class="text-muted text-center">Orders: {{ category.order_count }}</small>
+                        <div class="badge bg-primary mt-2 mx-auto">Rank #{{ category.rank }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-4">
+    <div class="col-12">
+        <div class="bg-secondary rounded p-4" style="min-height: 300px;">
+            <h4 class="mb-4">Your Agency's Trending News Categories</h4>
+            <div class="row h-100">
+                {% for category in agencyTrendings %}
+                <div class="col-md-3 mb-3 d-flex">
+                    <div class="category-card p-3 rounded w-100 d-flex flex-column">
+                        <div class="d-flex justify-content-center">
+                            {% if category.picture %}
+                            <img src="../../media/category/{{category.picture }}" alt="{{ category.name }}" 
+                                 class="img-fluid mb-2 hover-glow" 
+                                 style="height: 120px; width: 120px; object-fit: cover; border-radius: 10px; transition: all 0.3s ease; filter: grayscale(20%);">
+                            {% else %}
+                                <img src="/media/category/dummy.jpg" alt="Default category image" 
+                                     class="img-fluid mb-2 hover-glow" 
+                                     style="height: 120px; width: 120px; object-fit: cover; border-radius: 10px; transition: all 0.3s ease; filter: grayscale(20%);">
+                            {% endif %}
+                        </div>
+                        <h5 class="text-center">{{ category.name }}</h5>
+                        <small class="text-muted text-center">Orders: {{ category.order_count }}</small>
+                        <div class="badge bg-primary mt-2 mx-auto">Rank #{{ category.rank }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-4 mt-4">
+    <div class="col-12">
+        <div class="bg-secondary rounded p-4">
+            <h4 class="mb-4">Top Buyers</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Profile</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Full Name</th>
+                            <th scope="col">Total Orders</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for buyer in TopBuyer %}
+                        <tr class="align-middle">
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                <img src="{% if buyer.profile_image %}/media/profile/{{buyer.profile_image}}{% else %}/media/profile/dummy.jpg{% endif %}" 
+                                     class="rounded-circle hover-zoom"
+                                     style="width: 50px; height: 50px; object-fit: cover; transition: all 0.3s ease;">
+                            </td>
+                            <td>{{ buyer.username }}</td>
+                            <td>{{ buyer.fullname }}</td>
+                            <td>{{ buyer.count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-            <!-- Sales Chart Start -->
-            <!-- Sales Chart End -->
 
+<style>
+    .category-card {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .category-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    .category-card i {
+        color: #007bff;
+    }
+    .category-card h5 {
+        color: #fff;
+    }
+</style>
+</div>
 
-            <!-- Recent Sales Start -->
-            <!-- Recent Sales End -->
+<script>
+    // Task Management Script
+    document.addEventListener('DOMContentLoaded', function() {
+        const taskForm = document.getElementById('taskForm');
+        const pendingTasks = document.getElementById('pendingTasks');
+        const completedTasks = document.getElementById('completedTasks');
 
+        // Load tasks from localStorage
+        function loadTasks() {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            renderTasks(tasks);
+        }
 
-            <!-- Widgets Start -->
-            <!-- Widgets End -->
+        // Render tasks
+        function renderTasks(tasks) {
+            pendingTasks.innerHTML = '';
+            completedTasks.innerHTML = '';
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br>
-        
-          <!-- Footer Start -->
-            <!-- Footer End -->
+            tasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                taskItem.innerHTML = `
+                    <div>
+                        <h5>${task.title}</h5>
+                        <p>${task.description}</p>
+                        <small>Deadline: ${new Date(task.deadline).toLocaleString()}</small>
+                    </div>
+                    <div>
+                        ${task.status === 'pending' ? `
+                            <button class="btn btn-success btn-sm me-2 complete-btn">Complete</button>
+                        ` : ''}
+                    </div>
+                `;
 
-        
+                if (task.status === 'pending') {
+                    pendingTasks.appendChild(taskItem);
+                } else if (task.status === 'completed') {
+                    completedTasks.appendChild(taskItem);
+                }
 
-        {% endblock %}
+                // Add event listeners for buttons
+                const completeBtn = taskItem.querySelector('.complete-btn');
+
+                if (completeBtn) {
+                    completeBtn.addEventListener('click', () => {
+                        task.status = 'completed';
+                        saveTasks(tasks);
+                        loadTasks();
+                    });
+                }
+            });
+        }
+
+        // Save tasks to localStorage
+        function saveTasks(tasks) {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        // Handle form submission
+        taskForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newTask = {
+                id: Date.now(),
+                title: document.getElementById('taskTitle').value,
+                description: document.getElementById('taskDescription').value,
+                deadline: document.getElementById('taskDeadline').value,
+                status: 'pending'
+            };
+
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.push(newTask);
+            saveTasks(tasks);
+            loadTasks();
+            taskForm.reset();
+        });
+
+        // Initial load
+        loadTasks();
+    });
+</script>
+
+<style>
+    .list-group-item {
+        margin-bottom: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+    .list-group-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .nav-tabs .nav-link {
+        color: #fff;
+    }
+    .nav-tabs .nav-link.active {
+        background-color: #343a40;
+        border-color: #343a40;
+    }
+</style>
+
+{% endblock %}

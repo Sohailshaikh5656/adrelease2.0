@@ -917,7 +917,7 @@ def trendingReport(request, param):
 
     elif param == "trendingcategory":
         query = """
-        SELECT c.id, c.name, c.classifiedtype, COUNT(o.id) as order_count,
+        SELECT c.id, c.name, c.classifiedtype, c.picture as image, COUNT(o.id) as order_count,
                RANK() OVER (ORDER BY COUNT(o.id) DESC) as rank
         FROM adcategory AS c
         LEFT JOIN `order` AS o ON o.category_id = c.id

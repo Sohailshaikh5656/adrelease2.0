@@ -3,12 +3,13 @@
 {% load static %}
 <title>Ad Release | Register</title>
 
+<!-- Scripts -->
 <script type="text/javascript" src="{% static 'customer/login1/js/jquery-3.6.2.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'customer/login1/js/bootstrap.min.js' %}"></script>
 
 <script>
-// JavaScript to display random wise quotes
-document.addEventListener('DOMContentLoaded', function() {
+// Quotes
+document.addEventListener('DOMContentLoaded', function () {
   const wiseQuotes = [
     "The best way to predict the future is to create it.",
     "Success is not the key to happiness. Happiness is the key to success.",
@@ -17,49 +18,68 @@ document.addEventListener('DOMContentLoaded', function() {
     "You miss 100% of the shots you don't take.",
     "Life is 10% what happens to us and 90% how we react to it."
   ];
-
-  const randomQuote = wiseQuotes[Math.floor(Math.random() * wiseQuotes.length)];
-  document.getElementById("wiseQuote").innerText = randomQuote;
+  document.getElementById("wiseQuote").innerText = wiseQuotes[Math.floor(Math.random() * wiseQuotes.length)];
 });
 
-// JavaScript to restrict future date selection
-document.addEventListener('DOMContentLoaded', function() {
-  const today = new Date();
-  const dd = String(today.getDate()).padStart(2, '0');
-  const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-  const yyyy = today.getFullYear();
-  const maxDate = yyyy + '-' + mm + '-' + dd;
-  document.getElementById("dob").setAttribute("max", maxDate);
+// Date Restriction
+document.addEventListener('DOMContentLoaded', function () {
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("dob").setAttribute("max", today);
 });
 
-// JavaScript for image preview on hover
-document.addEventListener('DOMContentLoaded', function() {
-  const imageUpload = document.getElementById('imageUpload');
-  const imagePreview = document.getElementById('imagePreview');
+// Image Preview
+document.addEventListener('DOMContentLoaded', function () {
+  const upload = document.getElementById('imageUpload');
+  const preview = document.getElementById('imagePreview');
 
-  imageUpload.addEventListener('change', function(event) {
-    const file = event.target.files[0];
+  upload.addEventListener('change', function (e) {
+    const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = function(e) {
-        imagePreview.src = e.target.result;
-        imagePreview.style.display = 'block';
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
       };
       reader.readAsDataURL(file);
     }
   });
 
-  imagePreview.addEventListener('mouseenter', function() {
-    imagePreview.style.transform = 'scale(1.5)';
-    imagePreview.style.transition = 'transform 0.3s ease';
+  preview.addEventListener('mouseenter', function () {
+    preview.style.transform = 'scale(1.5)';
+    preview.style.transition = 'transform 0.3s ease';
   });
 
-  imagePreview.addEventListener('mouseleave', function() {
-    imagePreview.style.transform = 'scale(1)';
+  preview.addEventListener('mouseleave', function () {
+    preview.style.transform = 'scale(1)';
+  });
+});
+
+// Password Validation
+function validatePassword() {
+  const pass = document.getElementById('pass').value;
+  const cpass = document.getElementById('cpass').value;
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+  if (!regex.test(pass)) {
+    alert("Password must be strong:\n- 8+ characters\n- Uppercase\n- Lowercase\n- Number\n- Special Character");
+    return false;
+  }
+  if (pass !== cpass) {
+    alert("Passwords do not match!");
+    return false;
+  }
+  return true;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector('form');
+  form.addEventListener('submit', function (e) {
+    if (!validatePassword()) e.preventDefault();
   });
 });
 </script>
 
+<!-- Styles -->
 <style>
   .img1 {
     background-image: url("{% static 'customer/assets/img/a2.jpg' %}");
@@ -73,24 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
     background-color: #fff;
   }
 
-  section {
-    background-color: #fff;
-  }
-
-  .img2 {
-    width: 100%;
-    height: 100%; /* Ensure the image takes full height */
-    object-fit: cover; /* Maintain aspect ratio */
-    border-radius: 8px; /* Optional: Add rounded corners */
-  }
-
   .contact {
     background-color: #f1f1f1;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    height: 100%; /* Ensure the form takes full height */
+    height: 100%;
   }
 
   .contact:hover {
@@ -98,28 +106,11 @@ document.addEventListener('DOMContentLoaded', function() {
     background-color: #e0e0e0;
   }
 
-  .contact input,
-  .contact select,
-  .contact button {
+  .contact input, .contact select, .contact button {
     border-radius: 6px;
-    border: 1px solid #ccc;
     padding: 12px;
     margin-bottom: 15px;
     width: 100%;
-    transition: 0.3s;
-    animation: fadeIn 1s ease-out;
-  }
-
-  .contact input:focus,
-  .contact select:focus,
-  .contact button:hover {
-    border-color: #ff9800;
-    box-shadow: 0 0 5px rgba(255, 152, 0, 0.6);
-  }
-
-  .contact input:hover,
-  .contact select:hover {
-    background-color: #f1f1f1;
   }
 
   .contact label {
@@ -130,10 +121,8 @@ document.addEventListener('DOMContentLoaded', function() {
   .contact button {
     background-color: #ff9800;
     color: white;
-    font-size: 16px;
     border: none;
     cursor: pointer;
-    transition: 0.3s;
   }
 
   .contact button:hover {
@@ -149,19 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #ff9800;
   }
 
-  .messages p {
-    color: red;
-  }
-
-  /* Centering Heading */
-  h3#heading {
-    text-align: center;
-    font-size: 2em;
-    color: #333;
-    margin-bottom: 20px;
-  }
-
-  /* New Wisdom Section */
   #wiseQuote {
     text-align: center;
     font-size: 1.3em;
@@ -170,47 +146,9 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-top: 20px;
   }
 
-  /* Animation for textboxes */
-  @keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Flexbox for equal size and alignment */
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch; /* Ensure both columns have equal height */
-  }
-
-  .col-lg-6 {
-    flex: 1;
-    padding: 10px; /* Add some spacing */
-    display: flex;
-    align-items: stretch; /* Ensure child elements stretch to full height */
-  }
-
-  .col-lg-6 img {
-    width: 100%;
-    height: 100%; /* Ensure the image takes full height */
-  }
-
-  .col-lg-6 .contact {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center the form vertically */
-  }
-
-  /* Image Upload and Preview Styles */
   .image-upload-container {
     text-align: center;
     margin-bottom: 20px;
-  }
-
-  .image-upload-container label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 10px;
   }
 
   #imagePreview {
@@ -221,29 +159,61 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor: pointer;
   }
 
-  #imagePreview:hover {
-    transform: scale(1.5);
-    transition: transform 0.3s ease;
+  .img2 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+
+  .col-lg-6 {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .col-lg-6 .contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 </style>
 
 <main id="main">
-  <!-- ======= Breadcrumbs ======= -->
   <div class="breadcrumbs d-flex align-items-center img1">
-    <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+    <div class="container position-relative d-flex flex-column align-items-center">
       <h2>Register</h2>
       <ol>
         <li><a href="/customer/home">Home</a></li>
         <li>Register</li>
       </ol>
     </div>
-  </div><!-- End Breadcrumbs -->
+  </div>
 
-  <!-- ======= Contact Section ======= -->
   <section id="contact" class="contact">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm ml-3" data-dismiss="alert">Cancel</button>
+        </div>
+      {% endfor %}
+    {% endif %}
     <h3 class="text-warning text-center">Register To Become Our User !!!</h3>
+    <div id="wiseQuote"></div>
     <br>
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="container">
+
       <div class="row gy-4 mt-1 m-auto holediv">
         <div class="col-lg-6">
           <img src="{% static 'customer/assets/img/img2.jpg' %}" class="img2" alt="Register Image">
@@ -251,78 +221,209 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="col-lg-6">
           <div class="contact">
-            <form action="/customer/user_store" method="post" role="form" class="php-email-form" enctype="multipart/form-data">
+            <form action="/customer/user_store" method="post" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="row gy-4">
-                <!-- Image Upload and Preview -->
-               
-
                 <div class="col-lg-6 form-group">
-                  <input type="text" name="fname" class="form-control" id="fname" placeholder="First Name" required>
+                  <input type="text" name="fname" class="form-control" id="fname" placeholder="First Name" value="{{ request.session.dummy_fname|default:'' }}" required>
                 </div>
                 <div class="col-lg-6 form-group">
-                  <input type="text" name="lname" class="form-control" id="lname" placeholder="Last Name" required>
+                  <input type="text" name="lname" class="form-control" id="lname" placeholder="Last Name" value="{{ request.session.dummy_lname|default:'' }}" required>
                 </div>
                 <div class="col-lg-12 form-group">
-                  <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+                  <input type="email" name="email" class="form-control" id="email" placeholder="Email" value="{{ request.session.dummy_email|default:'' }}" required>
                 </div>
                 <div class="col-lg-12 form-group">
-                  <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                  <input type="text" name="username" class="form-control" id="username" placeholder="Username" value="{{ request.session.dummy_username|default:'' }}" required>
                 </div>
                 <div class="col-lg-12 form-group">
-                  <input type="text" name="contactno" class="form-control" id="contactno" placeholder="Contact No" required>
+                  <input type="text" name="contactno" class="form-control" id="contactno" placeholder="Contact No" value="{{ request.session.dummy_contact|default:'' }}" required>
                 </div>
                 <div class="col-lg-6 form-group">
                   <select class="form-control" id="gender" name="gender">
                     <option value="">--Select Gender--</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="male" {% if request.session.dummy_gender == 'male' %}selected{% endif %}>Male</option>
+                    <option value="female" {% if request.session.dummy_gender == 'female' %}selected{% endif %}>Female</option>
+                    <option value="other" {% if request.session.dummy_gender == 'other' %}selected{% endif %}>Other</option>
                   </select>
                 </div>
-                <div class="col-lg-2 form-group">
-                  <label class="dob mt-3">DOB:</label>
-                </div>
-                <div class="col-lg-4 form-group">
-                  <input type="date" name="dob" class="form-control" id="dob" required>
-                </div>
-                <div class="form-group">
-                  <textarea class="form-control" name="address" id="address" rows="5" placeholder="Address" required></textarea>
-                </div>
                 <div class="col-lg-6 form-group">
-                  <input type="password" class="form-control" name="pass" id="pass" placeholder="Password" required>
+                  <input type="date" name="dob" class="form-control" id="dob" value="{{ request.session.dummy_dob|default:'' }}" required>
                 </div>
-                <div class="col-lg-6 form-group">
-                  <input type="password" class="form-control" name="cpass" id="cpass" placeholder="Confirm Password" required>
+                
+                <div class="col-lg-12 form-group">
+                  <textarea name="address" class="form-control" id="address" placeholder="Address" rows="3" required>{{ request.session.dummy_address|default:'' }}</textarea>
                 </div>
-                <div class="col-lg-12 image-upload-container">
-                  <label for="imageUpload">Upload Profile Picture</label>
-                  <input type="file" id="imageUpload" name="profile_picture" accept="image/*" required>
-                  <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
+                <div class="col-lg-12 form-group">
+                  <input type="password" name="pass" class="form-control" id="pass" placeholder="Password" required>
+                </div>
+                <div class="col-lg-12 form-group">
+                  <input type="password" name="cpass" class="form-control" id="cpass" placeholder="Confirm Password" required>
                 </div>
 
-                {% if messages %}
-                <ul class="messages">
-                  {% for message in messages %}
-                  <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-                  {% endfor %}
-                </ul>
-                {% endif %}
-                <br>
-                <div class="col-12 form-group">
-                  &nbsp;Don't have an account?&nbsp;<a href="/customer/"><u>Login</u></a>
+                <div class="col-lg-12 form-group image-upload-container">
+                  <label for="imageUpload">Upload Image</label>
+                  <input type="file" name="image" id="imageUpload" class="form-control" accept="image/*">
+                  <img id="imagePreview" style="display:none;" alt="Image Preview">
                 </div>
-                <div class="text-center">
-                  <button type="submit">Register</button>
-                </div>
-              </form>
-            </div>
-          </div><!-- End Contact Form -->
+              </div>
+              <div class="text-center"><button type="submit">Register</button></div>
+            </form>
+          </div>
         </div>
+
       </div>
     </div>
-    <div id="wiseQuote"></div> <!-- Display Random Wise Quote -->
   </section>
 </main>
+
+
+<style>
+  body {
+    background: linear-gradient(to right, #ffffff, #f7f7f7);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .img1 {
+    background-image: url("{% static 'customer/assets/img/a2.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+  }
+
+  .breadcrumbs {
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  .breadcrumbs h2 {
+    font-weight: bold;
+    color: #ffc107;
+    font-size: 2.2rem;
+  }
+
+  .breadcrumbs ol {
+    padding-left: 0;
+    list-style: none;
+    margin-top: 10px;
+  }
+
+  .breadcrumbs ol li {
+    display: inline;
+    margin-right: 10px;
+    color: #fff;
+  }
+
+  .breadcrumbs ol li a {
+    color: #ffc107;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .breadcrumbs ol li a:hover {
+    text-decoration: underline;
+  }
+
+  #wiseQuote {
+    text-align: center;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #ff9800;
+    margin-top: 20px;
+    font-weight: 500;
+  }
+
+  .contact {
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .contact:hover {
+    transform: translateY(-6px);
+    background-color: #fafafa;
+  }
+
+  .contact input,
+  .contact select,
+  .contact textarea {
+    border-radius: 8px;
+    padding: 14px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+  }
+
+  .contact input:focus,
+  .contact select:focus,
+  .contact textarea:focus {
+    border-color: #ff9800;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .contact button {
+    background-color: #ff9800;
+    color: white;
+    font-weight: bold;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .contact button:hover {
+    background-color: #e68900;
+  }
+
+  .image-upload-container label {
+    font-weight: 600;
+    color: #444;
+  }
+
+  #imagePreview {
+    max-width: 150px;
+    max-height: 150px;
+    margin-top: 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+
+  #imagePreview:hover {
+    transform: scale(1.4);
+    cursor: zoom-in;
+  }
+
+  .img2 {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .holediv {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .text-warning.text-center {
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #d35400 !important;
+    margin-bottom: 10px;
+  }
+
+  .alert-dismissible .btn-secondary {
+    background: #6c757d;
+    margin-left: 10px;
+  }
+</style>
 
 {% endblock %}

@@ -45,7 +45,7 @@
             </div>
             <div class="ms-3">
                 <h6 class="mb-0">Agency </h6>
-                <span>{{user.username}}</span>
+                <span>{{request.session.agencyname}}</span>
             </div>
         </div>
         <div class="navbar-nav w-100">
@@ -62,19 +62,6 @@
                     </a>
                     <a href="/agency/allRegion" class="dropdown-item" data-route="allRegion">
                         <i class="fas fa-list-ul me-2"></i>All Region
-                    </a>
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fas fa-ad me-2"></i>Ad Type
-                </a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="/agency/Add_adtype" class="dropdown-item" data-route="Add_adtype">
-                        <i class="fas fa-plus-circle me-2"></i>Add New Ad Type
-                    </a>
-                    <a href="/agency/All_Adtype" class="dropdown-item" data-route="All_Adtype">
-                        <i class="fas fa-list-ul me-2"></i>All Ad Type
                     </a>
                 </div>
             </div>
@@ -126,24 +113,14 @@
                     </a>
                 </div>
             </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fas fa-shopping-cart me-2"></i>Order
-                </a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="/agency/order_front_page" class="dropdown-item" data-route="order_front_page">
-                        <i class="fas fa-search me-2"></i>Ad Search Page
-                    </a>
-                    <a href="/agency/allOrder" class="dropdown-item" data-route="allOrder">
-                        <i class="fas fa-list-ul me-2"></i>All Order
-                    </a>
-                </div>
-            </div>
             <a href="/agency/payment" class="nav-item nav-link" data-route="payment">
                 <i class="fas fa-money-bill-wave me-2"></i>Payment
             </a>
             <a href="/agency/allInquiry" class="nav-item nav-link" data-route="allInquiry">
                 <i class="fas fa-question-circle me-2"></i>Inquiries
+            </a>
+            <a href="/agency/allfeedback" class="nav-item nav-link" data-route="allInquiry">
+                <i class="fas fa-comments me-2"></i>Feedbacks
             </a>
             <a href="/agency/logout" class="nav-item nav-link" data-route="logout">
                 <i class="fas fa-sign-out-alt me-2"></i>Logout

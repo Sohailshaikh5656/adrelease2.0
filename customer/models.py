@@ -152,7 +152,7 @@ class Order(models.Model):
 	is_deleted = models.BooleanField(default=False)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-
+	
 	class Meta:
 		db_table = 'order'
 
@@ -161,9 +161,9 @@ class Payment(models.Model):
 	amount = models.BigIntegerField()	
 	user = models.ForeignKey(User,on_delete=models.CASCADE,default=None)
 	agency = models.ForeignKey(Agency,on_delete=models.CASCADE, default=None)
-	adType = models.ForeignKey(Newadtype,on_delete=models.CASCADE, default=None)
-	order_id = models.ForeignKey(Order,on_delete=models.CASCADE, default=None)
+	order = models.ForeignKey(Order,on_delete=models.CASCADE, default=None)
 	date = models.DateField(default=date.today)
+	is_payment = models.BooleanField(default=False)
 	is_active = models.BooleanField(default=True)
 	is_deleted = models.BooleanField(default=False)
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -198,6 +198,19 @@ class ForgetPassword(models.Model):
 	class Meta:
 		db_table = 'forget_password'
 
+class ForgetPasswordAgency(models.Model):
+	email = models.CharField(max_length=255, null=True)
+	username = models.CharField(max_length=150, null=True)
+	token = models.CharField(max_length=255, unique=True)
+	expiry_date_time = models.DateTimeField()
+	is_active = models.BooleanField(default=True)
+	is_deleted = models.BooleanField(default=False)
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'forget_password_agency'
+
 
 class AgencyInquiry(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
@@ -212,3 +225,16 @@ class AgencyInquiry(models.Model):
     class Meta:
         db_table = 'agency_inquiry'
 
+
+class OrderFeedback(models.Model):
+	order = models.ForeignKey(Order,on_delete=models.CASCADE,default=None)
+	user = models.ForeignKey(User,on_delete=models.CASCADE,default=None)
+	rating = models.IntegerField(default=1,null=True)
+	message = models.TextField()
+	is_active = models.BooleanField(default=True)
+	is_deleted = models.BooleanField(default=False)
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+	
+	class Meta:
+		db_table = 'order_feedback'

@@ -32,7 +32,42 @@ def dashboard(request):
 	user_count = User.objects.count()
 	order_count = Order.objects.count()
 	agency_count = Agencyprofile.objects.count()
-	return render (request,'agency/dashboard.html',{'user_count': user_count,'order_count':order_count,'agency_count':agency_count})
+	agency_id = request.session["super_agency_id"]
+	query = """
+        SELECT c.id, c.name, c.classifiedtype, COUNT(o.id) as order_count, c.picture,
+               RANK() OVER (ORDER BY COUNT(o.id) DESC) as rank
+        FROM adcategory AS c
+        LEFT JOIN `order` AS o ON o.category_id = c.id
+        WHERE DATE(o.created_at) >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)
+        GROUP BY c.id
+        ORDER BY order_count DESC
+        LIMIT 10
+        """
+	trendings = AdCategory.objects.raw(query)
+	query2 = """
+        SELECT c.id, c.name, c.classifiedtype, COUNT(o.id) as order_count, c.picture,
+               RANK() OVER (ORDER BY COUNT(o.id) DESC) as rank
+        FROM adcategory AS c
+        LEFT JOIN `order` AS o ON o.category_id = c.id
+        WHERE DATE(o.created_at) >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)
+        AND o.agency_id = %s
+        GROUP BY c.id
+        ORDER BY order_count DESC
+        LIMIT 10
+        """
+	agencyTrendings = AdCategory.objects.raw(query2,[agency_id])
+	query3 = """SELECT u.id, COUNT(*) as count, p.profile_image, u.username, CONCAT(u.first_name,' ',u.last_name) as fullname 
+               FROM `order` as o 
+               JOIN auth_user as u ON o.user_id = u.id 
+               JOIN profile as p ON p.user_id = u.id 
+               WHERE o.agency_id = %s
+               GROUP BY u.id
+               ORDER BY count DESC
+               LIMIT 10
+        """
+	TopBuyer = User.objects.raw(query3, [agency_id])
+	print("this is Top Byer : ",TopBuyer)
+	return render (request,'agency/dashboard.html',{'user_count': user_count,'order_count':order_count,'agency_count':agency_count, "trendings" : trendings,"agencyTrendings" : agencyTrendings, "TopBuyer":TopBuyer})
 
 
 def register(request):
@@ -74,16 +109,16 @@ def logout(request):
 	return redirect('/customer/agency')
 
 def payment(request):
-	query = request.user.id
+	query = request.session["super_agency_id"]
 	print(query)
 	result = Payment.objects.filter(agency_id=query)
-
 	context={'result':result}
 	return render(request,'agency/payment.html',context)
 
 
 
 def add_agency(request):
+	context={}
 	return render (request,'agency/register.html',context)
 
 
@@ -541,4 +576,46 @@ def previewOrder(request,id):
 	context = {'result': result}
 	return render(request,"agency/previewOrder/previewOrder.html",context)
 
-
+def allFeedback(request):
+	query = """
+		SELECT of.id, of.rating, of.message, 
+		       u.username, 
+		       CONCAT(u.first_name, ' ', u.last_name) as fullname, 
+		       (SELECT profile_image FROM profile WHERE user_id = u.id AND of.user_id = user_id) AS profile_image,
+			   of.created_at
+		FROM order_feedback AS of
+		JOIN `order` AS o ON o.id = of.order_id
+		JOIN auth_user AS u ON u.id = of.user_id
+		WHERE o.agency_id = %s
+		"""
+	agency_id = request.session['super_agency_id']
+	result = OrderFeedback.objects.raw(query,[agency_id])
+	context = {
+		"result" : result
+	}
+	return render(request,"agency/allfeedback.html",context)
+def edit_profile(request, id=None):
+    agency_id = request.session.get('super_agency_id')
+    agency = Agencyprofile.objects.get(id=agency_id)
+    
+    if request.method == 'POST':
+        agency.ownername = request.POST['ownername']
+        agency.contact = request.POST['contact']
+        agency.circulation = request.POST['circulation']
+        agency.per_word_rate = request.POST['per_word_rate']
+        
+        if 'profile_picture' in request.FILES:
+            profile_image = request.FILES['profile_picture']
+            myCrediationalLocation = os.path.join(settings.MEDIA_ROOT,'profile')
+            obj = FileSystemStorage(location=myCrediationalLocation)
+            profile_image_url = obj.save(profile_image.name, profile_image)
+            agency.profile_picture = profile_image_url
+            
+        agency.save()
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('/agency/edit_profile/' + str(agency_id))
+    
+    context = {
+        'agency': agency
+    }
+    return render(request, 'agency/agencyEdit.html', context)
