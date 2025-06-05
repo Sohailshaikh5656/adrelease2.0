@@ -1,35 +1,18 @@
 <p align="center">
-  <img src="https://www.php.net/images/logos/new-php-logo.svg" alt="PHP Logo" width="120"/>
+  <img src="https://static.djangoproject.com/img/logos/django-logo-positive.svg" alt="Django Logo" width="160"/>
 </p>
 
 <h1 align="center">📢 AdRelease 2.0</h1>
 
 <p align="center">
-  <i>A Core PHP-based Advertisement Management System</i>
+  <i>Django-based Newspaper Advertisement Management System</i>
 </p>
 
 ---
 
-## 📋 Project Overview
+## 📝 Overview
 
-**AdRelease 2.0** is a web-based platform for managing newspaper advertisement requests. It enables admins to approve, reject, and publish ads while allowing users to register, log in, and submit their ad release forms.
-
----
-
-## 🚀 Features
-
-- 👥 User registration and login
-- 📝 Ad submission form (with upload option)
-- 📄 View submitted ads with status (approved/pending/rejected)
-- 🧑‍💻 Admin dashboard:
-  - Manage all ad submissions
-  - Approve or reject ads
-  - Set pricing and publishing details
-- 📂 File upload and storage for ad creatives
-- 📧 Notification system (optional for future)
-- 🕵️ Session-based authentication
-
----
+**AdRelease 2.0** is a Django-powered web application for managing newspaper advertisements. It provides a clean user interface for users to submit advertisement requests and an admin panel for managing and approving those ads.
 
 ## 🗂️ Folder Structure
 
