@@ -39,24 +39,32 @@ adrelease2.0/
 
 ---
 
-## 🧑‍💻 How to Run Locally
+
+---
+
+## 🚀 How to Run Locally
 
 ```bash
 # Step 1: Clone the repository
 git clone https://github.com/Sohailshaikh5656/adrelease2.0.git
+cd adrelease2.0
 
-# Step 2: Move to XAMPP's htdocs folder
-mv adrelease2.0/ /xampp/htdocs/
+# Step 2: Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate   # for Linux/macOS
+venv\Scripts\activate      # for Windows
 
-# Step 3: Start Apache and MySQL via XAMPP
+# Step 3: Install dependencies
+pip install -r requirements.txt   # (if available)
 
-# Step 4: Create a database in phpMyAdmin (e.g., adrelease)
-#         Import database.sql (if available)
+# Step 4: Run migrations
+python manage.py migrate
 
-# Step 5: Update DB credentials in includes/db.php
+# Step 5: Start development server
+python manage.py runserver
 
-# Step 6: Run in browser:
-http://localhost/adrelease2.0/
+# Step 6: Open in browser
+http://127.0.0.1:8000/
 
 👨‍💻 Author
 Shaikh Sohel
