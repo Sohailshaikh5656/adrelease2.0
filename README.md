@@ -17,28 +17,25 @@
 ## 🗂️ Folder Structure
 
 adrelease2.0/
-├── Admin/
-│ ├── ad_approve.php
-│ ├── view_ads.php
-│ ├── ...
-├── User/
-│ ├── submit_ad.php
-│ ├── view_status.php
-│ ├── ...
-├── uploads/
-│ └── [ad files]
-├── css/
-│ └── style.css
-├── js/
-│ └── validation.js
-├── includes/
-│ └── db.php, functions.php
-├── index.php
-├── login.php
-├── register.php
-├── logout.php
+├── adrelease2/ # Main project settings
+│ ├── init.py
+│ ├── settings.py
+│ ├── urls.py
+│ └── wsgi.py
+├── ad/ # App for ad management
+│ ├── migrations/
+│ ├── templates/
+│ ├── static/
+│ ├── admin.py
+│ ├── models.py
+│ ├── views.py
+│ └── urls.py
+├── media/ # Uploaded ad files
+├── static/ # Static files
+├── templates/ # Base templates
+├── db.sqlite3 # Default database
+├── manage.py # Django management script
 └── README.md
-
 
 ---
 
